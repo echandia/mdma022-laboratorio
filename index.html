@@ -1,0 +1,1160 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio colaborativo · Variabilidad | MDMA 022</title>
+<meta name="description" content="Laboratorio didáctico interactivo sobre variabilidad, hipótesis e investigación estadística para profesores de enseñanza media.">
+<style>
+:root{--navy:#142c3c;--deep:#0b1e2a;--teal:#067786;--teal2:#d8f0ef;--orange:#c76531;--ivory:#f7f7f3;--ink:#193341;--muted:#576e78;--line:#d8e2e4;--white:#fff;--green:#237b57;--red:#9c4141;--shadow:0 8px 24px #142c3c13}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--ivory);color:var(--ink);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.48}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:var(--teal)}button:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e29b51;outline-offset:2px}
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:100vh}.sidebar{background:var(--navy);color:#e7f4f4;padding:25px 18px;position:sticky;top:0;max-height:100vh;overflow-y:auto}.brand{display:flex;gap:12px;align-items:center;padding:0 8px 24px;border-bottom:1px solid #ffffff28}.brandmark{width:39px;height:39px;display:grid;place-items:center;border:2px solid #55aeb9;border-radius:12px;font-weight:850;font-size:18px;color:#fff}.brand small{display:block;color:#b1cbd1;font-size:11px;letter-spacing:.13em;font-weight:700}.brand b{font-size:15px}.modebar{display:flex;gap:6px;margin:20px 4px 15px;padding:4px;background:#0a1e2a;border-radius:10px}.modebar button{border:0;background:transparent;color:#a5bfcb;border-radius:8px;font-size:12px;font-weight:700;padding:9px 7px;flex:1}.modebar button.on{background:#207e89;color:white}.navlabel{text-transform:uppercase;letter-spacing:.12em;color:#91b0b8;font-weight:800;font-size:10px;margin:18px 14px 10px}.navbtn{display:flex;align-items:center;width:100%;text-align:left;gap:10px;color:#bcd0d3;background:transparent;border:0;padding:11px 12px;border-radius:10px;margin:2px 0;font-size:13px}.navbtn:hover{background:#ffffff12}.navbtn.active{background:#27505e;color:#fff}.navbtn .num{display:grid;place-items:center;min-width:26px;height:26px;border:1px solid #ffffff48;border-radius:9px;font-weight:800;font-size:12px}.navbtn.active .num{background:var(--teal);border-color:var(--teal)}.navbtn .navtxt{flex:1}.navbtn .navmin{display:block;font-size:10px;color:#aac5cc}.navbtn .tick{color:#80e1bb}.sidefoot{margin-top:28px;border-top:1px solid #ffffff2b;padding:17px 10px;color:#bed1d7;font-size:12px}.sidefoot strong{color:#fff}
+.content{min-width:0;padding:30px clamp(16px,4vw,64px) 60px;max-width:1340px;width:100%;margin:0 auto}.topbar{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap}.eyebrow{font-size:11px;color:var(--teal);font-weight:800;letter-spacing:.11em;text-transform:uppercase}.topright{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.pill{display:inline-flex;align-items:center;gap:7px;background:#e4efee;color:#32666e;padding:7px 11px;border-radius:30px;font-weight:750;font-size:11px}.pill.orange{background:#fff0e6;color:#94562f}.pill.dark{background:#e6edf1;color:#355263}.progress{height:7px;background:#e0e7e8;border-radius:99px;overflow:hidden;margin-top:9px}.progress span{display:block;height:100%;background:linear-gradient(90deg,#0b8590,#5fb1a1);transition:width .3s}.page{display:none;animation:fade .18s ease-out}.page.active{display:block}@keyframes fade{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(27px,3vw,43px);line-height:1.13;letter-spacing:-.04em;margin-bottom:12px;color:var(--navy)}h2{font-size:clamp(23px,2.5vw,30px);line-height:1.2;letter-spacing:-.03em;margin-bottom:10px}h3{font-size:16px;letter-spacing:-.01em;margin-bottom:10px}.lead{font-size:16px;max-width:840px;color:#4c616b;line-height:1.6;margin-bottom:22px}.kicker{font-size:12px;color:var(--orange);text-transform:uppercase;font-weight:850;letter-spacing:.09em;margin-bottom:11px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{background:var(--white);border:1px solid #e5e9e8;border-radius:17px;box-shadow:var(--shadow);padding:21px;margin-bottom:18px}.card.flat{box-shadow:none}.card.teal{background:#e9f5f3;border-color:#c9e7e2}.card.amber{background:#fff6ed;border-color:#f2dac5}.card.slim{padding:15px}.bigquote{border-left:4px solid var(--teal);padding:13px 18px;background:#f0f8f7;border-radius:0 10px 10px 0;font-size:18px;font-weight:650;margin:18px 0}.small{font-size:12px;color:var(--muted)}.muted{color:var(--muted)}.label{font-size:12px;font-weight:800;display:block;color:#294853;margin:15px 0 6px}.label small{font-weight:500;display:block;color:#67808a;margin-top:3px}textarea,input[type=text],input[type=number],select{border:1px solid #b9cace;border-radius:10px;padding:11px 12px;width:100%;background:white;color:var(--ink);font-size:14px}textarea{min-height:79px;resize:vertical;line-height:1.5}textarea:focus,input:focus,select:focus{border-color:var(--teal)}.fieldrow{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.btnrow{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.btn{display:inline-flex;justify-content:center;align-items:center;gap:7px;border:1px solid #b6cbd1;background:#fff;color:#235266;border-radius:10px;padding:10px 15px;font-size:13px;font-weight:800;min-height:42px}.btn:hover{background:#f1f8f8}.btn.primary{background:var(--teal);color:#fff;border-color:var(--teal)}.btn.primary:hover{background:#065f6c}.btn.ghost{background:transparent}.btn.warn{color:#9d403a;border-color:#edc2bb}.btn.smallbtn{min-height:31px;padding:6px 9px;font-size:11px}.footer-nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px;flex-wrap:wrap}.note{border-left:3px solid var(--orange);padding:10px 14px;background:#fff7ee;border-radius:0 10px 10px 0;font-size:13px;color:#654a36;margin:14px 0}.info{border-left:3px solid var(--teal);padding:10px 14px;background:#e8f5f3;border-radius:0 10px 10px 0;font-size:13px;color:#28565d;margin:14px 0}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.step{background:#fff;border:1px solid #dfebeb;border-radius:12px;padding:17px}.step b{display:block;color:var(--teal);font-size:23px;margin-bottom:6px}.step span{font-size:13px}.dotchart{width:100%;max-width:830px;display:block;margin:auto}.legend{font-size:11px;color:#69808a}.chartwrap{overflow:auto;padding:8px 0}.chartpad{background:#fbfdfb;border:1px solid #e0e9e5;border-radius:12px;padding:12px}.stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.stat{background:#e8f1f1;border-radius:9px;padding:8px 12px;font-size:12px}.stat strong{display:block;color:#183e4d;font-size:19px}.checklist{display:grid;gap:8px}.checkrow{display:flex;align-items:flex-start;gap:10px;background:#f6faf9;padding:12px;border-radius:9px;font-size:13px}.checkrow input{margin-top:3px;accent-color:var(--teal)}.quizoptions{display:grid;gap:9px}.quiz{padding:12px;border:1px solid #dce8e7;border-radius:9px;display:flex;align-items:start;gap:9px;cursor:pointer}.quiz input{margin-top:3px;accent-color:var(--teal)}.feedback{display:none;border-radius:10px;padding:12px;margin-top:12px;background:#e3f2ed;color:#22624d;font-size:13px}.feedback.bad{background:#fff1e5;color:#9b4c2e}.feedback.visible{display:block}.hyphead{font-weight:850;color:var(--navy);padding-bottom:9px;border-bottom:2px solid #e5eeee;margin-bottom:5px}.hyphead em{font-style:normal;color:var(--teal)}.subhead{font-size:15px;font-weight:800;margin:20px 0 10px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:590px;font-size:13px}th,td{text-align:left;padding:10px 9px;border-bottom:1px solid #e3e9e9;vertical-align:top}th{background:#f0f5f4;font-size:12px}td button{font-size:11px}.phase{display:inline-block;font-size:12px;font-weight:900;padding:4px 9px;border-radius:8px;background:#dff0ed;color:#2a6c66}.output{background:#f2f5f5;border:1px dashed #b9c9cb;border-radius:10px;padding:16px;font-family:ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;max-height:320px;overflow:auto}.rubric{display:grid;gap:9px}.rubricline{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;background:#f5f8f7;gap:8px;font-size:13px}.status.ok{color:var(--green);font-weight:900}.status.missing{color:#94532f;font-weight:700}.submission{padding:12px;border:1px solid #dbe6e4;border-radius:12px;background:#fff;margin:10px 0}.submission h3{margin-bottom:6px}.submeta{color:#677c83;font-size:11px}.barrow{display:grid;grid-template-columns:130px 1fr 28px;gap:10px;align-items:center;font-size:12px;margin:9px 0}.bar{background:#e3eeee;height:13px;border-radius:20px;overflow:hidden}.bar>span{display:block;background:#258996;height:100%}.timer{display:flex;align-items:center;gap:12px;padding:15px;background:#112e3b;color:white;border-radius:13px;margin:12px 0}.timer .clock{font-variant-numeric:tabular-nums;font-size:34px;font-weight:800;letter-spacing:.03em}.timer .btn{color:white;border-color:#ffffff76;background:#ffffff14}.timer .btn:hover{background:#ffffff23}.callout{font-size:14px;padding:20px;background:#112f3c;border-radius:14px;color:white}.callout p{margin:8px 0 0;color:#d8eaed}.hidden{display:none!important}details{border:1px solid #dbe8e7;background:#f7fbfa;border-radius:11px;padding:13px 15px;margin:14px 0}summary{font-size:13px;font-weight:800;color:#2b6671;cursor:pointer}details p,details li{font-size:13px}.tag{font-size:10px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;color:#8a6c55}.toast{position:fixed;bottom:22px;right:22px;background:#173d49;color:white;padding:12px 17px;border-radius:12px;font-size:13px;box-shadow:0 13px 40px #0003;z-index:10;opacity:0;pointer-events:none;transform:translateY(12px);transition:all .18s}.toast.show{opacity:1;transform:translateY(0)}.divider{height:1px;background:#e4ebea;margin:20px 0}.introhero{background:linear-gradient(115deg,#143746 0,#1b5960 90%);border-radius:20px;padding:clamp(20px,4vw,36px);color:white;margin-bottom:20px}.introhero h1{color:white}.introhero .lead{color:#d4e9e7}.introhero .pill{background:#ffffff24;color:white}.mini{font-size:12px}.twoactions{display:flex;gap:9px;flex-wrap:wrap}.mutedb{color:#b6ced2}
+@media(max-width:1050px){.layout{grid-template-columns:212px minmax(0,1fr)}.sidebar{padding:18px 10px}.content{padding:24px}.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.layout{display:block}.sidebar{max-height:none;position:static;padding:12px}.brand{padding:4px 4px 12px}.sidefoot,.navlabel{display:none}.modebar{margin:10px 4px}.navlist{display:flex;overflow-x:auto;gap:5px;padding:0 4px 4px}.navbtn{width:auto;white-space:nowrap;padding:8px;flex-shrink:0;font-size:11px}.navbtn .navmin,.navbtn .tick{display:none}.navbtn .num{width:23px;height:23px;min-width:23px}.content{padding:19px 14px 50px}.grid2,.grid3,.fieldrow,.steps{grid-template-columns:1fr}.card{padding:15px}.stats{gap:4px}h1{font-size:31px}.barrow{grid-template-columns:100px 1fr 25px}}
+@media print{.sidebar,.topbar,.footer-nav,.btnrow,.btn,.timer,.modebar{display:none!important}.layout{display:block}.content{max-width:100%;padding:0}.page{display:block!important;break-before:page}.card{box-shadow:none}.introhero{background:white!important;color:black}.introhero h1{color:black}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+ <div class="brand"><div class="brandmark">V</div><div><small>MDMA 022 · MAGÍSTER</small><b>Variabilidad investigable</b></div></div>
+ <div class="modebar"><button type="button" id="studentMode" class="on">Estudiantes</button><button type="button" id="teacherMode">Docente</button></div>
+ <div id="studentNav" class="navlist" aria-label="Etapas de la actividad">
+  <div class="navlabel" style="flex-basis:100%">Ruta de trabajo</div>
+  <button class="navbtn active" data-page="intro"><span class="num">◉</span><span class="navtxt">Inicio <span class="navmin">Propósito y dinámica</span></span></button>
+  <button class="navbtn" data-page="explora"><span class="num">1</span><span class="navtxt">Explorar <span class="navmin">15 min</span></span><span class="tick" data-tick="explora"></span></button>
+  <button class="navbtn" data-page="problema"><span class="num">2</span><span class="navtxt">Problematizar <span class="navmin">15 min</span></span><span class="tick" data-tick="problema"></span></button>
+  <button class="navbtn" data-page="hipotesis"><span class="num">3</span><span class="navtxt">Hipótesis <span class="navmin">25 min</span></span><span class="tick" data-tick="hipotesis"></span></button>
+  <button class="navbtn" data-page="pregunta"><span class="num">4</span><span class="navtxt">Pregunta <span class="navmin">20 min</span></span><span class="tick" data-tick="pregunta"></span></button>
+  <button class="navbtn" data-page="mediacion"><span class="num">5</span><span class="navtxt">Mediación <span class="navmin">20 min</span></span><span class="tick" data-tick="mediacion"></span></button>
+  <button class="navbtn" data-page="cierre"><span class="num">6</span><span class="navtxt">Cierre <span class="navmin">5 min</span></span><span class="tick" data-tick="cierre"></span></button>
+ </div>
+ <div id="teacherNav" class="navlist hidden"><div class="navlabel" style="flex-basis:100%">Facilitación</div><button class="navbtn active" data-page="docente"><span class="num">⌑</span><span class="navtxt">Panel docente</span></button><button class="navbtn" data-page="respuestas"><span class="num">≡</span><span class="navtxt">Respuestas de grupos</span></button></div>
+ <div class="sidefoot"><strong>Actividad de investigación estadística</strong><br>Datos simulados · Formación de profesores de enseñanza media · 100 minutos.</div>
+</aside>
+<main class="content">
+ <div class="topbar"><div><div class="eyebrow" id="topEyebrow">Secuencia didáctica interactiva</div><div class="small" id="topContext">Guarda automáticamente en este navegador</div></div><div class="topright"><span class="pill orange">● DATOS SIMULADOS</span><span class="pill" id="progressText">0/6 etapas</span></div></div>
+ <div class="progress" role="progressbar" aria-label="Progreso de trabajo"><span id="progressFill" style="width:0%"></span></div>
+
+ <section class="page active" id="page-intro">
+  <div class="introhero"><div class="pill">LABORATORIO AUTOCONTENIDO · 100 MINUTOS</div><h1>Investigar la variabilidad en comunidad</h1><p class="lead">De los datos a las hipótesis y a la mediación docente. Investigar no es solo describir diferencias: es formular explicaciones alternativas, imaginar cómo contrastarlas y enseñar a otros a construir preguntas que hagan necesarios nuevos datos.</p><span class="mini">Eugenio Chandía Muñoz · Magíster en Didáctica de la Matemática en el Aula · UCSC · MDMA 022 · Caso simulado: asistencia escolar en 12 comunas.</span></div>
+  <div class="grid2">
+   <div class="card"><h3>Identifiquen su grupo</h3><label class="label" for="grupo">Nombre o número de grupo <small>Usen un nombre de equipo, no datos personales de escolares</small></label><input type="text" id="grupo" data-field="grupo" maxlength="60" placeholder="Ej. Grupo 3 / Daniela y Matías"><label class="label" for="curso">Curso de enseñanza media de referencia</label><select id="curso" data-field="curso"><option value="3.º medio">3.º medio</option><option value="4.º medio">4.º medio</option><option value="1.º medio">1.º medio</option></select><p class="small" style="margin:12px 0 0">Debatan antes de presionar <strong>Publicar</strong>. Al volver de las salas compararemos <strong>razonamientos</strong>, no buscaremos una respuesta única.</p></div>
+   <div class="card teal"><h3>Dinámica: alternar indagación y formalización</h3><p class="small" style="margin-bottom:8px">Cada etapa integra las <strong>aperturas, cápsulas conceptuales y cierres del Beamer</strong> junto con el espacio de producción del laboratorio:</p><div class="checklist"><div class="checkrow"><strong>1. Explorar (0–15 min):</strong> Variación vs. variabilidad; 2 observaciones y 2 preguntas abiertas.</div><div class="checkrow"><strong>2. Problematizar (15–30 min):</strong> Unidad de análisis, agregación, falacia ecológica y 4 planos de variabilidad.</div><div class="checkrow"><strong>3. Hipotetizar (30–55 min):</strong> Del patrón a la hipótesis; 2 hipótesis rivales, predicciones y evidencia discriminante.</div><div class="checkrow"><strong>4. Preguntar (55–75 min):</strong> Pregunta investigable, puente curricular MINEDUC y datos faltantes.</div><div class="checkrow"><strong>5. Mediar (75–95 min):</strong> Mediación modelada I–III y diseño de 4 intervenciones docentes.</div><div class="checkrow"><strong>6. Cerrar (95–100 min):</strong> Síntesis conceptual y decisión didáctica argumentada.</div></div></div>
+  </div>
+  <div class="info"><strong>Producto profesional de la sesión:</strong> construir una secuencia de mediación que permita a estudiantes de enseñanza media transitar desde una descripción inicial hasta formular una pregunta estadística investigable.</div>
+  <div class="note"><strong>Cómo funciona la versión web:</strong> las respuestas se guardan automáticamente en el navegador de cada equipo y, al conectarse a una <strong>sala compartida</strong>, pueden enviarse en tiempo real al tablero del docente pulsando <strong>Publicar</strong> en cada etapa. También pueden copiar una ficha breve o descargar un archivo JSON/TXT de respaldo.</div>
+  <div class="btnrow"><button type="button" class="btn primary" data-next="explora">Iniciar laboratorio →</button><button type="button" class="btn" id="restoreHelp">¿Cómo entregar la respuesta?</button></div>
+ </section>
+
+ <section class="page" id="page-explora">
+  <div class="kicker">Etapa 1 · 0–15 minutos · Explorar</div><h2>Explorar la variabilidad</h2><p class="lead">Antes de buscar causas, describan la distribución. ¿Qué es visible y qué información falta?</p>
+  <div class="note"><strong>Apertura 1 (Pregunta que inicia el trabajo):</strong> <em>«La comuna de menor asistencia tiene estudiantes menos comprometidos con su educación.»</em><br><strong>¿Qué parte describe una observación y qué parte presupone una explicación?</strong></div>
+  <details class="card teal" open>
+   <summary><strong>📘 Marco Conceptual 1 (Beamer): Variación, variabilidad y distribución</strong></summary>
+   <div class="grid2" style="margin-top:12px">
+    <div class="card flat" style="margin:0">
+     <h3>Concepto 1: Dos ideas relacionadas, no idénticas</h3>
+     <p><strong>Variación:</strong> una diferencia entre valores, unidades, momentos o respecto de un referente.</p>
+     <p><strong>Variabilidad:</strong> la propiedad de un fenómeno de presentar diferencias; su estudio exige precisar <strong>qué cambia, entre quiénes y en qué condiciones</strong>.</p>
+     <p class="small"><strong>Ejemplo:</strong> Si tres escuelas registran 80%, 85% y 90% de asistencia, hay diferencias <em>entre escuelas</em>. La amplitud (10 puntos porcentuales) resume esas diferencias, pero no las explica.</p>
+    </div>
+    <div class="card flat" style="margin:0">
+     <h3>Concepto 1b: Del dato aislado a la distribución</h3>
+     <div class="grid2" style="gap:8px;margin-bottom:8px">
+      <div style="background:#f0f7f7;padding:9px;border-radius:8px;font-size:12px"><strong>Escuelas del territorio X</strong><br>80%, 85%, 90%<br>Media = 85% · Amplitud = 10 pp</div>
+      <div style="background:#fff4eb;padding:9px;border-radius:8px;font-size:12px"><strong>Escuelas del territorio Y</strong><br>70%, 85%, 100%<br>Media = 85% · Amplitud = 30 pp</div>
+     </div>
+     <p class="small" style="margin:0"><strong>Pregunta para pensar:</strong> Si ambos promedios son 85%, ¿podemos afirmar que presentan la misma variabilidad? ¿Qué oculta el promedio?</p>
+    </div>
+   </div>
+  </details>
+  <div class="card"><div class="twoactions" style="justify-content:space-between;align-items:center"><h3 style="margin:0">Asistencia media comunal (%)</h3><button type="button" class="btn smallbtn" id="toggleStats">Revelar medidas</button></div><p class="small">Doce valores simulados. Cada punto corresponde a un agregado comunal, no a un estudiante.</p><div class="chartpad"><div class="chartwrap"><svg id="dotChart" class="dotchart" viewBox="0 0 800 178" role="img" aria-label="Gráfico de puntos con porcentajes comunales de asistencia escolar simulada entre 85 y 93%"></svg></div><p class="small" id="selectedDot" aria-live="polite">Seleccionen un punto para conocer el indicador de esa comuna hipotética.</p><div class="stats hidden" id="summaryStats"></div></div></div>
+  <div class="grid2"><div class="card"><label class="label" for="o1">Hecho observable 1 <small>Centro, dispersión, extremos o forma de la distribución</small></label><textarea id="o1" data-field="o1" placeholder="Los valores se concentran alrededor de..."></textarea><label class="label" for="o2">Hecho observable 2</label><textarea id="o2" data-field="o2" placeholder="La distancia entre el mínimo y el máximo es..."></textarea></div><div class="card"><label class="label" for="q1">Pregunta que los datos todavía no responden</label><textarea id="q1" data-field="q1" placeholder="¿Qué podría explicar...?"></textarea><label class="label" for="q2">Segunda pregunta que queda abierta</label><textarea id="q2" data-field="q2" placeholder="¿Se mantiene el patrón cuando...?"></textarea></div></div>
+  <details><summary><strong>🔒 Cierre Conceptual 1 (Institucionalización tras el plenario): Describir no es explicar</strong></summary><p><strong>Idea clave:</strong> Una distribución permite caracterizar <strong>diferencias observadas</strong>; no identifica automáticamente sus <strong>mecanismos de producción</strong>.</p><ul><li><strong>Lo defendible:</strong> Hay diferencias entre indicadores comunales; podemos describir centro y dispersión.</li><li><strong>Lo que falta:</strong> Evidencia de individuos o escuelas; condiciones explicativas y procedimiento de medición.</li></ul><p><strong>Pregunta de transición:</strong> ¿Qué información fue agregada para producir cada porcentaje?</p></details>
+  <div class="footer-nav"><button class="btn" data-next="intro">← Inicio</button><button class="btn primary" data-next="problema">Problematizar →</button></div>
+ </section>
+
+ <section class="page" id="page-problema">
+  <div class="kicker">Etapa 2 · 15–30 minutos · Problematizar</div><h2>¿Qué está variando realmente?</h2><p class="lead">Pasen de mirar el gráfico a delimitar el objeto estadístico. El nivel de agregación define qué se puede concluir.</p>
+  <div class="note"><strong>Apertura 2 (Pregunta que inicia el trabajo):</strong> Una diferencia entre dos <strong>promedios comunales</strong>, ¿permite sostener que sus estudiantes tienen conductas distintas?</div>
+  <details class="card teal" open>
+   <summary><strong>📘 Marco Conceptual 2 (Beamer): Unidad, agregación, falacia ecológica y fuentes de variabilidad</strong></summary>
+   <div class="grid2" style="margin-top:12px">
+    <div class="card flat" style="margin:0">
+     <h3>Concepto 2: Unidad, nivel y agregación</h3>
+     <p><strong>Unidad de análisis:</strong> entidad sobre la que se registra un dato (estudiante, escuela o comuna).</p>
+     <p><strong>Agregación:</strong> reunir múltiples observaciones en un resumen, como una media comunal.</p>
+     <p class="small"><strong>Contraejemplo:</strong> Una comuna tiene asistencia media de 82%. Esto <strong>no significa</strong> que cada estudiante tenga 82% de asistencia ni que todas las escuelas tengan el mismo resultado.</p>
+     <p class="small" style="margin:0"><strong>Falacia ecológica:</strong> atribuir a individuos relaciones o características observadas únicamente en grupos agregados.</p>
+    </div>
+    <div class="card flat" style="margin:0">
+     <h3>Concepto 2b: No confundir fuentes de variabilidad</h3>
+     <div class="tablewrap">
+      <table style="min-width:100%;font-size:12px">
+       <thead><tr><th>Plano</th><th>Ejemplo</th><th>¿Qué investigar?</th></tr></thead>
+       <tbody>
+        <tr><td><strong>Fenómeno / contexto</strong></td><td>Transporte o clima</td><td>Si se observa en datos desagregados.</td></tr>
+        <tr><td><strong>Composición</strong></td><td>Más escuelas rurales</td><td>Si cambia al comparar grupos similares.</td></tr>
+        <tr><td><strong>Medición / registro</strong></td><td>Criterios de ausencia</td><td>Si el indicador es comparable y válido.</td></tr>
+        <tr><td><strong>Muestreo</strong></td><td>Dos muestras distintas</td><td>Cómo fluctúa por selección aleatoria.</td></tr>
+       </tbody>
+      </table>
+     </div>
+     <p class="small" style="margin:8px 0 0;color:#9b4c2e"><strong>No confundir:</strong> <em>Posible fuente</em> no equivale a <em>causa demostrada</em>.</p>
+    </div>
+   </div>
+  </details>
+  <div class="card"><h3>Valores simulados por comuna</h3><div class="tablewrap"><table aria-label="Porcentajes de asistencia por comuna hipotética"><thead><tr><th>Comuna</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th></tr></thead><tbody><tr><th>Indicador</th><td>85,6</td><td>86,8</td><td>87,2</td><td>87,5</td><td>87,9</td><td>88,4</td><td>88,7</td><td>89,1</td><td>89,5</td><td>89,7</td><td>90,1</td><td>92,2</td></tr></tbody></table></div><p class="small" style="margin:12px 0 0">Son las 12 comunas de una provincia ficticia. No se informa cómo se construyó el indicador agregado.</p></div>
+  <div class="card"><h3>¿Cuáles de estas afirmaciones están justificadas?</h3><p class="small">Seleccionen las afirmaciones respaldadas por la información disponible y comprueben su análisis.</p><div class="quizoptions" id="quizBox"><label class="quiz"><input type="checkbox" value="a"> El indicador de la comuna L supera al de la comuna A.</label><label class="quiz"><input type="checkbox" value="b"> Todos los estudiantes de la comuna A faltan más que los de L.</label><label class="quiz"><input type="checkbox" value="c"> Hay variabilidad entre los doce indicadores comunales.</label><label class="quiz"><input type="checkbox" value="d"> El transporte es la causa principal de las diferencias.</label><label class="quiz"><input type="checkbox" value="e"> Los 12 valores implican necesariamente un error muestral.</label></div><button type="button" class="btn" style="margin-top:12px" id="checkQuiz">Contrastar interpretación</button><div id="quizFeedback" class="feedback" role="status"></div></div>
+  <div class="grid2"><div class="card"><label class="label">Unidad de observación</label><input type="text" data-field="unidad" placeholder="Ej. Comuna"><label class="label">Variable disponible</label><input type="text" data-field="variable" placeholder="Ej. Indicador porcentual..."><label class="label">¿Qué no podemos inferir sobre escuelas o estudiantes?</label><textarea data-field="limite" placeholder="Explique una inferencia ecológica incorrecta"></textarea></div><div class="card"><h3>Mapa de planos de variabilidad</h3><label class="label">Fenómeno y contexto</label><textarea data-field="fuenteContexto" placeholder="Una posible condición que afecte las asistencias"></textarea><label class="label">Composición y agregación</label><textarea data-field="fuenteComposicion" placeholder="Estructura de grupos que puede modificar el indicador"></textarea><label class="label">Medición y registro</label><textarea data-field="fuenteRegistro" placeholder="Qué definición o procedimiento revisar"></textarea><label class="label">Muestreo e inferencia</label><textarea data-field="fuenteMuestreo" placeholder="Cuándo aparecería variabilidad entre muestras"></textarea></div></div>
+  <details><summary><strong>🔒 Cierre Conceptual 2 (Institucionalización): Planos de la variabilidad</strong></summary><p><strong>Idea clave:</strong> No toda fuente propuesta explica el mismo objeto. Distinguimos <strong>variabilidad del fenómeno</strong>, <strong>composición/agregación</strong>, <strong>medición/registro</strong> e <strong>incertidumbre muestral</strong>.</p><p class="small">Con las 12 comunas del caso, si representan la totalidad del territorio de interés, no hay muestreo de comunas en esa descripción. Sí pueden existir errores de medición o muestreo en niveles inferiores.</p></details>
+  <div class="footer-nav"><button class="btn" data-next="explora">← Explorar</button><button class="btn primary" data-next="hipotesis">Elaborar hipótesis →</button></div>
+ </section>
+
+ <section class="page" id="page-hipotesis">
+  <div class="kicker">Etapa 3 · 30–55 minutos · Hipotetizar</div><h2>Dos hipótesis, no dos opiniones</h2><p class="lead">Elijan dos mecanismos alternativos que podrían ser compatibles con la misma distribución. Para cada uno, anticipen qué patrón lo respaldaría y cuál lo cuestionaría.</p>
+  <div class="note"><strong>Apertura 3 (Pregunta que inicia el trabajo):</strong> La comuna A presenta menor indicador que la L. ¿Podría deberse al transporte? ¿A la composición de las escuelas? <strong>¿Qué hallazgo permitiría preferir una explicación sobre la otra?</strong></div>
+  <details class="card teal" open>
+   <summary><strong>📘 Marco Conceptual 3 (Beamer): Del patrón a la hipótesis, predicción, contraste y cautela causal</strong></summary>
+   <div class="grid2" style="margin-top:12px">
+    <div class="card flat" style="margin:0">
+     <h3>Concepto 3 y 3a: Los 6 pasos hacia la prueba empírica</h3>
+     <ol style="padding-left:18px;font-size:13px;margin:0">
+      <li><strong>Observación:</strong> «Dos comunas presentan porcentajes de asistencia diferentes». <em>Todavía no sabemos por qué.</em></li>
+      <li><strong>Explicación tentativa:</strong> «Quizá la dificultad para llegar a la escuela influye en la asistencia» (plausible, pero aún vaga).</li>
+      <li><strong>Hipótesis:</strong> «Entre estudiantes de escuelas comparables, quienes presentan mayores dificultades de transporte tenderían a registrar menor asistencia durante el semestre» (precisa <em>quiénes</em>, <em>qué condición</em> y <em>qué diferencia</em>).</li>
+      <li><strong>Predicción:</strong> «Al comparar estudiantes semejantes, el grupo con mayores dificultades de transporte presentaría, en promedio, menor asistencia».</li>
+      <li><strong>Contraste:</strong> Recoger asistencia y condiciones de transporte por estudiante, considerando otras diferencias relevantes (escuela, ruralidad).</li>
+      <li><strong>¿Por qué es necesario?</strong> Sin predicción, la explicación se acomoda a cualquier resultado; sin contraste, no sabemos si los datos la respaldan o la debilitan.</li>
+     </ol>
+    </div>
+    <div class="card flat" style="margin:0">
+     <h3>Concepto 3b: Evidencia no es causalidad automática</h3>
+     <p style="font-size:13px"><strong>Supongamos que aparece una asociación:</strong> las escuelas con trayectos más largos tienen menor asistencia.</p>
+     <p style="font-size:13px"><strong>¿Qué sí podemos decir?</strong> Que hay una asociación en los datos estudiados.<br><strong>¿Qué no podemos afirmar sin más?</strong> Que los trayectos largos causaron la diferencia.</p>
+     <p class="small"><strong>¿Por qué?</strong> Podrían intervenir ruralidad, oferta de transporte, condiciones socioeconómicas, nivel educativo, calendario o errores de medición. El diseño determina qué inferencias son defendibles.</p>
+    </div>
+   </div>
+  </details>
+  <div class="grid2"><div class="card"><div class="hyphead">Hipótesis <em>1</em></div><label class="label">Plano de la explicación</label><select data-field="h1tipo"><option value="">Seleccionar</option><option value="Contexto">Fenómeno / contexto</option><option value="Composición">Composición / agregación</option><option value="Registro">Medición / registro</option><option value="Muestreo">Muestreo / inferencia</option></select><label class="label">Hipótesis</label><textarea data-field="h1" placeholder="Las diferencias podrían estar asociadas con..."></textarea><label class="label">Mecanismo: ¿cómo produciría diferencias?</label><textarea data-field="h1m" placeholder="Porque ... lo que podría modificar..."></textarea><label class="label">Predicción observable</label><textarea data-field="h1p" placeholder="Si fuera relevante, esperaríamos observar..."></textarea><label class="label">Evidencia que la debilitaría</label><textarea data-field="h1e" placeholder="La hipótesis perdería fuerza si..."></textarea><label class="label">Nuevos datos necesarios</label><textarea data-field="h1d" placeholder="Unidad, variable y fuente..."></textarea></div>
+  <div class="card"><div class="hyphead">Hipótesis <em>2</em></div><label class="label">Plano de la explicación</label><select data-field="h2tipo"><option value="">Seleccionar</option><option value="Contexto">Fenómeno / contexto</option><option value="Composición">Composición / agregación</option><option value="Registro">Medición / registro</option><option value="Muestreo">Muestreo / inferencia</option></select><label class="label">Hipótesis</label><textarea data-field="h2" placeholder="Una explicación alternativa sería..."></textarea><label class="label">Mecanismo: ¿cómo produciría diferencias?</label><textarea data-field="h2m" placeholder="Porque ... lo que podría modificar..."></textarea><label class="label">Predicción observable</label><textarea data-field="h2p" placeholder="En cambio, esperaríamos observar..."></textarea><label class="label">Evidencia que la debilitaría</label><textarea data-field="h2e" placeholder="La hipótesis perdería fuerza si..."></textarea><label class="label">Nuevos datos necesarios</label><textarea data-field="h2d" placeholder="Unidad, variable y fuente..."></textarea></div></div>
+  <div class="card amber"><label class="label">¿Qué contraste discriminaría mejor entre ambas explicaciones?</label><textarea data-field="contraste" placeholder="Compararíamos ... manteniendo ... y observando..."></textarea><label class="label">Afirmación que todavía NO podemos sostener</label><textarea data-field="noAfirmar" placeholder="No podemos afirmar que ... cause ... porque..."></textarea></div>
+  <details><summary><strong>🔒 Cierre Conceptual 3 (Institucionalización): La hipótesis exige riesgo empírico</strong></summary><p><strong>Idea clave:</strong> Una <strong>hipótesis contrastable</strong> vincula un mecanismo con una consecuencia observable y admite evidencia que podría cuestionarla.</p><div class="grid2"><div class="note" style="margin:0"><strong>Más débil:</strong> «La asistencia baja por el transporte.» <em>(No señala condiciones de contraste ni predicciones claras).</em></div><div class="info" style="margin:0"><strong>Más potente:</strong> «Si el acceso al transporte importa, esperaríamos mayores ausencias en sectores con trayectos más difíciles, al comparar escuelas similares.»</div></div></details>
+  <div class="footer-nav"><button class="btn" data-next="problema">← Niveles de variabilidad</button><button class="btn primary" data-next="pregunta">Construir pregunta →</button></div>
+ </section>
+
+ <section class="page" id="page-pregunta">
+  <div class="kicker">Etapa 4 · 55–75 minutos · Preguntar</div><h2>De la hipótesis a la pregunta investigable</h2><p class="lead">Formulen una pregunta que especifique unidades, variables, período y alcance. Después expliquen qué datos permitirían responderla.</p>
+  <div class="note"><strong>Apertura 4 (Pregunta que inicia el trabajo):</strong> Si tenemos solo doce promedios comunales, <strong>¿qué pregunta podemos responder ahora y cuál requiere ampliar los datos?</strong></div>
+  <details class="card teal" open>
+   <summary><strong>📘 Marco Conceptual 4 y Puente Curricular MINEDUC (Beamer)</strong></summary>
+   <div class="grid2" style="margin-top:12px">
+    <div class="card flat" style="margin:0">
+     <h3>Concepto 4: Tres niveles de pregunta</h3>
+     <p style="font-size:13px"><strong>1. Descriptiva:</strong> ¿Cuál fue el promedio de asistencia de estas 12 comunas?</p>
+     <p style="font-size:13px"><strong>2. Comparativa:</strong> ¿Cómo cambian las distribuciones de asistencia entre escuelas urbanas y rurales?</p>
+     <p style="font-size:13px"><strong>3. Investigativa-explicativa:</strong> ¿Cómo se relaciona el acceso al transporte con la asistencia de escuelas comparables?</p>
+     <p class="small" style="margin:0"><strong>Criterios:</strong> Se espera variabilidad en la respuesta, hay unidades delimitadas, se identifican datos pertinentes y se reconocen límites de inferencia.</p>
+    </div>
+    <div class="card flat" style="margin:0">
+     <h3>Puente Curricular (Bases Curriculares MINEDUC)</h3>
+     <div class="tablewrap">
+      <table style="min-width:100%;font-size:12px">
+       <thead><tr><th>Nivel y OA</th><th>Aprendizaje y aporte de la tarea</th></tr></thead>
+       <tbody>
+        <tr><td><strong>1.º medio</strong><br>MA1M OA 12 y 13</td><td>Distribuciones bivariadas y nubes de puntos → <em>Representar relaciones y plantear comparaciones.</em></td></tr>
+        <tr><td><strong>3.º medio FG</strong><br>FG-MATE-3M-OAC-02</td><td>Decisiones en incertidumbre con dispersión y prob. condicional → <em>Interpretar variabilidad sin sobreinterpretar.</em></td></tr>
+        <tr><td><strong>3.º–4.º medio HC</strong><br>MA-PEDI-3y4-OAC-02 y 04</td><td>Correlación muestral e inferencia → <em>Examinar asociaciones, contrastar hipótesis y límites inferenciales.</em></td></tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+  </details>
+  <div class="card"><label class="label">Pregunta de investigación del grupo <small>Escriban una sola pregunta que pueda orientar la búsqueda y el análisis de datos.</small></label><textarea data-field="pregunta" style="min-height:104px" placeholder="¿Cómo varía ... según ... en ... durante ...?"></textarea><div class="fieldrow"><div><label class="label">Unidad / población</label><input type="text" data-field="poblacion" placeholder="Ej. Estudiantes de 3.º y 4.º medio de..."></div><div><label class="label">Período</label><input type="text" data-field="periodo" placeholder="Ej. marzo a noviembre, año X"></div></div><div class="fieldrow"><div><label class="label">Variables y su definición operacional</label><textarea data-field="variables" placeholder="Asistencia mensual (%), disponibilidad de transporte..."></textarea></div><div><label class="label">Alcance de la pregunta</label><select data-field="alcance"><option value="">Seleccionar</option><option value="Descriptivo">Descriptivo</option><option value="Comparativo">Comparativo</option><option value="Relacional">Relacional</option><option value="Causal (requiere diseño apropiado)">Causal (requiere diseño apropiado)</option></select><label class="label">Fuentes, cobertura y calidad de datos</label><textarea data-field="datos" placeholder="Registros administrativos, encuesta, cobertura..."></textarea></div></div><label class="label">Representación o comparación prevista</label><textarea data-field="representacion" placeholder="Comparar distribuciones por...; visualizar serie temporal..."></textarea><label class="label">Límite principal de la conclusión</label><textarea data-field="limitacionP" placeholder="Una asociación no demuestra... / Cobertura insuficiente..."></textarea></div>
+  <div class="card teal"><h3>Dimensión cívica y de sostenibilidad</h3><p class="small">ODS 4 (educación de calidad) y ODS 10 (reducción de desigualdades). Examinar quién queda invisibilizado por un promedio y qué desigualdades territoriales merecen investigarse.</p><label class="label">¿Qué problema público ayuda a comprender la pregunta y qué voces/datos quedan ausentes?</label><textarea data-field="civica" placeholder="La comparación podría orientar una discusión sobre acceso... sin estigmatizar..."></textarea></div>
+  <details><summary><strong>🔒 Cierre Conceptual 4 (Institucionalización): Criterios de una pregunta investigable</strong></summary><p><strong>Idea clave:</strong> Una pregunta estadística investigable requiere <strong>variabilidad</strong>, delimita <strong>unidades y contexto</strong>, prevé <strong>datos pertinentes</strong> y reconoce <strong>incertidumbre y límites</strong>.</p><p class="small"><strong>Ejemplo refinado:</strong> «¿Cómo se asocian las condiciones de acceso al transporte con las tasas de asistencia mensual de establecimientos comparables de la provincia durante el año escolar?»</p></details>
+  <div class="footer-nav"><button class="btn" data-next="hipotesis">← Hipótesis</button><button class="btn primary" data-next="mediacion">Diseñar mediación →</button></div>
+ </section>
+
+ <section class="page" id="page-mediacion">
+  <div class="kicker">Etapa 5 · 75–95 minutos · Mediar</div><h2>El giro didáctico: enseñar a preguntar</h2><p class="lead">Pónganse en el lugar del profesor. ¿Qué intervenciones llevarían a estudiantes de enseñanza media desde una descripción inicial hasta una pregunta investigable?</p>
+  <div class="note"><strong>Apertura 5 (Pregunta que inicia el trabajo):</strong> Ustedes han construido una buena pregunta. Pero <strong>¿qué intervenciones docentes permitirían que estudiantes de enseñanza media la construyan sin recibirla hecha?</strong></div>
+  <details class="card teal" open>
+   <summary><strong>📘 Marco Conceptual 5 y Mediaciones Modeladas I, II y III (Beamer)</strong></summary>
+   <div class="card flat" style="margin:12px 0">
+    <h3>Concepto 5: Mediar no es entregar la explicación</h3>
+    <div class="tablewrap">
+     <table style="min-width:100%;font-size:12px">
+      <thead><tr><th>Intervención poco productiva</th><th>Intervención que abre razonamiento</th></tr></thead>
+      <tbody>
+       <tr><td>«Está mal: eso es falacia ecológica.»</td><td><strong>«¿Los datos hablan de estudiantes o de promedios comunales?»</strong></td></tr>
+       <tr><td>«Considera el transporte.»</td><td><strong>«¿Qué condiciones distintas podrían producir el mismo patrón?»</strong></td></tr>
+       <tr><td>«Justifica tu respuesta.»</td><td><strong>«¿Qué dato nos ayudaría a distinguir tus dos explicaciones?»</strong></td></tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+   <div class="grid3">
+    <div class="card flat" style="margin:0;font-size:12px">
+     <h3>Mediación Modelada I: Del juicio al dato</h3>
+     <p><em>Situación (A: 82%, B: 91%): «En A faltan más porque viven más lejos.»</em></p>
+     <p><strong>1. Prof.:</strong> «¿Qué muestra exactamente el gráfico?» → <em>Describe (82% y 91%).</em></p>
+     <p><strong>2. Prof.:</strong> «¿El gráfico muestra la distancia de las viviendas?» → <em>Distingue dato e interpretación.</em></p>
+     <p style="margin:0"><strong>3. Prof.:</strong> «¿Podrían existir otras explicaciones?» → <em>Considera alternativas.</em></p>
+    </div>
+    <div class="card flat" style="margin:0;font-size:12px">
+     <h3>Mediación Modelada II: Hacia la pregunta</h3>
+     <p><strong>Prof.:</strong> «Si el transporte influye, ¿qué diferencia esperarías?» → <em>Menor asistencia con peor acceso.</em></p>
+     <p><strong>Prof.:</strong> «¿Qué datos necesitarías?» → <em>Asistencia, transporte, tiempos y escuela.</em></p>
+     <p><strong>Prof.:</strong> «¿Cómo lo preguntarías sin asumir la causa, de quiénes y en qué período?»</p>
+     <p style="margin:0"><strong>Resultado:</strong> <em>Pregunta estadística en 3.º medio.</em></p>
+    </div>
+    <div class="card flat" style="margin:0;font-size:12px">
+     <h3>Mediación Modelada III: Comparar repreguntas</h3>
+     <p><em>Estudiante: «La baja asistencia es por el transporte.»</em></p>
+     <p><strong>Intervención A:</strong> «¿Estás seguro? ¿Qué otras causas hay?» <em>(Amplía lista, pero no exige evaluar ninguna).</em></p>
+     <p style="margin:0"><strong>Intervención B:</strong> «Si dos escuelas tienen transporte similar, pero distinta asistencia, ¿qué pensarías de tu explicación?» <em>(Examina predicciones y límites).</em></p>
+    </div>
+   </div>
+  </details>
+  <div class="card"><label class="label">Una respuesta espontánea probable de un estudiante</label><textarea data-field="respuestaInicial" placeholder="Ej. La comuna A tiene menor asistencia porque sus estudiantes..."></textarea></div>
+  <div id="medSteps"></div>
+  <div class="card amber"><label class="label">Respuesta profesional ante una atribución estigmatizante</label><p class="small">Un estudiante dice: «En esa comuna faltan porque no se esfuerzan». ¿Cómo devolverían la pregunta hacia la evidencia, sin validar el juicio?</p><textarea data-field="sesgo" placeholder="¿Qué evidencia ...? ¿Qué otras condiciones ...?"></textarea><label class="label">Indicador observable de que aumentó el razonamiento estadístico</label><textarea data-field="indicador" placeholder="Ahora los estudiantes distinguen ..., anticipan ..., cuestionan..."></textarea></div>
+  <details><summary><strong>🔒 Cierre Conceptual 5 (Institucionalización): Qué significa mediar estadísticamente</strong></summary><p><strong>Idea clave:</strong> La mediación no consiste en dar la fuente de variabilidad ni en corregir la redacción final. Consiste en orientar el tránsito entre <strong>observaciones, hipótesis, evidencias y nuevas preguntas</strong>.</p><p class="small"><strong>Ejemplo de repregunta potente:</strong> «Si ambas hipótesis explicaran el mismo gráfico, ¿qué comparación adicional nos ayudaría a distinguirlas?» · <strong>Indicador de avance:</strong> el estudiante propone por iniciativa propia una comparación y reconoce qué datos le faltan.</p></details>
+  <div class="footer-nav"><button class="btn" data-next="pregunta">← Pregunta</button><button class="btn primary" data-next="cierre">Ticket de salida →</button></div>
+ </section>
+
+ <section class="page" id="page-cierre">
+  <div class="kicker">Etapa 6 · 95–100 minutos · Cierre general</div><h2>Ticket de salida y síntesis</h2><p class="lead">Enseñar estadística no es solo responder preguntas usando datos: es ayudar a construir preguntas que hacen necesarios <strong>nuevos datos</strong>, y a evaluar críticamente lo que esos datos permiten concluir.</p>
+  <div class="card"><label class="label">1. ¿Qué diferencia hay entre describir la variabilidad y explicar sus fuentes?</label><textarea data-field="ticket1" placeholder="Describir caracteriza diferencias observadas, mientras que explicar fuentes exige..."></textarea><label class="label">2. ¿Qué evidencia permitiría someter a prueba una de las hipótesis elaboradas?</label><textarea data-field="ticket2" placeholder="Para someter a prueba nuestra hipótesis necesitaríamos comparar..."></textarea><label class="label">3. ¿Qué repregunta docente conservarías para una clase de enseñanza media y por qué?</label><textarea data-field="ticket3" placeholder="Conservaría la repregunta «...» porque moviliza al estudiante a..."></textarea></div>
+  <div class="card"><h3>Comprobación del trabajo</h3><p class="small">Los indicadores señalan si se registró evidencia; no califican automáticamente su calidad conceptual.</p><div class="rubric" id="rubric"></div></div>
+  <div class="card teal"><h3>Entrega y plenario</h3><p>Para discutir en la videollamada, copien la <strong>ficha breve</strong> al chat. Para la evaluación posterior, descarguen el <strong>archivo JSON</strong> y envíenlo al docente. También pueden descargar un informe legible en texto.</p><div class="btnrow"><button type="button" class="btn primary" id="copyBrief">Copiar ficha para chat</button><button type="button" class="btn" id="downloadJSON">Descargar respuestas (.json)</button><button type="button" class="btn" id="downloadTXT">Descargar informe (.txt)</button></div><div class="output" id="briefPreview" aria-live="polite"></div></div>
+  <div class="btnrow"><button type="button" class="btn warn" id="resetAll">Borrar mis respuestas</button></div>
+  <div class="footer-nav"><button class="btn" data-next="mediacion">← Mediación</button><button class="btn primary" data-next="intro">Volver al inicio</button></div>
+ </section>
+
+ <section class="page" id="page-docente">
+  <div class="kicker">Panel del facilitador · 100 minutos</div><h2>Conducir la clase en línea</h2><p class="lead">Compartan la pantalla para plantear el problema y las consignas. Los equipos trabajan en sus propias copias y comparten una síntesis por el chat de la videollamada.</p>
+  <div class="card"><div class="timer"><div><div class="small mutedb">Temporizador de etapa</div><div class="clock" id="timerDisplay" aria-live="off">15:00</div></div><div style="margin-left:auto;min-width:120px"><label for="timerPhase" class="small mutedb">Duración</label><select id="timerPhase" style="padding:6px"><option value="15">15 min</option><option value="25">25 min</option><option value="20">20 min</option><option value="5">5 min</option></select></div><button class="btn" id="startTimer">Iniciar</button><button class="btn" id="resetTimer">Reiniciar</button></div><p class="small">El temporizador es local a tu navegador. No se sincroniza con los equipos.</p></div>
+  <div class="grid2"><div class="card"><h3>Preguntas de facilitación</h3><label class="label" for="focusPhase">Momento de la sesión</label><select id="focusPhase"><option value="explora">1 · Explorar (15 min)</option><option value="problema">2 · Problematizar (15 min)</option><option value="hipotesis">3 · Hipótesis (25 min)</option><option value="pregunta">4 · Pregunta (20 min)</option><option value="mediacion">5 · Mediación (20 min)</option><option value="cierre">6 · Cierre (5 min)</option></select><div class="callout" id="focusPrompt" style="margin-top:12px"></div><div class="btnrow"><button class="btn" id="copyPrompt">Copiar consigna</button><button class="btn" id="teacherShowStudent">Ver etapa del estudiante</button></div></div><div class="card"><h3>Dinámica sin servidor</h3><div class="checklist"><div class="checkrow">1. Comparte el enlace o archivo HTML previamente y forma grupos.</div><div class="checkrow">2. Cada equipo registra sus respuestas en su propio navegador.</div><div class="checkrow">3. Pide una ficha breve en el chat al cerrar cada etapa clave.</div><div class="checkrow">4. Registra rápidamente las ideas en el panel o importa archivos JSON recibidos.</div><div class="checkrow">5. Proyecta el contraste entre hipótesis y discute las preguntas.</div></div><p class="small" style="margin:12px 0 0">Las respuestas no llegan solas: hace falta importarlas o registrarlas manualmente.</p></div></div>
+  <div class="card teal"><h3>Preguntas que pueden cambiar el nivel de razonamiento</h3><div class="grid3"><div><strong>Describir → Problematizar</strong><p class="mini">«¿Qué diferencia pueden justificar con el gráfico? ¿Qué queda sin explicar?»</p></div><div><strong>Hipotetizar → Contrastar</strong><p class="mini">«¿Qué resultado les haría reconsiderar esa explicación?»</p></div><div><strong>Investigar → Mediar</strong><p class="mini">«¿Qué repregunta ayudaría a que el estudiante formule la cuestión por sí mismo?»</p></div></div></div>
+  <div class="footer-nav"><div></div><button class="btn primary" data-next="respuestas">Ir al tablero de respuestas →</button></div>
+ </section>
+
+ <section class="page" id="page-respuestas">
+  <div class="kicker">Panel docente · Evidencias</div><h2>Preguntas e hipótesis de los grupos</h2><p class="lead">Un tablero para organizar intervenciones recibidas por chat o archivos JSON compartidos. Se actualiza solo en este navegador.</p>
+  <div class="card"><h3>Incorporar respuestas completas</h3><label class="label">Importar uno o varios archivos JSON exportados por los equipos</label><input id="importFiles" type="file" accept=".json,application/json" multiple style="font-size:13px"><p class="small" id="importStatus">No se han importado archivos en esta sesión.</p></div>
+  <div class="card"><h3>Registro rápido desde el chat</h3><div class="fieldrow"><div><label class="label">Grupo</label><input type="text" id="quickGroup" placeholder="Grupo 2"></div><div><label class="label">Plano principal de la hipótesis</label><select id="quickSource"><option value="Contexto">Fenómeno / contexto</option><option value="Composición">Composición / agregación</option><option value="Registro">Medición / registro</option><option value="Muestreo">Muestreo / inferencia</option></select></div></div><label class="label">Pregunta estadística que comunicaron</label><textarea id="quickQuestion" placeholder="¿Cómo se relaciona ... con ... entre ...?"></textarea><button class="btn primary" id="addQuick">Añadir al tablero</button></div>
+  <div class="grid2"><div class="card"><h3>Balance colectivo</h3><div class="stats"><div class="stat"><strong id="totalSubmissions">0</strong>grupos</div><div class="stat"><strong id="totalFull">0</strong>archivos completos</div></div><div id="sourceBars" style="margin-top:13px"></div></div><div class="card"><h3>Preguntas para el plenario</h3><div id="teacherQuestions" class="small">Aquí aparecerán las preguntas recibidas.</div></div></div>
+  <div class="card"><h3>Registros recibidos</h3><div id="submissionList" class="small">Aún no hay respuestas cargadas.</div><div class="btnrow"><button class="btn" id="exportClassCSV">Exportar tabla (.csv)</button><button class="btn warn" id="clearClass">Vaciar tablero</button></div></div>
+  <div class="footer-nav"><button class="btn" data-next="docente">← Panel de facilitación</button><div></div></div>
+ </section>
+</main></div><div id="toast" class="toast" role="status"></div>
+<script>
+(()=>{'use strict';
+const STORAGE='mdma022-variabilidad-v1',BOARD='mdma022-tablero-v1';
+const stages=['explora','problema','hipotesis','pregunta','mediacion','cierre'];
+const pages=['intro',...stages];
+const times={explora:15,problema:15,hipotesis:25,pregunta:20,mediacion:20,cierre:5};
+const dataset=[85.6,86.8,87.2,87.5,87.9,88.4,88.7,89.1,89.5,89.7,90.1,92.2];
+const d=(id)=>document.getElementById(id);const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const field=(k)=>String(state[k]??'').trim();let state={curso:'3.º medio'};let submissions=[];let teacher=false;let page='intro';let toastT=null;
+try{const saved=JSON.parse(localStorage.getItem(STORAGE)||'{}');if(saved&&typeof saved==='object')state={...state,...saved}}catch(e){}
+try{const saved=JSON.parse(localStorage.getItem(BOARD)||'[]');if(Array.isArray(saved))submissions=saved.filter(v=>v&&typeof v==='object')}catch(e){}
+function toast(msg){const el=d('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2800)}
+function save(){try{localStorage.setItem(STORAGE,JSON.stringify(state))}catch(e){}refresh()}
+function saveBoard(){try{localStorage.setItem(BOARD,JSON.stringify(submissions))}catch(e){}renderBoard()}
+function initializeFields(){document.querySelectorAll('[data-field]').forEach(el=>{if(!el.id&&el.dataset.field)el.id=el.dataset.field;if(el.type==='checkbox')el.checked=!!state[el.dataset.field];else el.value=state[el.dataset.field]??(el.tagName==='SELECT'&&el.dataset.field==='curso'?'3.º medio':'');el.addEventListener(el.tagName==='SELECT'?'change':'input',()=>{state[el.dataset.field]=el.type==='checkbox'?el.checked:el.value;save()})})}
+function full(keys){return keys.every(k=>field(k).length>0)}
+function scores(){return {explora:full(['o1','o2','q1','q2']),problema:full(['unidad','variable','limite','fuenteContexto','fuenteComposicion','fuenteRegistro','fuenteMuestreo']),hipotesis:full(['h1tipo','h1','h1m','h1p','h1e','h1d','h2tipo','h2','h2m','h2p','h2e','h2d','contraste','noAfirmar']),pregunta:full(['pregunta','poblacion','periodo','variables','alcance','datos','representacion','limitacionP','civica']),mediacion:full(['respuestaInicial','m1q','m1r','m1f','m2q','m2r','m2f','m3q','m3r','m3f','m4q','m4r','m4f','sesgo','indicador']),cierre:full(['ticket1','ticket2','ticket3'])}}
+function refresh(){const sc=scores(),count=Object.values(sc).filter(Boolean).length;d('progressText').textContent=`${count}/6 etapas`;d('progressFill').style.width=`${count/6*100}%`;document.querySelector('.progress').setAttribute('aria-valuenow',Math.round(count/6*100));document.querySelectorAll('[data-tick]').forEach(el=>el.textContent=sc[el.dataset.tick]?'✓':'');renderRubric();d('briefPreview').textContent=brief()}
+function go(target){if(!d('page-'+target))return;teacher=['docente','respuestas'].includes(target);page=target;document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id==='page-'+target));d('studentNav').classList.toggle('hidden',teacher);d('teacherNav').classList.toggle('hidden',!teacher);d('studentMode').classList.toggle('on',!teacher);d('teacherMode').classList.toggle('on',teacher);d('topEyebrow').textContent=teacher?'Facilitación de la clase en línea':'Secuencia didáctica interactiva';d('topContext').textContent=teacher?'Panel docente · Tablero en vivo y respaldo manual':'Guardado local · publicación manual al tablero compartido';document.querySelectorAll('.navbtn').forEach(el=>el.classList.toggle('active',el.dataset.page===target));document.querySelector('.topright').style.display=teacher?'none':'flex';window.scrollTo({top:0,behavior:'auto'});if(target==='respuestas')renderBoard();if(target==='cierre')refresh()}
+document.querySelectorAll('[data-page],[data-next]').forEach(el=>el.addEventListener('click',()=>go(el.dataset.page||el.dataset.next)));
+d('studentMode').addEventListener('click',()=>go('intro'));d('teacherMode').addEventListener('click',()=>go('docente'));
+d('restoreHelp').addEventListener('click',()=>toast('Al finalizar: “Copiar ficha para chat” o “Descargar respuestas (.json)”.'));
+function makeMediation(){const names=['Observar','Abrir alternativas','Pedir contraste','Refinar pregunta'];d('medSteps').innerHTML=names.map((name,i)=>{const n=i+1;return `<div class="card"><span class="phase">Intervención ${n} · ${name}</span><div class="grid3"><div><label class="label" for="m${n}q">Pregunta / intervención docente</label><textarea id="m${n}q" data-field="m${n}q" placeholder="¿Qué pregunta haría...? "></textarea></div><div><label class="label" for="m${n}r">Respuesta esperable del estudiante</label><textarea id="m${n}r" data-field="m${n}r" placeholder="Podría responder... "></textarea></div><div><label class="label" for="m${n}f">Repregunta o retroalimentación</label><textarea id="m${n}f" data-field="m${n}f" placeholder="Para profundizar... "></textarea></div></div></div>`}).join('')}
+function plot(){const svg=d('dotChart');let html='<rect x="0" y="0" width="800" height="178" fill="transparent"/>';const x=v=>55+(v-85)/8*680;for(let t=85;t<=93;t++){const X=x(t);html+=`<line x1="${X}" y1="30" x2="${X}" y2="135" stroke="#e3eae9" stroke-width="1"/><text x="${X}" y="155" fill="#526c77" font-size="13" text-anchor="middle">${t}%</text>`}html+='<line x1="55" y1="126" x2="735" y2="126" stroke="#95adb3" stroke-width="1.5"/>';dataset.forEach((v,i)=>{const X=x(v),Y=76+(i%2)*18;html+=`<g data-dot="${i}" role="button" tabindex="0" aria-label="Comuna ${String.fromCharCode(65+i)}, ${v.toString().replace('.',',')} por ciento"><circle cx="${X}" cy="${Y}" r="14" fill="#157c8c" stroke="white" stroke-width="3"/><text x="${X}" y="${Y-22}" text-anchor="middle" fill="#254452" font-size="12" font-weight="800">${String.fromCharCode(65+i)}</text></g>`});html+='<text x="390" y="172" fill="#637a84" text-anchor="middle" font-size="12">Indicador porcentual de asistencia escolar (simulado)</text>';svg.innerHTML=html;svg.querySelectorAll('[data-dot]').forEach(node=>{const pick=()=>{const i=+node.dataset.dot;d('selectedDot').textContent=`Comuna hipotética ${String.fromCharCode(65+i)}: ${dataset[i].toFixed(1).replace('.',',')}%`;svg.querySelectorAll('[data-dot] circle').forEach(c=>c.setAttribute('fill','#157c8c'));node.querySelector('circle').setAttribute('fill','#c76531')};node.addEventListener('click',pick);node.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}})})}
+let revealed=false;d('toggleStats').addEventListener('click',()=>{revealed=!revealed;d('summaryStats').classList.toggle('hidden',!revealed);d('toggleStats').textContent=revealed?'Ocultar medidas':'Revelar medidas'});
+const avg=dataset.reduce((s,x)=>s+x,0)/dataset.length,median=(dataset[5]+dataset[6])/2;
+d('summaryStats').innerHTML=[['Media',avg.toFixed(2).replace('.',',')+'%'],['Mediana',median.toFixed(2).replace('.',',')+'%'],['Rango',(dataset.at(-1)-dataset[0]).toFixed(1).replace('.',',')+' pp'],['Valores',dataset.length+' comunas']].map(([lab,v])=>`<span class="stat"><strong>${v}</strong>${lab}</span>`).join('');
+d('checkQuiz').addEventListener('click',()=>{const sel=[...document.querySelectorAll('#quizBox input:checked')].map(el=>el.value).sort().join('');const yes=sel==='ac';const el=d('quizFeedback');el.className='feedback visible'+(yes?'':' bad');el.innerHTML=yes?'<strong>Correcto.</strong> Los datos respaldan diferencias entre comunas y la comparación L–A.':'<strong>Revisen el nivel de los datos.</strong> Solo son justificables «L supera a A» y «hay diferencias comunales». No se observan personas individuales, causas ni un procedimiento de muestreo de comunas.'});
+function renderRubric(){if(!d('rubric'))return;let sc=scores();const rows=[['Lectura distribucional',sc.explora&&sc.problema],['Hipótesis con evidencias críticas',sc.hipotesis],['Pregunta y plan de datos',sc.pregunta],['Mediación progresiva',sc.mediacion],['Estadística cívica y ética',!!field('civica')&&!!field('sesgo')],['Ticket de salida',sc.cierre]];d('rubric').innerHTML=rows.map(([lab,ok])=>`<div class="rubricline"><span>${lab}</span><span class="status ${ok?'ok':'missing'}">${ok?'✓ Registrado':'Por completar'}</span></div>`).join('')}
+function brief(){return `MDMA022 | ${field('grupo')||'Grupo sin identificar'}\nHIPÓTESIS 1 [${field('h1tipo')||'—'}]: ${field('h1')||'(sin completar)'}\nHIPÓTESIS 2 [${field('h2tipo')||'—'}]: ${field('h2')||'(sin completar)'}\nEVIDENCIA PARA CONTRASTAR: ${field('contraste')||'(sin completar)'}\nPREGUNTA: ${field('pregunta')||'(sin completar)'}\nMEDIACIÓN CLAVE: ${field('m3q')||'(sin completar)'}`}
+async function copyText(t){try{await navigator.clipboard.writeText(t);toast('Copiado. Pégalo en el chat de la videollamada.')}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();toast(ok?'Copiado al portapapeles.':'Selecciona y copia la ficha visible.')}}
+d('copyBrief').addEventListener('click',()=>copyText(brief()));
+function download(name,txt,mime){const blob=new Blob([txt],{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),600)}
+function fileName(ext){return `MDMA022_${(field('grupo')||'grupo').replace(/[^a-z0-9áéíóúñ-]/gi,'_').slice(0,45)}.${ext}`}
+function exportObject(){return {format:'MDMA022_VARIABILIDAD_V1',exportado:new Date().toISOString(),grupo:field('grupo'),curso:field('curso'),respuestas:{...state},etapas:scores(),dataset:'simulado_12_comunas_v1'}}
+d('downloadJSON').addEventListener('click',()=>{download(fileName('json'),JSON.stringify(exportObject(),null,2),'application/json;charset=utf-8');toast('Respuestas descargadas como JSON.')});
+const titles={grupo:'Grupo',curso:'Curso',o1:'Observación 1',o2:'Observación 2',q1:'Pregunta abierta 1',q2:'Pregunta abierta 2',unidad:'Unidad de observación',variable:'Variable',limite:'Límite inferencial',fuenteContexto:'Fenómeno/contexto',fuenteComposicion:'Composición/agregación',fuenteRegistro:'Medición/registro',fuenteMuestreo:'Muestreo/inferencia',h1tipo:'Fuente H1',h1:'Hipótesis 1',h1m:'Mecanismo H1',h1p:'Predicción H1',h1e:'Evidencia crítica H1',h1d:'Datos H1',h2tipo:'Fuente H2',h2:'Hipótesis 2',h2m:'Mecanismo H2',h2p:'Predicción H2',h2e:'Evidencia crítica H2',h2d:'Datos H2',contraste:'Contraste entre hipótesis',noAfirmar:'Afirmación no justificada',pregunta:'Pregunta investigable',poblacion:'Unidad / población',periodo:'Período',variables:'Variables',alcance:'Alcance',datos:'Fuentes de datos',representacion:'Comparación',limitacionP:'Límite de la conclusión',civica:'Dimensión cívica',respuestaInicial:'Respuesta inicial',sesgo:'Intervención ante estereotipo',indicador:'Indicador de razonamiento',ticket1:'Ticket 1',ticket2:'Ticket 2',ticket3:'Ticket 3'};
+d('downloadTXT').addEventListener('click',()=>{const lines=['LABORATORIO DE VARIABILIDAD — MDMA022','Datos SIMULADOS. Informe del grupo','',...Object.entries(state).map(([k,v])=>`${titles[k]||k}:\n${v||'(sin respuesta)'}\n`)];download(fileName('txt'),lines.join('\n'),'text/plain;charset=utf-8');toast('Informe descargado.')});
+d('resetAll').addEventListener('click',()=>{if(!confirm('¿Borrar todas las respuestas de este equipo guardadas en este navegador? Esta acción no se puede deshacer.'))return;state={grupo:'',curso:'3.º medio'};save();initializeFieldsReset();go('intro');toast('Se borraron las respuestas locales.')});
+function initializeFieldsReset(){document.querySelectorAll('[data-field]').forEach(el=>{el.value=state[el.dataset.field]??''});}
+const prompts={explora:['Explorar la variabilidad','Describan dos hechos observables y hagan dos preguntas que el gráfico no puede responder.','Pide evidencias gráficas: «¿Qué punto o medida respalda su afirmación?»'],problema:['Problematizar','¿Cuál es la unidad de observación? ¿Qué inferencia sobre estudiantes sería ilegítima?','Pide distinguir fenómeno, composición, medición y variabilidad muestral.'],hipotesis:['Hipótesis rivales','Construyan dos explicaciones alternativas, una predicción por cada una y un dato que las debilitaría.','Pide: «¿Qué evidencia diferencia mejor las hipótesis?»'],pregunta:['Pregunta investigable','Precisen población, variables, período, tipo de comparación y fuente de información.','Pide: «¿La pregunta se puede responder con los datos que tenemos?»'],mediacion:['Mediación docente','Diseñen cuatro preguntas docentes, respuestas estudiantiles anticipadas y repreguntas.','Pide observar avances en razonamiento, no solo la redacción final.'],cierre:['Cierre','Compartan la ficha breve en el chat y descarguen su archivo de respuestas.','Cierre: «Una pregunta que exige nuevos datos muestra el límite de lo que sabemos».']};
+let currentPrompt='';function updatePrompt(){const p=prompts[d('focusPhase').value];currentPrompt=`MDMA022 · ${p[0]}\n${p[1]}\n${p[2]}`;d('focusPrompt').innerHTML=`<strong>${esc(p[0])}</strong><p>${esc(p[1])}</p><p style="font-size:12px;color:#b8d7d9">${esc(p[2])}</p>`;d('teacherShowStudent').dataset.target=d('focusPhase').value;const mins=times[d('focusPhase').value];d('timerPhase').value=String(mins);resetTimer()}
+d('focusPhase').addEventListener('change',updatePrompt);d('copyPrompt').addEventListener('click',()=>copyText(currentPrompt));d('teacherShowStudent').addEventListener('click',()=>go(d('teacherShowStudent').dataset.target));
+let timerRemain=900,timerId=null;function printTimer(){d('timerDisplay').textContent=`${Math.floor(timerRemain/60).toString().padStart(2,'0')}:${(timerRemain%60).toString().padStart(2,'0')}`}
+function pauseTimer(){if(timerId){clearInterval(timerId);timerId=null}}function resetTimer(){pauseTimer();timerRemain=+d('timerPhase').value*60;printTimer();d('startTimer').textContent='Iniciar'}d('timerPhase').addEventListener('change',resetTimer);d('resetTimer').addEventListener('click',resetTimer);
+d('startTimer').addEventListener('click',()=>{if(timerId){pauseTimer();d('startTimer').textContent='Continuar';return}if(timerRemain<=0)timerRemain=+d('timerPhase').value*60;let last=Date.now();timerId=setInterval(()=>{const now=Date.now(),elapsed=Math.floor((now-last)/1000);if(elapsed<1)return;timerRemain=Math.max(0,timerRemain-elapsed);last+=elapsed*1000;printTimer();if(timerRemain===0){pauseTimer();toast('Se cumplió el tiempo de la etapa.');d('startTimer').textContent='Iniciar'}},250);d('startTimer').textContent='Pausar'});
+function normalizeSubmission(raw){if(!raw||raw.format!=='MDMA022_VARIABILIDAD_V1'||!raw.respuestas||typeof raw.respuestas!=='object')throw new Error('Formato de archivo no compatible');const r=raw.respuestas;const str=k=>String(r[k]??'');if(typeof window.MDMA_importToLive==='function')window.MDMA_importToLive(r);return {id:`full:${str('grupo').trim()||'anonimo'}`,grupo:str('grupo').slice(0,90)||'Grupo sin identificar',stage:str('pregunta')?'pregunta':str('h1')?'hipotesis':str('unidad')||str('limite')?'problema':'explora',o1:str('o1'),o2:str('o2'),q1:str('q1'),q2:str('q2'),unidad:str('unidad'),variable:str('variable'),limite:str('limite'),fuenteContexto:str('fuenteContexto'),fuenteComposicion:str('fuenteComposicion'),fuenteRegistro:str('fuenteRegistro'),fuenteMuestreo:str('fuenteMuestreo'),tipo:str('h1tipo'),tipo2:str('h2tipo'),pregunta:str('pregunta').slice(0,2000),hip1:str('h1').slice(0,1500),hip2:str('h2').slice(0,1500),contraste:str('contraste').slice(0,1500),evidencia:str('h1e').slice(0,1500),intervencion:str('m3q').slice(0,1500),completo:true}}
+d('importFiles').addEventListener('change',async(e)=>{const files=[...e.target.files];let ok=0,bad=0;for(const f of files){try{const obj=JSON.parse(await f.text());const sub=normalizeSubmission(obj);const index=submissions.findIndex(x=>x.id===sub.id||String(x.grupo).trim().toLowerCase()===sub.grupo.trim().toLowerCase());if(index>=0)submissions[index]=sub;else submissions.push(sub);ok++}catch(err){bad++}}saveBoard();d('importStatus').textContent=`${ok} archivo(s) incorporado(s); ${bad} no reconocido(s). La carga reemplaza al grupo previo si comparte su nombre.`;e.target.value='';toast('Tablero actualizado.')});
+d('addQuick').addEventListener('click',()=>{const grupo=d('quickGroup').value.trim(),pregunta=d('quickQuestion').value.trim();if(!grupo||!pregunta){toast('Completa el nombre del grupo y su pregunta.');return}const sub={id:`quick:${grupo.toLowerCase()}`,grupo:grupo.slice(0,90),tipo:d('quickSource').value,tipo2:'',pregunta:pregunta.slice(0,2000),hip1:'(Resumen comunicado oralmente)',hip2:'',contraste:'',evidencia:'',intervencion:'',completo:false};const i=submissions.findIndex(s=>s.id===sub.id||s.grupo.toLowerCase()===grupo.toLowerCase());if(i>=0&&submissions[i].completo){toast('Ya existe una entrega completa de este grupo; no se reemplazó.');return}if(i>=0)submissions[i]=sub;else submissions.push(sub);saveBoard();d('quickGroup').value='';d('quickQuestion').value='';toast('Grupo registrado en el tablero.')});
+function renderBoard(){const total=submissions.length;d('totalSubmissions').textContent=total;d('totalFull').textContent=submissions.filter(s=>s.completo).length;const kinds=['Contexto','Composición','Registro','Muestreo'];const count={};kinds.forEach(k=>count[k]=0);submissions.forEach(s=>{if(count[s.tipo]!==undefined)count[s.tipo]++;if(s.tipo2&&s.tipo2!==s.tipo&&count[s.tipo2]!==undefined)count[s.tipo2]++});d('sourceBars').innerHTML=kinds.map(k=>`<div class="barrow"><span>${k}</span><span class="bar"><span style="width:${total?Math.round(count[k]/total*100):0}%"></span></span><b>${count[k]}</b></div>`).join('')+'<p class="small">Se cuentan los planos de las dos hipótesis cuando se entregó el archivo completo; el total puede superar el número de grupos.</p>';d('teacherQuestions').innerHTML=total?submissions.map(s=>`<div class="submission"><strong>${esc(s.grupo)}</strong><p style="margin:5px 0">${esc(s.pregunta||s.q1||s.o1||'(En progreso)')}</p></div>`).join(''):'Aquí aparecerán las preguntas recibidas.';d('submissionList').innerHTML=total?submissions.map((s,i)=>`<div class="submission"><div style="display:flex;justify-content:space-between;gap:8px"><h3>${esc(s.grupo)}</h3><button class="btn smallbtn warn" data-delete="${i}">Quitar</button></div><p class="submeta">${s.completo?'En vivo / Completo':'Registro rápido'} · Etapa: ${esc(s.stage||'explora')} · Plano principal: ${esc(s.tipo||'en progreso')}</p><p><strong>1 · Exploración (Observaciones):</strong><br>• Hecho 1: ${esc(s.o1||'—')}<br>• Hecho 2: ${esc(s.o2||'—')}${s.q1||s.q2?`<br>• Preguntas abiertas: ${esc(s.q1||'')} ${s.q2?' / '+esc(s.q2):''}`:''}</p><p><strong>2 · Problematización:</strong><br>• Unidad / Variable: ${esc(s.unidad||'—')} / ${esc(s.variable||'—')}<br>• Límite inferencial: ${esc(s.limite||'—')}<br>• Fuentes (Contexto / Composición / Registro / Muestreo): ${esc([s.fuenteContexto,s.fuenteComposicion,s.fuenteRegistro,s.fuenteMuestreo].filter(Boolean).join(' | ')||'—')}</p><p><strong>4 · Pregunta investigable:</strong> ${esc(s.pregunta||'(aún en etapas previas)')}</p>${s.completo?`<details open><summary>Ver hipótesis, contraste y mediación</summary><p><strong>H1 (${esc(s.tipo||'—')}):</strong> ${esc(s.hip1||'—')}</p><p><strong>H2 (${esc(s.tipo2||'—')}):</strong> ${esc(s.hip2||'—')}</p><p><strong>Contraste:</strong> ${esc(s.contraste||'—')}</p><p><strong>Repregunta:</strong> ${esc(s.intervencion||'—')}</p></details>`:''}</div>`).join(''):'Aún no hay respuestas cargadas.';document.querySelectorAll('[data-delete]').forEach(el=>el.addEventListener('click',()=>{submissions.splice(+el.dataset.delete,1);saveBoard()}))}
+function quoteCSV(s){return '"'+String(s??'').replace(/"/g,'""')+'"'}d('exportClassCSV').addEventListener('click',()=>{const keys=['grupo','tipo','tipo2','pregunta','hip1','hip2','contraste','evidencia','intervencion','completo'];const rows=[keys.join(';'),...submissions.map(s=>keys.map(k=>quoteCSV(s[k])).join(';'))];download('MDMA022_tablero_grupos.csv','\ufeff'+rows.join('\r\n'),'text/csv;charset=utf-8');toast('Tabla exportada a CSV.')});
+d('clearClass').addEventListener('click',()=>{if(!confirm('¿Eliminar todos los registros de grupos guardados en este navegador?'))return;submissions=[];saveBoard();toast('Tablero vacío.')});
+window.MDMA_syncLiveTeams=function(liveTeams){if(!Array.isArray(liveTeams))return;liveTeams.forEach(t=>{const sub={id:`live:${t.id||t.uid||t.grupo}`,grupo:String(t.grupo||'Grupo sin identificar').slice(0,90),stage:String(t.stage||'explora'),o1:String(t.o1||''),o2:String(t.o2||''),q1:String(t.q1||''),q2:String(t.q2||''),unidad:String(t.unidad||''),variable:String(t.variable||''),limite:String(t.limite||''),fuenteContexto:String(t.fuenteContexto||''),fuenteComposicion:String(t.fuenteComposicion||''),fuenteRegistro:String(t.fuenteRegistro||''),fuenteMuestreo:String(t.fuenteMuestreo||''),tipo:String(t.h1tipo||''),tipo2:String(t.h2tipo||''),pregunta:String(t.pregunta||'').slice(0,2000),hip1:String(t.h1||'').slice(0,1500),hip2:String(t.h2||'').slice(0,1500),contraste:String(t.contraste||'').slice(0,1500),evidencia:String(t.h1e||'').slice(0,1500),intervencion:String(t.m3q||'').slice(0,1500),completo:true};const idx=submissions.findIndex(x=>x.id===sub.id||String(x.grupo).trim().toLowerCase()===sub.grupo.trim().toLowerCase());if(idx>=0)submissions[idx]={...submissions[idx],...sub};else submissions.push(sub)});saveBoard()};
+makeMediation();initializeFields();plot();refresh();updatePrompt();renderBoard();go('intro');
+})();
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="live.js"></script>
+<script>
+(()=>{'use strict';
+if(window.MDMA_LIVE_INITIALIZED) return;
+window.MDMA_LIVE_INITIALIZED=true;
+
+const $=id=>document.getElementById(id);
+const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const short=(v,n=3000)=>String(v??'').slice(0,n);
+const val=k=>{
+  const el=document.getElementById(k)||document.querySelector(`[data-field="${k}"]`);
+  if(el && String(el.value??'').trim()) return String(el.value).trim();
+  try{
+    const saved=JSON.parse(localStorage.getItem('mdma022-variabilidad-v1')||'{}');
+    return String(saved[k]??'').trim();
+  }catch(e){return '';}
+};
+const STAGES=['explora','problema','hipotesis','pregunta','mediacion','cierre'];
+const stageNames={explora:'Observaciones',problema:'Problematización',hipotesis:'Hipótesis',pregunta:'Pregunta',mediacion:'Mediación',cierre:'Cierre'};
+const ALL_DATA_KEYS=[
+  'grupo','curso',
+  'o1','o2','q1','q2',
+  'unidad','variable','limite','fuenteContexto','fuenteComposicion','fuenteRegistro','fuenteMuestreo',
+  'h1tipo','h1','h1m','h1p','h1e','h1d',
+  'h2tipo','h2','h2m','h2p','h2e','h2d',
+  'contraste','noAfirmar',
+  'pregunta','poblacion','periodo','variables','alcance','datos','representacion','limitacionP','civica',
+  'respuestaInicial','m1q','m1r','m1f','m2q','m2r','m2f','m3q','m3r','m3f','m4q','m4r','m4f','sesgo','indicador',
+  'ticket1','ticket2','ticket3'
+];
+let auth=null, db=null, uid='',room='',role='',owner=false,unsubRoom=null,unsubTeams=null,teamDocs=[],demo=false,lastSelected=[],active=true,sseSource=null,ntfySource=null,ntfyRoomSource=null,pollTimer=null,bcChannel=null;
+const firebaseReady=Boolean(window.MDMA_FIREBASE_CONFIG?.apiKey && window.firebase);
+const isLocalServer=location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.protocol==='file:';
+const API_BASE=(location.protocol==='http:'||location.protocol==='https:')?'':'http://localhost:3456';
+const NTFY_PREFIX='https://ntfy.sh/mdma022_ucsc_2026_';
+
+const style=document.createElement('style');style.textContent=`
+.livecard{border:2px solid #2a929d;background:#eef8f7}.liveheading{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.liveresponse{padding:15px;border:1px solid #d3e5e5;background:#fff;border-radius:12px;margin:10px 0}.liveresponse h3{margin:0 0 6px}.livebadge{display:inline-block;padding:4px 8px;background:#d5ebeb;border-radius:999px;color:#155665;font-size:11px;font-weight:800}.livegood{color:#15724b;font-weight:800}.livewarn{color:#99552b;font-weight:800}.livegrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.livecompare{border:2px solid #3a8996;background:#f8fcfb;border-radius:12px;padding:15px;min-height:120px;overflow-wrap:anywhere}.livecard .small{line-height:1.6}.livesticky{position:sticky;top:0;z-index:12;padding:10px 14px;background:#e3f2f0;display:none;border-bottom:1px solid #aad1d0}.livesticky.visible{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.liveactions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.liveactions input{max-width:220px}.livenote{border-left:3px solid #3c8994;padding:8px 12px;background:#eaf6f5;font-size:13px}.livecounter{font-size:28px;font-weight:900;color:#176a75}.livephase{border:1px solid #c6dddb;padding:10px 12px;border-radius:9px;background:#fff;font-size:13px}.livephase strong{color:#086b77}.livebox{max-height:360px;overflow-y:auto}.livechoice{display:flex;align-items:start;gap:8px;padding:8px;border-bottom:1px solid #e5eeee;font-size:12px}.livedemo{background:#fff2df;color:#975619;padding:7px 10px;border-radius:6px;font-weight:800;font-size:12px}.livecode{font-size:24px;letter-spacing:3px;font-weight:900;font-family:ui-monospace,monospace;color:#154b5b}.livechoice input{width:auto}.livecard .btn:disabled{opacity:.45;cursor:not-allowed}.liveroomlist{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center}.livesec{background:#fff;border:1px solid #d5e6e6;border-radius:9px;padding:10px 12px;margin:8px 0;font-size:13px}.livesec h4{margin:0 0 6px;color:#0e5a65;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+@media(max-width:760px){.livegrid{grid-template-columns:1fr}.livecode{font-size:18px}}
+`;document.head.appendChild(style);
+
+const sticky=document.createElement('div');sticky.className='livesticky';sticky.id='liveSticky';sticky.innerHTML='<span id="liveStickyLabel"></span> <button type="button" class="btn smallbtn" id="liveCopyLink">Copiar enlace para estudiantes</button> <button type="button" class="btn smallbtn" id="liveGoLab">Ir a Etapa 1</button> <button type="button" class="btn smallbtn" id="liveGoBoard">Ver Tablero Docente</button> <button type="button" class="btn smallbtn" id="liveDisconnect">Salir de la sala</button>';
+document.querySelector('.content').prepend(sticky);
+
+const intro=document.querySelector('#page-intro .btnrow');
+const start=document.createElement('section');start.className='card livecard';start.id='liveConnection';start.innerHTML=`
+ <div class="liveheading"><span class="livebadge">NUEVO · colaboración en línea</span><h3 style="margin:0">Sala compartida para la videoclase</h3></div>
+ <p>Los grupos pueden publicar sus producciones desde sus propios computadores y el docente las recibe automáticamente en tiempo real. El tablero permite seleccionar dos equipos, comparar sus hipótesis y proyectar preguntas para el plenario.</p>
+ <div id="liveModeLabel" class="livenote"></div>
+ <div class="livegrid" style="margin-top:12px">
+  <div>
+   <label class="label" for="liveCodeInput">Código de sala</label>
+   <input id="liveCodeInput" type="text" placeholder="Ej. AJLKP2" maxlength="12" autocomplete="off">
+   <div class="liveactions" style="margin-top:9px">
+    <button class="btn primary" type="button" id="liveJoin">Entrar como equipo →</button>
+    <button class="btn" type="button" id="liveJoinTeacher">Entrar como docente</button>
+   </div>
+   <div id="liveActiveRooms" class="liveroomlist small"></div>
+  </div>
+  <div>
+   <label class="label">Para el docente</label>
+   <p class="small">Crea una sala nueva o entra a una sala existente para proyectar y comparar las respuestas de los equipos en tiempo real.</p>
+   <button class="btn primary" id="liveCreate" type="button">Crear sala docente</button>
+   <button class="btn" id="liveDemo" type="button" style="margin-left:6px">Probar demostración</button>
+  </div>
+ </div>
+ <p id="liveStatus" role="status" class="small" style="margin:14px 0 0"></p>
+`;intro.parentElement.insertBefore(start,intro);
+
+const teacherCard=document.createElement('div');teacherCard.className='card livecard';teacherCard.id='teacherLiveCard';teacherCard.innerHTML=`
+<div class="liveheading"><span class="livebadge">EN VIVO</span><h3 style="margin:0">Tablero colectivo de razonamiento</h3><span id="liveTeacherState" class="small"></span></div>
+<p class="small">Cada equipo publica desde las etapas del laboratorio. Selecciona dos respuestas para compararlas en el plenario o revisa abajo todas las entregas completas.</p>
+<div class="livegrid"><div class="card flat" style="margin:0"><div class="small">Equipos recibidos</div><div id="liveCount" class="livecounter">0</div><label class="label" for="liveFilter">Filtrar lista por última etapa publicada</label><select id="liveFilter"><option value="all">Todas las etapas</option><option value="explora">1 · Observaciones (Exploración)</option><option value="problema">2 · Problematización</option><option value="hipotesis">3 · Hipótesis</option><option value="pregunta">4 · Preguntas</option><option value="mediacion">5 · Mediación</option><option value="cierre">6 · Cierre</option></select><div id="liveFeed" class="livebox"></div></div>
+<div class="card flat" style="margin:0"><h3>Selección y conducción</h3><div id="liveSelectedNote" class="small">Selecciona hasta dos equipos.</div><div class="liveactions" style="margin-top:12px"><button id="liveClearSelection" class="btn" type="button">Limpiar contraste</button><button id="liveExport" class="btn" type="button">Exportar CSV</button><label class="btn primary" style="margin:0;cursor:pointer">📂 Cargar .JSON de grupos<input id="liveQuickImportJson" type="file" accept=".json,application/json" multiple style="display:none"></label></div><label class="label" for="liveFocus">Consigna compartida</label><select id="liveFocus"><option value="explora">Observar</option><option value="problema">Problematizar</option><option value="hipotesis">Contrastar hipótesis</option><option value="pregunta">Refinar pregunta</option><option value="mediacion">Diseñar mediación</option></select><button class="btn primary" id="livePublishFocus" type="button" style="margin-top:9px">Publicar foco</button><div id="liveFocusDisplay" class="livephase" style="margin-top:12px"></div><label class="livechoice"><input type="checkbox" id="liveActive" checked> Sala abierta para entregas</label></div></div>
+<h3 style="margin:20px 0 5px">Contraste público de producciones (2 equipos seleccionados)</h3><div class="livegrid"><div id="liveCompareA" class="livecompare">Elige un equipo</div><div id="liveCompareB" class="livecompare">Elige otro equipo</div></div>
+<h3 style="margin:22px 0 8px">Todas las respuestas recibidas de los grupos (en vivo)</h3>
+<div id="liveAllTeamsGrid" class="livegrid"></div>
+<p class="livenote" style="margin-top:15px"><strong>Pregunta para el grupo:</strong> ¿Qué evidencia discriminaría entre estas explicaciones? ¿Qué pregunta docente ayudaría a reconocer que el gráfico inicial no basta?</p>
+`;
+$('page-docente').insertBefore(teacherCard,$('page-docente').children[2]||null);
+
+const studentCard=document.createElement('div');studentCard.className='card livecard';studentCard.id='liveStudentPublish';studentCard.innerHTML=`<div class="liveheading"><span class="livebadge">ENVÍO EN VIVO</span><h3 style="margin:0">Compartir avance del equipo</h3></div><p class="small">Publica cuando tu equipo quiera someter sus ideas a discusión. No se envía lo que escribes hasta pulsar el botón.</p><div id="liveStudentFocus" class="livephase"></div><div class="liveactions" style="margin-top:14px"><button type="button" class="btn primary" id="livePublish">Publicar el avance</button><span id="livePublishStatus" class="small"></span></div>`;
+$('page-cierre').insertBefore(studentCard,$('page-cierre').querySelector('.footer-nav'));
+STAGES.slice(0,5).forEach(s=>{let sec=$('page-'+s);let p=document.createElement('div');p.className='card livecard';p.innerHTML=`<div class="liveheading"><span class="livebadge">PUESTA EN COMÚN</span><strong>Comparte tu avance con el docente</strong></div><p class="small">Pulsa el botón para enviar todas tus respuestas de esta etapa al tablero del profesor.</p><div class="liveactions"><button type="button" class="btn primary liveStepSend" data-stage="${s}">Publicar ${stageNames[s].toLowerCase()}</button><span class="small liveStepStatus" data-status-stage="${s}"></span></div>`;sec.insertBefore(p,sec.querySelector('.footer-nav'));});
+
+function setStatus(s,bad=false){$('liveStatus').textContent=s;$('liveStatus').className=bad?'livewarn':'livegood'}
+function setStepStatus(s,bad=false){
+  $('livePublishStatus').textContent=s;
+  $('livePublishStatus').className=bad?'livewarn':'livegood';
+  document.querySelectorAll('.liveStepStatus').forEach(el=>{
+    el.textContent=s;
+    el.className='small liveStepStatus '+(bad?'livewarn':'livegood');
+  });
+}
+function label(){
+  if(!room){$('liveSticky').classList.remove('visible');return}
+  $('liveSticky').classList.add('visible');
+  $('liveStickyLabel').innerHTML=`<strong>${safe(demo?'Demostración local':'Sala '+room)}</strong> · ${safe(role==='teacher'?'Vista Docente':'Equipo ('+(val('grupo')||'sin nombre')+')')} ${demo?'<span class="livedemo">DEMO</span>':'<span class="livegood">● Conectado en línea</span>'}`;
+}
+
+function configMessage(){
+  $('liveJoin').disabled=false;
+  $('liveCreate').disabled=false;
+  if(firebaseReady){
+    $('liveModeLabel').innerHTML='<strong>Modo compartido activo (Firebase).</strong> Crea una sala como docente o únete con un código como equipo.';
+    setStatus('Listo para conectar en tiempo real.');
+  } else {
+    $('liveModeLabel').innerHTML='<strong>Sincronización en línea activa.</strong> Funciona entre distintos computadores por Internet con solo ingresar el mismo <strong>Código de sala</strong> (ej. <code>AJLKP2</code>) y pulsar <strong>Entrar como equipo →</strong>.';
+    setStatus('Listo para recibir y enviar respuestas en tiempo real.');
+    loadActiveRooms();
+  }
+}
+
+let availableRooms=[];
+async function loadActiveRooms(){
+  if(firebaseReady) return;
+  try{
+    pollCloudRelayHistory(room||'');
+    if(!isLocalServer) return;
+    const r=await fetch(`${API_BASE}/api/rooms`);
+    if(!r.ok) return;
+    const data=await r.json();
+    availableRooms=Array.isArray(data.rooms)?data.rooms:[];
+    if(Array.isArray(data.teams) && data.teams.length){
+      applyServerState({exists:true,room:{focus:'explora',selected:lastSelected,active:true},teams:data.teams});
+    }
+    renderActiveRoomsBox();
+  }catch(e){}
+}
+
+function renderActiveRoomsBox(){
+  const box=$('liveActiveRooms');
+  if(!box) return;
+  if(availableRooms.length){
+    if(!$('liveCodeInput').value.trim()){
+      $('liveCodeInput').value=availableRooms[0].code;
+    }
+    if(!room && isLocalServer){
+      room=availableRooms[0].code;
+      owner=true;
+      role='teacher';
+      attach();
+    }
+    box.innerHTML='<span>Salas recientes (clic para entrar):</span> '+availableRooms.slice(0,5).map(rm=>`<button type="button" class="btn smallbtn" data-quick-room="${safe(rm.code)}"><strong>${safe(rm.code)}</strong></button>`).join('');
+    box.querySelectorAll('[data-quick-room]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        $('liveCodeInput').value=btn.dataset.quickRoom;
+        joinRoom('student');
+      });
+    });
+  }
+}
+
+configMessage();
+
+function initSdk(){if(!firebaseReady)throw Error('Falta configurar Firebase');if(!firebase.apps.length)firebase.initializeApp(window.MDMA_FIREBASE_CONFIG);auth=firebase.auth();db=firebase.firestore();}
+async function getUid(){
+  if(firebaseReady){
+    initSdk();
+    if(auth.currentUser){uid=auth.currentUser.uid;return uid;}
+    const res=await auth.signInAnonymously();
+    uid=res.user.uid;
+    return uid;
+  }
+  try{
+    let saved=localStorage.getItem('mdma022_uid');
+    if(!saved){
+      const a=new Uint8Array(8);
+      crypto.getRandomValues(a);
+      saved='u_'+Array.from(a,b=>b.toString(16).padStart(2,'0')).join('');
+      localStorage.setItem('mdma022_uid',saved);
+    }
+    uid=saved;
+    return uid;
+  }catch(e){
+    if(!uid) uid='u_'+Math.random().toString(36).slice(2,12);
+    return uid;
+  }
+}
+function randomCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let out='';const a=new Uint8Array(6);crypto.getRandomValues(a);a.forEach(v=>out+=chars[v%chars.length]);return out;}
+function roomRef(){return db.collection('sessions').doc(room)}
+function stopWatchers(){
+  unsubRoom?.();unsubTeams?.();unsubRoom=unsubTeams=null;
+  if(sseSource){try{sseSource.close()}catch(e){}sseSource=null;}
+  if(ntfySource){try{ntfySource.close()}catch(e){}ntfySource=null;}
+  if(pollTimer){clearInterval(pollTimer);pollTimer=null;}
+  if(bcChannel){try{bcChannel.close()}catch(e){}bcChannel=null;}
+}
+function exitRoom(){stopWatchers();room='';role='';owner=false;teamDocs=[];demo=false;lastSelected=[];label();render();setStatus('Saliste de la sala. Tu trabajo escrito permanece en este navegador.');loadActiveRooms();}
+
+function saveLocalRoomFallback(rm, meta, teams){
+  try{
+    const store=JSON.parse(localStorage.getItem('mdma022_local_rooms')||'{}');
+    store[rm]={room:meta,teams:teams||store[rm]?.teams||[]};
+    localStorage.setItem('mdma022_local_rooms',JSON.stringify(store));
+  }catch(e){}
+}
+function getLocalRoomFallback(rm){
+  try{
+    const store=JSON.parse(localStorage.getItem('mdma022_local_rooms')||'{}');
+    return store[rm]||null;
+  }catch(e){return null;}
+}
+
+function ntfyTopicUrl(rm){
+  return `${NTFY_PREFIX}${String(rm||'').toLowerCase()}`;
+}
+
+async function publishCloudRelay(rm, payload){
+  try{
+    let messages = [payload];
+    if(payload && payload.kind==='team' && payload.team){
+      const cleanTeam = {};
+      for(const [k,v] of Object.entries(payload.team)){
+        if(v !== undefined && v !== null && String(v).trim() !== '') cleanTeam[k] = v;
+      }
+      const single = {kind:'team', room:rm, team:cleanTeam};
+      const rawJson = JSON.stringify(single);
+      if(rawJson.length > 3200){
+        const baseKeys = ['id','uid','grupo','curso','sala','stage','updatedAt'];
+        const part1 = {}, part2 = {};
+        baseKeys.forEach(k=>{ if(cleanTeam[k]!==undefined) { part1[k]=cleanTeam[k]; part2[k]=cleanTeam[k]; } });
+        const otherKeys = Object.keys(cleanTeam).filter(k=>!baseKeys.includes(k));
+        const half = Math.ceil(otherKeys.length / 2);
+        otherKeys.slice(0, half).forEach(k=>{ part1[k]=cleanTeam[k]; });
+        otherKeys.slice(half).forEach(k=>{ part2[k]=cleanTeam[k]; });
+        messages = [
+          {kind:'team', room:rm, team:part1},
+          {kind:'team', room:rm, team:part2}
+        ];
+      } else {
+        messages = [single];
+      }
+    }
+    for(const msg of messages){
+      const bodyStr = JSON.stringify(msg);
+      await Promise.allSettled([
+        fetch(ntfyTopicUrl(rm), { method: 'POST', body: bodyStr }),
+        fetch(ntfyTopicUrl('ALL'), { method: 'POST', body: bodyStr })
+      ]);
+    }
+  }catch(e){}
+}
+
+function mergeIncomingTeam(team){
+  if(!team || !team.id) return;
+  const idx=teamDocs.findIndex(x=>x.id===team.id || (x.grupo && team.grupo && x.grupo.toLowerCase()===team.grupo.toLowerCase()));
+  if(idx>=0){
+    const merged={...teamDocs[idx]};
+    for(const [k,v] of Object.entries(team)){
+      if(v!==undefined && String(v).trim()!=='') merged[k]=v;
+    }
+    teamDocs[idx]=merged;
+  } else {
+    teamDocs.push(team);
+  }
+  teamDocs.sort((a,b)=>String(a.grupo||'').localeCompare(String(b.grupo||''),'es'));
+  const targetRoom = room || team.sala || 'AJLKP2';
+  const loc=getLocalRoomFallback(targetRoom)||{room:{ownerUid:uid,focus:$('liveFocus').value||'explora',selected:lastSelected,active},teams:[]};
+  saveLocalRoomFallback(targetRoom,loc.room,teamDocs);
+  if(isLocalServer){
+    fetch(`${API_BASE}/api/rooms/${targetRoom}/teams/${encodeURIComponent(team.id)}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(team)
+    }).catch(()=>{});
+  }
+  render();
+}
+
+function handleRelayMessage(rawText){
+  try{
+    const outer=JSON.parse(rawText);
+    if(!outer || outer.event!=='message' || !outer.message) return;
+    const msg=JSON.parse(outer.message);
+    if(!msg) return;
+    if(msg.kind==='team' && msg.team){
+      mergeIncomingTeam(msg.team);
+    } else if(msg.kind==='room' && msg.meta && msg.room===room){
+      if(typeof msg.meta.focus==='string') $('liveFocus').value=msg.meta.focus;
+      if(Array.isArray(msg.meta.selected)) lastSelected=msg.meta.selected;
+      if(typeof msg.meta.active==='boolean'){
+        active=msg.meta.active;
+        $('liveActive').checked=active;
+      }
+      render();
+    }
+  }catch(e){}
+}
+
+async function pollCloudRelayHistory(rm){
+  try{
+    const codes = Array.from(new Set(['ALL', 'AJLKP2', '826UGW', 'PZE4U6', 'V9V2LW', ...(availableRooms.map(x=>x.code)), rm].filter(Boolean)));
+    for(const code of codes){
+      const tUrl = ntfyTopicUrl(code);
+      const r=await fetch(`${tUrl}/json?poll=1&since=12h`);
+      if(r.ok){
+        const text=await r.text();
+        text.split('\n').filter(Boolean).forEach(line=>handleRelayMessage(line));
+      }
+    }
+  }catch(e){}
+}
+
+window.MDMA_importToLive=function(respObj){
+  if(!respObj || typeof respObj!=='object') return;
+  const g=String(respObj.grupo||'Grupo importado').trim();
+  const slug=g.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,24)||'grupo';
+  const stage=respObj.pregunta?'pregunta':(respObj.h1||respObj.h2)?'hipotesis':(respObj.unidad||respObj.limite||respObj.fuenteContexto)?'problema':'explora';
+  const row={...respObj,id:'json_'+slug,uid:'json_'+slug,grupo:g,stage,updatedAt:new Date().toISOString()};
+  mergeIncomingTeam(row);
+};
+
+async function createRoom(){
+  try{
+    setStatus('Creando sala…');
+    await getUid();
+    room=randomCode();
+    const initialMeta={ownerUid:uid,createdAt:new Date().toISOString(),title:'MDMA 022 · Fuentes de variabilidad',focus:'explora',selected:[],active:true};
+    if(firebaseReady){
+      const snap=await roomRef().get();
+      if(snap.exists){room=randomCode()}
+      await roomRef().set({...initialMeta,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    } else {
+      saveLocalRoomFallback(room,initialMeta,[]);
+      if(isLocalServer){
+        fetch(`${API_BASE}/api/rooms/${room}`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(initialMeta)
+        }).catch(()=>{});
+      }
+      publishCloudRelay(room,{kind:'room',room,meta:initialMeta});
+    }
+    role='teacher';owner=true;demo=false;
+    $('liveCodeInput').value=room;
+    try{localStorage.setItem('mdma022_last_room',room)}catch(e){}
+    attach();
+    loadActiveRooms();
+    setStatus('✓ Sala docente creada: '+room+'. Comparte este código con tus estudiantes.');
+    goTeacher();
+  }catch(e){
+    room='';
+    setStatus('No se pudo crear la sala: '+e.message,true);
+  }
+}
+
+async function joinRoom(mode='student'){
+  let rawInput=$('liveCodeInput').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(!rawInput && availableRooms.length){
+    rawInput=availableRooms[0].code;
+    $('liveCodeInput').value=rawInput;
+  }
+  if(rawInput.length<3){
+    setStatus('Introduce un código de sala (por ejemplo, AJLKP2) o crea una sala nueva.',true);
+    $('liveCodeInput').focus();
+    return;
+  }
+  const code=rawInput.slice(0,12);
+  try{
+    setStatus('Conectando a la sala '+code+'…');
+    await getUid();
+    room=code;
+    demo=false;
+    if(firebaseReady){
+      const s=await roomRef().get();
+      if(!s.exists)throw Error('No existe esa sala');
+      owner=(mode==='teacher') || (s.data().ownerUid===uid && mode!=='student');
+      role=mode==='teacher'?'teacher':'student';
+      if(!s.data().active&&!owner)throw Error('Esta sala está cerrada');
+    } else {
+      let loadedFromLocal = false;
+      if(isLocalServer){
+        try{
+          const r=await fetch(`${API_BASE}/api/rooms/${room}`);
+          if(r.ok){
+            const data=await r.json();
+            owner=true;
+            role=mode==='teacher'?'teacher':'student';
+            applyServerState(data);
+            loadedFromLocal=true;
+          }
+        }catch(netErr){}
+      }
+      if(!loadedFromLocal){
+        let loc=getLocalRoomFallback(room);
+        if(!loc){
+          loc={room:{ownerUid:uid,createdAt:new Date().toISOString(),title:'MDMA 022 · Fuentes de variabilidad',focus:'explora',selected:[],active:true},teams:[]};
+          saveLocalRoomFallback(room,loc.room,loc.teams);
+        }
+        owner=true;
+        role=mode==='teacher'?'teacher':'student';
+        applyServerState({exists:true,room:loc.room,teams:loc.teams});
+      }
+    }
+    try{localStorage.setItem('mdma022_last_room',room)}catch(e){}
+    attach();
+    if(mode==='teacher'){
+      setStatus('✓ Conectado como docente a la sala '+room+'.');
+      goTeacher();
+    } else {
+      if(!val('grupo') && $('grupo')){
+        const nombre=prompt('Conectado a la sala '+room+'. ¿Cuál es el nombre o número de tu grupo? (Ej. Grupo 1):','');
+        if(nombre && nombre.trim()){
+          $('grupo').value=nombre.trim();
+          $('grupo').dispatchEvent(new Event('input',{bubbles:true}));
+        }
+      }
+      label();
+      setStatus('✓ Equipo conectado a la sala '+room+'. Redirigiendo a la Etapa 1…');
+      document.querySelector('[data-page="explora"]')?.click();
+      // Si el grupo ya tenía respuestas escritas localmente, enviarlas automáticamente
+      if(val('grupo') && (val('o1') || val('unidad') || val('limite') || val('h1'))){
+        const inferredStage = val('h1') ? 'hipotesis' : (val('unidad')||val('limite')||val('fuenteContexto')) ? 'problema' : 'explora';
+        publish(inferredStage, true);
+      }
+    }
+  }catch(e){
+    room='';
+    setStatus('No se pudo entrar: '+e.message,true);
+  }
+}
+
+function goTeacher(){
+  role='teacher';owner=true;label();render();
+  $('teacherMode').click();
+}
+
+function applyServerState(data){
+  if(!data || !data.exists){
+    return;
+  }
+  const obj=data.room||{};
+  active=obj.active!==false;
+  if(Array.isArray(obj.selected) && obj.selected.length){
+    lastSelected=obj.selected;
+  }
+  $('liveFocus').value=obj.focus||'explora';
+  $('liveActive').checked=active;
+  if(Array.isArray(data.teams)){
+    data.teams.forEach(t=>{
+      const idx=teamDocs.findIndex(x=>x.id===t.id || (x.grupo && t.grupo && x.grupo.toLowerCase()===t.grupo.toLowerCase()));
+      if(idx>=0){
+        const merged={...teamDocs[idx]};
+        for(const [k,v] of Object.entries(t)){
+          if(v!==undefined && String(v).trim()!=='') merged[k]=v;
+        }
+        teamDocs[idx]=merged;
+      } else {
+        teamDocs.push(t);
+      }
+    });
+    teamDocs.sort((a,b)=>String(a.grupo||'').localeCompare(String(b.grupo||''),'es'));
+  }
+  if(!lastSelected.length && teamDocs.length){
+    lastSelected=teamDocs.slice(0,2).map(t=>t.id);
+  }
+  saveLocalRoomFallback(room,obj,teamDocs);
+  render();
+}
+
+function attach(){
+  label();
+  stopWatchers();
+  if(firebaseReady){
+    unsubRoom=roomRef().onSnapshot(s=>{
+      if(!s.exists){setStatus('La sala ya no existe.',true);exitRoom();return}
+      const obj=s.data();
+      active=obj.active;
+      lastSelected=Array.isArray(obj.selected)?obj.selected:[];
+      $('liveFocus').value=obj.focus||'explora';
+      $('liveActive').checked=active;
+      render();
+    },e=>setStatus('Error en sala: '+e.message,true));
+    unsubTeams=roomRef().collection('teams').onSnapshot(s=>{
+      teamDocs=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.grupo.localeCompare(b.grupo,'es'));
+      render();
+    },e=>setStatus('Error en equipos: '+e.message,true));
+  } else {
+    const currentRoom=room;
+    if(window.BroadcastChannel){
+      try{
+        bcChannel=new BroadcastChannel('mdma022_room_'+currentRoom);
+        bcChannel.onmessage=ev=>{
+          if(ev.data && ev.data.room){
+            applyServerState({exists:true,room:ev.data.room,teams:ev.data.teams});
+          }
+        };
+      }catch(e){}
+    }
+    pollCloudRelayHistory(currentRoom);
+    if(window.EventSource){
+      try{
+        ntfySource=new EventSource(`${ntfyTopicUrl('ALL')}/sse?since=12h`);
+        ntfySource.onmessage=ev=>handleRelayMessage(ev.data);
+      }catch(e){}
+      if(!isLocalServer && currentRoom && currentRoom!=='ALL'){
+        try{
+          sseSource=new EventSource(`${ntfyTopicUrl(currentRoom)}/sse?since=12h`);
+          sseSource.onmessage=ev=>handleRelayMessage(ev.data);
+        }catch(e){}
+      }
+    }
+    const fetchPoll=async()=>{
+      if(!room || room!==currentRoom || demo) return;
+      if(isLocalServer){
+        try{
+          const r=await fetch(`${API_BASE}/api/rooms/${currentRoom}`);
+          if(r.ok){
+            const d=await r.json();
+            applyServerState(d);
+            return;
+          }
+        }catch(e){}
+      }
+      const loc=getLocalRoomFallback(currentRoom);
+      if(loc) applyServerState({exists:true,room:loc.room,teams:loc.teams});
+    };
+    fetchPoll();
+    if(isLocalServer && window.EventSource){
+      try{
+        sseSource=new EventSource(`${API_BASE}/api/rooms/${currentRoom}/stream`);
+        sseSource.onmessage=ev=>{
+          try{
+            const d=JSON.parse(ev.data);
+            applyServerState(d);
+          }catch(e){}
+        };
+      }catch(e){}
+    }
+    pollTimer=setInterval(()=>{
+      fetchPoll();
+      pollCloudRelayHistory(currentRoom);
+    }, 4000);
+  }
+}
+
+function liveData(stage){
+  let raw={stage,uid};
+  ALL_DATA_KEYS.forEach(k=>{
+    raw[k]=short(val(k), k==='grupo'?90:3000);
+  });
+  if(!raw.grupo) raw.grupo='Equipo sin nombre';
+  return raw;
+}
+
+async function publish(stage, silent=false){
+  if(!room){
+    if(availableRooms.length){
+      $('liveCodeInput').value=availableRooms[0].code;
+      await joinRoom('student');
+    } else if(!silent) {
+      const entered=prompt('No estás conectado a una sala aún. Ingresa el código de sala de 6 caracteres (ej. AJLKP2):','');
+      if(!entered || !entered.trim()){
+        setStepStatus('Entra primero a una sala en la pestaña Inicio.',true);
+        document.querySelector('[data-page="intro"]')?.click();
+        return;
+      }
+      $('liveCodeInput').value=entered.trim().toUpperCase();
+      await joinRoom('student');
+    }
+    if(!room) return;
+  }
+  if(!val('grupo')){
+    if(silent) return;
+    const g=prompt('Ingresa el nombre o número de tu grupo para publicar (ej. Grupo 1):','');
+    if(!g || !g.trim()){
+      setStepStatus('Identifica antes tu equipo.',true);
+      return;
+    }
+    if($('grupo')){
+      $('grupo').value=g.trim();
+      $('grupo').dispatchEvent(new Event('input',{bubbles:true}));
+      label();
+    }
+  }
+  const data=liveData(stage);
+  try{
+    if(demo){
+      const idx=teamDocs.findIndex(x=>x.id==='demo-real');
+      let row={...data,id:'demo-real',updatedAt:new Date()};
+      if(idx>=0)teamDocs[idx]=row;else teamDocs.push(row);
+      render();
+    } else if(firebaseReady){
+      if(!active)throw Error('La sala está cerrada');
+      await roomRef().collection('teams').doc(uid).set({...data,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+    } else {
+      if(!active)throw Error('La sala está cerrada');
+      const teamSlug = data.grupo.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,24) || 'equipo';
+      const teamDocId = `${uid}_${teamSlug}`;
+      const row={...data,id:teamDocId,uid:teamDocId,sala:room,updatedAt:new Date().toISOString()};
+      mergeIncomingTeam(row);
+      publishCloudRelay(room,{kind:'team',room,team:row});
+      if(isLocalServer){
+        fetch(`${API_BASE}/api/rooms/${room}/teams/${encodeURIComponent(teamDocId)}`,{
+          method:'PUT',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(row)
+        }).catch(()=>{});
+      }
+      if(bcChannel){
+        const loc=getLocalRoomFallback(room);
+        if(loc){try{bcChannel.postMessage({room:loc.room,teams:teamDocs})}catch(e){}}
+      }
+    }
+    if(!silent){
+      setStepStatus('✓ Avance enviado en vivo a la sala '+room+' ('+stageNames[stage]+').');
+      if(typeof window.MDMA_livePublished==='function')window.MDMA_livePublished();
+    }
+  }catch(e){
+    if(!silent) setStepStatus('No se publicó: '+e.message,true);
+  }
+}
+
+// Auto-sincronizar cambios mientras el estudiante escribe si ya tiene grupo asignado
+let autoSyncTimer=null;
+document.querySelectorAll('[data-field]').forEach(el=>{
+  el.addEventListener('input',()=>{
+    if(!val('grupo') || role==='teacher') return;
+    clearTimeout(autoSyncTimer);
+    autoSyncTimer=setTimeout(()=>{
+      if(!room && availableRooms.length) room=availableRooms[0].code;
+      if(room){
+        const st = val('h1') ? 'hipotesis' : (val('unidad')||val('limite')||val('fuenteContexto')) ? 'problema' : 'explora';
+        publish(st, true);
+      }
+    }, 1500);
+  });
+});
+
+function summary(d){
+  const hasProblema = d.unidad || d.variable || d.limite || d.fuenteContexto || d.fuenteComposicion || d.fuenteRegistro || d.fuenteMuestreo;
+  const hasHipotesis = d.h1 || d.h2 || d.contraste;
+  const hasPregunta = d.pregunta || d.variables || d.datos;
+  const hasMediacion = d.respuestaInicial || d.m1q || d.m2q || d.m3q || d.m4q || d.sesgo;
+  return `
+  <div><span class="livebadge">${safe(stageNames[d.stage]||'Avance')}</span> <b>${safe(d.grupo)}</b><span class="small"> · ${safe(d.curso||'')} ${d.sala?'· Sala '+safe(d.sala):''}</span></div>
+  <div class="livesec">
+    <h4>1 · Exploración (Observaciones y preguntas iniciales)</h4>
+    <p style="margin:4px 0"><b>Hecho 1:</b> ${safe(d.o1||'—')}</p>
+    <p style="margin:4px 0"><b>Hecho 2:</b> ${safe(d.o2||'—')}</p>
+    ${(d.q1||d.q2)?`<p style="margin:4px 0"><b>Preguntas abiertas:</b> ${safe(d.q1||'')} ${d.q2?' / '+safe(d.q2):''}</p>`:''}
+  </div>
+  <div class="livesec">
+    <h4>2 · Problematización (Niveles y fuentes de variabilidad)</h4>
+    ${hasProblema?`
+      <p style="margin:4px 0"><b>Unidad:</b> ${safe(d.unidad||'—')} · <b>Variable:</b> ${safe(d.variable||'—')}</p>
+      <p style="margin:4px 0"><b>Límite inferencial:</b> ${safe(d.limite||'—')}</p>
+      <p style="margin:4px 0"><b>Contexto:</b> ${safe(d.fuenteContexto||'—')}</p>
+      <p style="margin:4px 0"><b>Composición:</b> ${safe(d.fuenteComposicion||'—')}</p>
+      <p style="margin:4px 0"><b>Registro:</b> ${safe(d.fuenteRegistro||'—')}</p>
+      <p style="margin:4px 0"><b>Muestreo:</b> ${safe(d.fuenteMuestreo||'—')}</p>
+    `:`<p class="small" style="margin:4px 0;color:#8a5a36">El grupo pulsó publicar en esta etapa; cuando escriban o actualicen los campos de Problematización aparecerán aquí automáticamente.</p>`}
+  </div>
+  ${hasHipotesis?`<div class="livesec">
+    <h4>3 · Hipótesis rivales</h4>
+    <p style="margin:4px 0"><b>H1 (${safe(d.h1tipo||'—')}):</b> ${safe(d.h1||'—')} <i>(Predicción: ${safe(d.h1p||'—')} | Refutación: ${safe(d.h1e||'—')})</i></p>
+    <p style="margin:4px 0"><b>H2 (${safe(d.h2tipo||'—')}):</b> ${safe(d.h2||'—')} <i>(Predicción: ${safe(d.h2p||'—')} | Refutación: ${safe(d.h2e||'—')})</i></p>
+    <p style="margin:4px 0"><b>Contraste:</b> ${safe(d.contraste||'—')}</p>
+  </div>`:''}
+  ${hasPregunta?`<div class="livesec">
+    <h4>4 · Pregunta investigable</h4>
+    <p style="margin:4px 0"><b>Pregunta:</b> ${safe(d.pregunta||'—')}</p>
+    <p style="margin:4px 0"><b>Variables / Datos:</b> ${safe(d.variables||'—')} · ${safe(d.datos||'—')}</p>
+  </div>`:''}
+  ${hasMediacion?`<div class="livesec">
+    <h4>5 · Mediación docente</h4>
+    <p style="margin:4px 0"><b>Intervenciones:</b> ${safe(d.m1q||'')} / ${safe(d.m2q||'')} / ${safe(d.m3q||'')} / ${safe(d.m4q||'')}</p>
+    <p style="margin:4px 0"><b>Ante sesgo:</b> ${safe(d.sesgo||'—')}</p>
+  </div>`:''}
+  `;
+}
+
+function render(){
+  label();
+  if(typeof window.MDMA_syncLiveTeams==='function'&&teamDocs.length)window.MDMA_syncLiveTeams(teamDocs);
+  $('liveCount').textContent=teamDocs.length;
+  $('liveTeacherState').innerHTML=demo?'<span class="livedemo">Datos ilustrativos</span>':room?`Sala activa <span class="livecode">${safe(room)}</span> (unificada con todas las salas)`:'Todas las salas unificadas';
+  const filt=$('liveFilter').value;
+  // Mostrar todos los grupos cuando el filtro es 'all', o si el grupo ya tiene datos de esa etapa
+  const filtered=filt==='all'?teamDocs:teamDocs.filter(d=>{
+    if(d.stage===filt) return true;
+    if(filt==='explora') return Boolean(d.o1||d.o2||d.q1||d.q2);
+    if(filt==='problema') return Boolean(d.stage==='problema'||d.unidad||d.variable||d.limite||d.fuenteContexto||d.fuenteComposicion||d.fuenteRegistro||d.fuenteMuestreo);
+    if(filt==='hipotesis') return Boolean(d.h1||d.h2||d.contraste);
+    if(filt==='pregunta') return Boolean(d.pregunta);
+    if(filt==='mediacion') return Boolean(d.m1q||d.m2q||d.m3q||d.m4q||d.sesgo);
+    return false;
+  });
+  $('liveFeed').innerHTML=filtered.length?filtered.map(d=>`<label class="livechoice"><input type="checkbox" data-pick="${safe(d.id)}" ${lastSelected.includes(d.id)?'checked':''}><span><b>${safe(d.grupo)}</b> <span class="livebadge">${safe(stageNames[d.stage]||'Avance')}</span><br><span class="small">${safe(d.pregunta||d.h1||d.limite||d.o1||'(en progreso)')}</span></span></label>`).join(''):'<p class="small">Aún no hay respuestas para este filtro.</p>';
+  $('liveSelectedNote').textContent=`Seleccionados: ${lastSelected.length}/2. Marca las casillas de los equipos para proyectar su comparación.`;
+  $('liveCompareA').innerHTML=lastSelected[0]?(teamDocs.find(d=>d.id===lastSelected[0])?summary(teamDocs.find(d=>d.id===lastSelected[0])):'Sin respuesta'):'Selecciona el primer equipo en la lista de arriba';
+  $('liveCompareB').innerHTML=lastSelected[1]?(teamDocs.find(d=>d.id===lastSelected[1])?summary(teamDocs.find(d=>d.id===lastSelected[1])):'Sin respuesta'):'Selecciona el segundo equipo en la lista de arriba';
+  const allGrid=$('liveAllTeamsGrid');
+  if(allGrid){
+    allGrid.innerHTML=teamDocs.length?teamDocs.map(d=>`<div class="livecompare">${summary(d)}</div>`).join(''):'<p class="small">Aún no se han recibido equipos.</p>';
+  }
+  const focus=$('liveFocus').value||'explora';
+  $('liveFocusDisplay').innerHTML=`<strong>Foco actual:</strong> ${safe(stageNames[focus]||focus)}<br><span class="small">${safe(focusText(focus))}</span>`;
+  $('liveStudentFocus').innerHTML=`<strong>Consigna compartida:</strong> ${safe(stageNames[focus]||focus)} · ${safe(focusText(focus))}`;
+  $('livePublish').disabled=false;
+  $('liveActive').disabled=false;
+  $('livePublishFocus').disabled=false;
+  $('liveClearSelection').disabled=false;
+}
+
+function focusText(f){return {explora:'¿Qué diferencias muestran los indicadores y qué desconocemos?',problema:'¿Qué afirmaciones exceden la evidencia de los datos agregados?',hipotesis:'¿Qué observación permitiría distinguir dos hipótesis rivales?',pregunta:'¿Qué pregunta es investigable, para quién y con qué datos?',mediacion:'¿Qué intervención hará avanzar el razonamiento del estudiante?'}[f]||''}
+
+async function updateRoom(update){
+  if(demo){
+    if(update.selected)lastSelected=update.selected;
+    if(update.focus)$('liveFocus').value=update.focus;
+    if('active' in update)active=update.active;
+    render();
+    return;
+  }
+  if(!room) return;
+  try{
+    if(firebaseReady){
+      await roomRef().update(update);
+    } else {
+      if(update.selected)lastSelected=update.selected;
+      if(update.focus)$('liveFocus').value=update.focus;
+      if('active' in update)active=update.active;
+      render();
+      const meta={ownerUid:uid,focus:$('liveFocus').value,selected:lastSelected,active};
+      publishCloudRelay(room,{kind:'room',room,meta});
+      if(isLocalServer){
+        fetch(`${API_BASE}/api/rooms/${room}`,{
+          method:'PATCH',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({uid,...update})
+        }).catch(()=>{});
+      }
+      saveLocalRoomFallback(room,meta,teamDocs);
+      if(bcChannel){try{bcChannel.postMessage({room:meta,teams:teamDocs})}catch(err){}}
+    }
+  }catch(e){}
+}
+
+$('liveFeed').addEventListener('change',e=>{
+  const input=e.target.closest('[data-pick]');
+  if(!input)return;
+  let ids=lastSelected.filter(id=>id!==input.dataset.pick);
+  if(input.checked)ids.push(input.dataset.pick);
+  if(ids.length>2){
+    input.checked=false;
+    setStatus('Solo puedes comparar dos equipos a la vez.',true);
+    return;
+  }
+  updateRoom({selected:ids});
+});
+$('liveFilter').addEventListener('change',render);
+$('livePublishFocus').addEventListener('click',()=>updateRoom({focus:$('liveFocus').value}));
+$('liveClearSelection').addEventListener('click',()=>updateRoom({selected:[]}));
+$('liveActive').addEventListener('change',()=>updateRoom({active:$('liveActive').checked}));
+$('livePublish').addEventListener('click',()=>publish('cierre'));
+document.querySelectorAll('.liveStepSend').forEach(b=>b.addEventListener('click',()=>publish(b.dataset.stage)));
+$('liveJoin').addEventListener('click',()=>joinRoom('student'));
+$('liveJoinTeacher').addEventListener('click',()=>joinRoom('teacher'));
+$('liveCreate').addEventListener('click',createRoom);
+$('liveCodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();joinRoom('student');}});
+$('liveGoLab').addEventListener('click',()=>{role='student';label();document.querySelector('[data-page="explora"]')?.click();});
+$('liveGoBoard').addEventListener('click',()=>{goTeacher();});
+$('liveDisconnect').addEventListener('click',()=>{if(confirm('¿Salir de la sala compartida? Las respuestas guardadas localmente no se borrarán.'))exitRoom()});
+
+async function copyLink(){
+  if(!room)return;
+  const u=new URL(location.href);
+  u.searchParams.set('sala',room);
+  const txt=u.toString();
+  try{
+    await navigator.clipboard.writeText(txt);
+    setStatus('Enlace copiado al portapapeles: '+txt);
+  }catch(e){
+    prompt('Copia el enlace para tus estudiantes:',txt);
+  }
+}
+$('liveCopyLink').addEventListener('click',copyLink);
+
+$('liveExport').addEventListener('click',()=>{
+  const keys=['grupo','curso','sala','stage',...ALL_DATA_KEYS.filter(k=>k!=='grupo'&&k!=='curso')];
+  const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const lines=[keys.join(';'),...teamDocs.map(d=>keys.map(k=>q(d[k])).join(';'))];
+  const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  let url=URL.createObjectURL(blob);
+  let a=document.createElement('a');
+  a.href=url;
+  a.download='MDMA022_respuestas_en_vivo.csv';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+
+$('liveDemo').addEventListener('click',()=>{
+  exitRoom();
+  demo=true;room='DEMO';role='teacher';owner=true;
+  teamDocs=[
+    {id:'d1',grupo:'Grupo demostración A',curso:'3.º medio',stage:'hipotesis',o1:'Concentración alrededor de 88,5%',o2:'Rango de 6,6 pp',unidad:'Comuna',variable:'Asistencia media (%)',limite:'No se puede inferir a individuos (falacia ecológica)',h1tipo:'Contexto',h1:'La distancia a los centros escolares podría asociarse con la asistencia.',h2tipo:'Registro',h2:'Las diferencias entre calendarios escolares podrían influir.',h1p:'Esperaríamos menores tasas cuando aumenta la distancia.',h2p:'Esperaríamos concentraciones temporales de ausencias.',h1e:'Una ausencia de asociación con distancia.',h2e:'Patrones mensuales estables.',contraste:'Cruzar asistencia y distancias, controlando otras condiciones.',pregunta:'¿Cómo se relaciona la distancia al establecimiento con la asistencia mensual?'},
+    {id:'d2',grupo:'Grupo demostración B',curso:'4.º medio',stage:'pregunta',o1:'Mediana cercana a 88,6%',o2:'Valor extremo superior en comuna L (92,2%)',unidad:'Comuna',variable:'Porcentaje comunal de asistencia',limite:'El promedio comunal oculta variabilidad interna entre escuelas',h1tipo:'Composición',h1:'Las diferencias en composición de las escuelas modifican el promedio.',h2tipo:'Registro',h2:'Criterios de registro distintos podrían influir.',h1p:'Los promedios cambian al estratificar por nivel.',h2p:'Las brechas disminuyen tras armonizar registros.',h1e:'Ausencia de diferencias por nivel.',h2e:'Consistencia de los procedimientos.',contraste:'Comparar por nivel y auditar el registro.',pregunta:'¿Persisten las diferencias comunales al comparar niveles escolares equivalentes?'}
+  ];
+  lastSelected=['d1','d2'];
+  label();render();
+  setStatus('Demostración activada con dos equipos ficticios. No comparte información entre dispositivos.');
+  goTeacher();
+});
+
+$('liveQuickImportJson')?.addEventListener('change',async(e)=>{
+  const files=[...(e.target.files||[])];
+  for(const f of files){
+    try{
+      const obj=JSON.parse(await f.text());
+      const r=obj.respuestas||obj;
+      window.MDMA_importToLive(r);
+    }catch(err){}
+  }
+  e.target.value='';
+});
+
+const prev=$('teacherLiveCard');
+function installTab(){
+  let nav=$('teacherNav');
+  let b=document.createElement('button');
+  b.className='navbtn';
+  b.innerHTML='<span class="num">◉</span><span class="navtxt">Tablero en vivo</span>';
+  b.type='button';
+  b.addEventListener('click',()=>{
+    $('teacherMode').click();
+    prev.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  nav.appendChild(b);
+}
+installTab();
+
+const queryCode=new URLSearchParams(location.search).get('sala');
+if(queryCode){
+  $('liveCodeInput').value=queryCode.toUpperCase();
+  setStatus('Código de sala detectado ('+queryCode.toUpperCase()+'). Conectando automáticamente…');
+  setTimeout(()=>joinRoom('student'),200);
+}
+render();
+})();
+
+</script>
+</body>
+</html>

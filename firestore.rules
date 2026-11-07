@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function session(room) { return get(/databases/$(database)/documents/sessions/$(room)); }
+    function isOwner(room) { return signedIn() && session(room).data.ownerUid == request.auth.uid; }
+    function roomExists(room) { return exists(/databases/$(database)/documents/sessions/$(room)); }
+
+    match /sessions/{room} {
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['ownerUid','createdAt','title','focus','selected','active'])
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.selected is list
+        && request.resource.data.selected.size() <= 2
+        && request.resource.data.active == true;
+      allow read: if signedIn();
+      allow update: if isOwner(room)
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.keys().hasOnly(['ownerUid','createdAt','title','focus','selected','active'])
+        && request.resource.data.selected is list
+        && request.resource.data.selected.size() <= 2;
+      allow delete: if isOwner(room);
+
+      match /teams/{uid} {
+        allow read: if signedIn() && roomExists(room);
+        allow create, update: if signedIn() && roomExists(room) && session(room).data.active == true
+          && request.auth.uid == uid
+          && request.resource.data.keys().hasOnly(['grupo','curso','o1','o2','h1tipo','h1','h1m','h1p','h1e','h2tipo','h2','h2m','h2p','h2e','contraste','pregunta','datos','m3q','updatedAt','stage','uid'])
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.grupo is string && request.resource.data.grupo.size() <= 90
+          && request.resource.data.pregunta is string && request.resource.data.pregunta.size() <= 3000
+          && request.resource.data.h1 is string && request.resource.data.h1.size() <= 3000
+          && request.resource.data.h2 is string && request.resource.data.h2.size() <= 3000;
+        allow delete: if isOwner(room);
+      }
+    }
+  }
+}
