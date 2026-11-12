@@ -109,16 +109,17 @@ function configMessage(){
   }
 }
 
-let availableRooms=[];
+let availableRooms=[{code:'AJLKP2'}];
 async function loadActiveRooms(){
   if(firebaseReady) return;
   try{
-    pollCloudRelayHistory(room||'');
+    renderActiveRoomsBox();
+    pollCloudRelayHistory(room||'AJLKP2');
     if(!isLocalServer) return;
     const r=await fetch(`${API_BASE}/api/rooms`);
     if(!r.ok) return;
     const data=await r.json();
-    availableRooms=Array.isArray(data.rooms)?data.rooms:[];
+    if(Array.isArray(data.rooms) && data.rooms.length) availableRooms=data.rooms;
     if(Array.isArray(data.teams) && data.teams.length){
       applyServerState({exists:true,room:{focus:'explora',selected:lastSelected,active:true},teams:data.teams});
     }
@@ -133,13 +134,12 @@ function renderActiveRoomsBox(){
     if(!$('liveCodeInput').value.trim()){
       $('liveCodeInput').value=availableRooms[0].code;
     }
-    if(!room && isLocalServer){
+    if(!room){
       room=availableRooms[0].code;
       owner=true;
-      role='teacher';
       attach();
     }
-    box.innerHTML='<span>Salas recientes (clic para entrar):</span> '+availableRooms.slice(0,5).map(rm=>`<button type="button" class="btn smallbtn" data-quick-room="${safe(rm.code)}"><strong>${safe(rm.code)}</strong></button>`).join('');
+    box.innerHTML='<span>Salas activas (clic para entrar):</span> '+availableRooms.slice(0,5).map(rm=>`<button type="button" class="btn smallbtn" data-quick-room="${safe(rm.code)}"><strong>${safe(rm.code)}</strong></button>`).join('');
     box.querySelectorAll('[data-quick-room]').forEach(btn=>{
       btn.addEventListener('click',()=>{
         $('liveCodeInput').value=btn.dataset.quickRoom;
@@ -272,6 +272,13 @@ function handleRelayMessage(rawText){
     if(!outer || outer.event!=='message' || !outer.message) return;
     const msg=JSON.parse(outer.message);
     if(!msg) return;
+    if(msg.room && typeof msg.room==='string'){
+      const rmCode=msg.room.toUpperCase();
+      if(!availableRooms.some(r=>r.code===rmCode)){
+        availableRooms.unshift({code:rmCode});
+        renderActiveRoomsBox();
+      }
+    }
     if(msg.kind==='team' && msg.team){
       mergeIncomingTeam(msg.team);
     } else if(msg.kind==='room' && msg.meta && msg.room===room){
