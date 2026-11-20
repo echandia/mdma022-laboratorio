@@ -1,3 +1,5 @@
 .DS_Store
 node_modules/
 *.log
+clase5/datos_clase5.json
+clase5/respuestas_clase5.csv

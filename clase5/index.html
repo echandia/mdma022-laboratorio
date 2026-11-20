@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio: de la incertidumbre al modelo probabilístico · MDMA 022</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f5f1; --card:#ffffff; --ink:#1d2433; --muted:#5d6577; --line:#e3e1da;
+  --accent:#1f5f8b; --accent-soft:#e6eef5; --warm:#b5522b; --warm-soft:#f8ebe4;
+  --ok:#2d7a4f; --ok-soft:#e5f2ea; --gold:#a07a12;
+  --radius:12px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:"Source Serif 4",Georgia,serif;line-height:1.2;margin:0 0 .5em}
+h1{font-size:1.6rem} h2{font-size:1.45rem} h3{font-size:1.1rem;margin-top:1.2em}
+p{margin:.4em 0 .8em}
+a{color:var(--accent)}
+header.top{background:#16324a;color:#fff;padding:18px 24px 14px}
+header.top .meta{opacity:.8;font-size:.85rem}
+header.top h1{color:#fff;margin:.15em 0 .3em}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+.bar label{font-size:.85rem;opacity:.9}
+.bar select,.bar input{font:inherit;padding:6px 8px;border-radius:8px;border:1px solid #9fb3c6;background:#fff;color:var(--ink)}
+.bar input#integrantes{min-width:230px;flex:1 1 220px;max-width:340px}
+.bar input#salaInput{width:105px;text-transform:uppercase;font-weight:600;letter-spacing:.04em}
+.bar .top-btn{background:#2b4e6b;border:1px solid #597c99;color:#eef5fb;padding:6px 10px;border-radius:8px;font-size:.82rem;cursor:pointer}
+.bar .top-btn:hover{background:#345f82}
+.pill{font-size:.78rem;padding:4px 10px;border-radius:999px;background:#2b4e6b;color:#dfe9f2;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.pill.on{background:#2d7a4f;color:#fff}
+.pill.warn{background:#9f4f22;color:#fff}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+.pill.on .dot{box-shadow:0 0 0 3px rgba(255,255,255,.25)}
+nav.tabs{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);display:flex;overflow-x:auto;gap:2px;padding:0 12px}
+nav.tabs a{flex:0 0 auto;padding:12px 14px;text-decoration:none;color:var(--muted);font-weight:500;border-bottom:3px solid transparent;white-space:nowrap}
+nav.tabs a .t{display:block;font-size:.7rem;font-weight:400;opacity:.8}
+nav.tabs a.active{color:var(--accent);border-bottom-color:var(--accent)}
+nav.tabs a.muro-tab .t{color:var(--ok);font-weight:600;opacity:1}
+main{max-width:1120px;margin:0 auto;padding:22px 18px 80px}
+section.view{display:none}
+section.view.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:0 0 16px}
+.kicker{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--warm);font-weight:600}
+.lead{font-size:1.05rem;color:#2c3446}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+.situacion{background:var(--warm-soft);border-left:4px solid var(--warm);padding:14px 16px;border-radius:8px}
+.inst{background:var(--ok-soft);border-left:4px solid var(--ok);padding:12px 16px;border-radius:8px}
+.step{display:flex;gap:10px;align-items:flex-start;margin:.6em 0}
+.step b.n{flex:0 0 26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem}
+.time{font-size:.8rem;color:var(--muted);background:#efede7;border-radius:6px;padding:2px 8px;margin-left:6px;white-space:nowrap}
+textarea,input[type=text],input[type=number],select{font:inherit;color:var(--ink)}
+textarea{width:100%;min-height:78px;padding:10px;border:1px solid #cfd4dc;border-radius:8px;background:#fcfcfb;resize:vertical}
+textarea:focus,input:focus,select:focus{outline:2px solid #9cc0dc;outline-offset:1px}
+.field{margin:10px 0}
+.field > label{display:block;font-weight:600;font-size:.9rem;margin-bottom:4px}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:#fff;padding:8px 14px;font-weight:500}
+button.ghost{background:#fff;color:var(--accent)}
+button.small{padding:5px 10px;font-size:.85rem}
+button.warm{background:var(--warm);border-color:var(--warm)}
+button:disabled{opacity:.5;cursor:default}
+label.btn-file{display:inline-flex;align-items:center;gap:5px;cursor:pointer;border-radius:8px;border:1px solid var(--accent);background:#fff;color:var(--accent);padding:5px 10px;font-size:.85rem;font-weight:500}
+.msg{font-size:.85rem;color:var(--muted)}
+.msg.ok{color:var(--ok)} .msg.err{color:var(--warm)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{background:#f1f0eb;font-weight:600}
+td.c,th.c{text-align:center}
+.respuesta{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:12px 0;background:#fff}
+.respuesta .q{font-family:"Source Serif 4",serif;font-size:1.05rem;margin-bottom:6px}
+.respuesta .who{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:1px 8px;font-weight:600;margin-right:6px}
+details.doc{margin-top:14px;border:1px dashed #c9b88a;background:#fbf8ef;border-radius:10px;padding:8px 14px}
+details.doc summary{cursor:pointer;color:var(--gold);font-weight:600}
+details.doc[open]{padding-bottom:12px}
+.slider{display:flex;align-items:center;gap:10px;margin:6px 0}
+.slider input[type=range]{flex:1}
+.slider output{min-width:54px;font-variant-numeric:tabular-nums;font-weight:600}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.stat{background:#f3f2ee;border-radius:10px;padding:8px 12px;min-width:120px}
+.stat .v{font-size:1.25rem;font-weight:600;font-variant-numeric:tabular-nums}
+.stat .l{font-size:.75rem;color:var(--muted)}
+svg text{font-family:Inter,sans-serif;font-size:11px;fill:#5d6577}
+.chart{width:100%;height:auto;display:block;background:#fff}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-top:4px}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.urns td{font-variant-numeric:tabular-nums}
+.match{font-weight:600;color:var(--ok)}
+.nomatch{color:var(--muted)}
+.choice{display:inline-flex;gap:4px}
+.choice button{padding:3px 9px;font-size:.82rem;background:#fff;color:var(--accent)}
+.choice button.sel{background:var(--accent);color:#fff}
+.ev{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.ev h4{margin:0 0 4px;font-size:.95rem}
+.ev .src{font-size:.78rem;color:var(--muted)}
+.wall-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.wall-controls select{padding:6px 8px;border:1px solid #cfd4dc;border-radius:8px;background:#fff}
+.seg{display:inline-flex;border:1px solid var(--accent);border-radius:9px;overflow:hidden;background:#fff}
+.seg button{border:none;border-radius:0;background:#fff;color:var(--accent);padding:6px 12px;font-size:.85rem}
+.seg button+button{border-left:1px solid var(--accent)}
+.seg button.active{background:var(--accent);color:#fff}
+.wall{columns:2 320px;column-gap:14px}
+.post{break-inside:avoid;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 14px;white-space:pre-wrap}
+.post .h{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:var(--muted);margin-bottom:6px;white-space:normal}
+.post .g{font-weight:600;color:var(--accent)}
+.tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:1px 7px;font-size:.75rem;margin-left:4px;font-weight:500}
+.tag.live{background:var(--ok-soft);color:var(--ok)}
+.tag.pub{background:#e6eef5;color:var(--accent)}
+.tag.fresh{background:#f8ebe4;color:var(--warm)}
+.q-block{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:0 0 16px}
+.q-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px}
+.q-head h3{margin:0;font-size:1.08rem;color:var(--ink)}
+.q-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.ans-card{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fcfcfb;display:flex;flex-direction:column;gap:6px}
+.ans-card.fresh-card{border-color:#2d7a4f;background:#f7fcf9}
+.ans-card .ah{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.ans-card .ag{font-weight:600;color:var(--accent);font-size:.88rem}
+.ans-card .awho{font-size:.77rem;color:var(--muted)}
+.ans-card .abody{white-space:pre-wrap;font-size:.92rem;line-height:1.5;color:var(--ink);overflow-wrap:anywhere}
+.group-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:0 0 14px}
+.group-card .gh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.group-card .gtitle{font-family:"Source Serif 4",Georgia,serif;font-size:1.18rem;font-weight:700;color:var(--accent)}
+.group-card details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:8px 0;background:#fcfcfb}
+.group-card details summary{cursor:pointer;font-weight:600;color:var(--ink);font-size:.92rem}
+.qa-row{padding:7px 0;border-bottom:1px solid #efede7}
+.qa-row:last-child{border-bottom:none}
+.qa-row .ql{font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:2px}
+.qa-row .qv{white-space:pre-wrap;font-size:.92rem;overflow-wrap:anywhere}
+.missing-bar{margin-top:10px;font-size:.8rem;color:var(--muted)}
+.empty{color:var(--muted);font-style:italic}
+.copybox{width:100%;min-height:140px;margin-top:8px;display:none}
+.agenda td:first-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+.foot{font-size:.82rem;color:var(--muted)}
+ol.refs li{margin:.35em 0}
+.eq{font-family:"Source Serif 4",serif;font-size:1.05rem;background:#f6f5f1;border-radius:8px;padding:8px 12px;display:inline-block;margin:4px 0}
+.loss input{width:64px;padding:4px 6px;border:1px solid #cfd4dc;border-radius:6px}
+.best{background:var(--ok-soft)}
+.badge{display:inline-block;font-size:.75rem;border-radius:6px;padding:1px 7px;background:#efede7;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="meta">MDMA 022 · Probabilidades y su Didáctica · Magíster en Didáctica de la Matemática en el Aula · UCSC · Viernes 20 de noviembre de 2026 · 17:00–21:00</div>
+  <h1>Laboratorio: de la incertidumbre cotidiana al modelo probabilístico</h1>
+  <div class="bar">
+    <label for="grupo">Grupo</label>
+    <select id="grupo" aria-label="Grupo de trabajo">
+      <option value="">— elige tu grupo —</option>
+    </select>
+    <label for="integrantes">Integrantes</label>
+    <input id="integrantes" type="text" placeholder="Nombres de quienes trabajan en este grupo">
+    <label for="salaInput">Sala</label>
+    <input id="salaInput" type="text" value="CLASE5" maxlength="16" aria-label="Código de sala">
+    <button type="button" class="top-btn" id="btnSalaApply" title="Cambiar sala compartida">Conectar</button>
+    <button type="button" class="top-btn" id="btnCopyLink" title="Copiar enlace directo a esta sala">Copiar enlace</button>
+    <span id="estado" class="pill" role="status" aria-live="polite"><span class="dot"></span><span id="estadoTxt">Conectando…</span></span>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <a href="#inicio">Inicio<span class="t">agenda</span></a>
+  <a href="#feria">1 · La feria<span class="t">17:00–17:35</span></a>
+  <a href="#intuiciones">2 · Intuiciones<span class="t">17:35–18:05</span></a>
+  <a href="#interpretaciones">3 · Interpretaciones<span class="t">18:05–18:35</span></a>
+  <a href="#modelo">4 · Modelo<span class="t">18:35–19:00</span></a>
+  <a href="#simulacion">5 · Simulación<span class="t">19:30–20:05</span></a>
+  <a href="#rediseno">6 · Rediseño<span class="t">20:05–20:40</span></a>
+  <a href="#ticket">7 · Cierre<span class="t">20:40–21:00</span></a>
+  <a href="#muro" class="muro-tab">Muro en vivo<span class="t" id="muroTabSub">0 grupos</span></a>
+</nav>
+
+<main>
+
+<!-- ============ INICIO ============ -->
+<section class="view" id="v-inicio">
+  <div class="card">
+    <div class="kicker">Pregunta que organiza la sesión</div>
+    <h2>¿Cómo razonamos y decidimos cuando un fenómeno puede resultar de distintas maneras y no sabemos cuál ocurrirá?</h2>
+    <p class="lead">Recuperamos los contenidos de azar y modelos probabilísticos que no alcanzamos a trabajar el 16 de octubre. Usaremos un mismo problema durante toda la tarde: <b>decidir si se realiza una feria escolar al aire libre cuando el pronóstico anuncia un 40 % de probabilidad de lluvia</b>.</p>
+    <p>Trabajaremos con la secuencia del curso: <b>resolver → analizar → problematizar → rediseñar</b>.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0">Cómo trabajar en línea</h3>
+      <div class="step"><b class="n">1</b><div>Al pasar a las salas de grupo, elijan su <b>número de grupo</b> arriba y escriban los nombres de los integrantes.</div></div>
+      <div class="step"><b class="n">2</b><div>Todos abren este laboratorio. Una persona hace de <b>secretaria</b>: escribe las respuestas del grupo mientras comparte pantalla.</div></div>
+      <div class="step"><b class="n">3</b><div>Manipulen los simuladores y discutan antes de escribir. Las respuestas se guardan en este navegador y <b>se sincronizan automáticamente en vivo</b> con la sala.</div></div>
+      <div class="step"><b class="n">4</b><div>Al terminar cada momento, la secretaria pulsa <b>Publicar en el muro</b> para dejar registrada la versión acordada del grupo.</div></div>
+      <div class="step"><b class="n">5</b><div>En el plenario, el profesor proyecta la pestaña <b>Muro en vivo</b> para comparar las respuestas pregunta por pregunta entre todos los grupos.</div></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Agenda</h3>
+      <table class="agenda">
+        <tr><td>17:00–17:35</td><td><b>1.</b> ¿Realizamos la feria? Decidir bajo incertidumbre</td></tr>
+        <tr><td>17:35–18:05</td><td><b>2.</b> ¿Qué sabemos antes de aprender probabilidad?</td></tr>
+        <tr><td>18:05–18:35</td><td><b>3.</b> Interpretaciones de estudiantes sobre el 40 %</td></tr>
+        <tr><td>18:35–19:00</td><td><b>4.</b> Del fenómeno al modelo probabilístico</td></tr>
+        <tr><td>19:00–19:30</td><td><i>Descanso</i></td></tr>
+        <tr><td>19:30–20:05</td><td><b>5.</b> Variabilidad, simulación y regularidades</td></tr>
+        <tr><td>20:05–20:40</td><td><b>6.</b> Currículo chileno y rediseño de una tarea</td></tr>
+        <tr><td>20:40–21:00</td><td><b>7.</b> Socialización, síntesis y ticket de salida</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Distinciones que usaremos durante toda la sesión</h3>
+    <table>
+      <tr><th>Concepto</th><th>Idea central</th></tr>
+      <tr><td><b>Incertidumbre</b></td><td>No sabemos con seguridad un resultado, una cantidad o la verdad de una afirmación. Puede venir de un proceso aleatorio o de falta de información.</td></tr>
+      <tr><td><b>Variabilidad</b></td><td>Los valores observados cambian entre casos o entre repeticiones.</td></tr>
+      <tr><td><b>Aleatoriedad</b></td><td>Decidimos modelar un fenómeno como un conjunto de resultados posibles que no podemos anticipar individualmente, pero cuyo comportamiento agregado sí podemos describir.</td></tr>
+      <tr><td><b>Probabilidad</b></td><td>Medida, dentro de un modelo, de la posibilidad de ocurrencia de un evento. Siempre está entre 0 y 1.</td></tr>
+      <tr><td><b>Riesgo</b></td><td>Combina la probabilidad de un evento con las consecuencias de lo que hacemos si ocurre o no ocurre.</td></tr>
+    </table>
+  </div>
+
+  <details class="doc">
+    <summary>Notas para el docente: organización de la sesión en línea</summary>
+    <ul>
+      <li>Grupos de 3 o 4 personas en salas separadas. Antes de abrir las salas, compartir el enlace y pedir que elijan su grupo en el selector.</li>
+      <li>Al volver de cada sala, proyectar el <b>Muro en vivo</b> filtrado por el momento correspondiente (vista <i>Por pregunta</i> o <i>Por grupo</i>). Comparar dos o tres aportes contrastantes, no todos.</li>
+      <li>Todas las respuestas se sincronizan automáticamente mientras los grupos escriben y se guardan en el navegador, en <code>datos_clase5.json</code> / <code>respuestas_clase5.csv</code> (si usas <code>node server.js</code>) y pueden descargarse en cualquier momento como CSV o JSON.</li>
+      <li>Antes del Momento 1: anunciar la decisión sobre el plazo de E2.</li>
+    </ul>
+  </details>
+</section>
+
+<!-- ============ MOMENTO 1 ============ -->
+<section class="view" id="v-feria">
+  <div class="card">
+    <div class="kicker">Momento 1 · Resolver <span class="time">17:00–17:35</span></div>
+    <h2>¿Realizamos la feria?</h2>
+    <div class="situacion">
+      <p>Un establecimiento organiza una <b>feria de ciencias el viernes, entre las 10:00 y las 14:00 horas, en el patio</b>.</p>
+      <p>El jueves, el equipo directivo consulta un pronóstico que asigna un <b>40 % de probabilidad de lluvia durante la actividad</b>. Para esta tarea, entendemos lluvia como precipitación en el establecimiento dentro de ese horario.</p>
+      <p style="margin-bottom:0">Hay tres alternativas: <b>(P)</b> mantener la feria en el patio; <b>(G)</b> trasladarla al gimnasio; <b>(A)</b> preparar ambas opciones y decidir durante la mañana.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Parte 1 · Decidir sin calcular <span class="time">10 min</span></h3>
+    <p>Primero cada persona decide en silencio. Luego el grupo registra todas las decisiones y sus razones.</p>
+    <div class="field"><label>Decisiones individuales y sus justificaciones <span class="hint">(una línea por integrante)</span></label>
+      <textarea data-k="feria.decisiones" data-l="Decisiones individuales"></textarea></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Parte 2 · Discutir en grupo <span class="time">15 min</span></h3>
+    <div class="field"><label>¿Qué significa que la probabilidad de lluvia sea 40 %? ¿Qué sabemos y qué sigue siendo incierto?</label>
+      <textarea data-k="feria.significado" data-l="Significado del 40 %"></textarea></div>
+    <div class="field"><label>¿La decisión depende solamente de la probabilidad? ¿Qué más interviene?</label>
+      <textarea data-k="feria.depende" data-l="¿Depende solo de la probabilidad?"></textarea></div>
+    <div class="field"><label>¿Podemos afirmar que la lluvia es un fenómeno aleatorio? ¿En qué sentido?</label>
+      <textarea data-k="feria.aleatorio" data-l="¿Es la lluvia aleatoria?"></textarea></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Parte 3 · La decisión también depende de las consecuencias</h3>
+    <p>Asignen a cada alternativa una <b>pérdida</b> de 0 (nada se pierde) a 10 (la feria se arruina), según llueva o no llueva. Los valores iniciales son solo un ejemplo: cámbienlos según lo que su grupo considere razonable.</p>
+    <div class="grid2">
+      <div>
+        <table class="loss" id="lossTable">
+          <tr><th>Alternativa</th><th class="c">Si no llueve</th><th class="c">Si llueve</th><th class="c">Pérdida esperada</th></tr>
+          <tr data-alt="P"><td><b>P</b> · Patio</td><td class="c"><input type="number" min="0" max="10" step="0.5" value="0" data-loss="P0"></td><td class="c"><input type="number" min="0" max="10" step="0.5" value="10" data-loss="P1"></td><td class="c" data-el="P"></td></tr>
+          <tr data-alt="G"><td><b>G</b> · Gimnasio</td><td class="c"><input type="number" min="0" max="10" step="0.5" value="4" data-loss="G0"></td><td class="c"><input type="number" min="0" max="10" step="0.5" value="4" data-loss="G1"></td><td class="c" data-el="G"></td></tr>
+          <tr data-alt="A"><td><b>A</b> · Ambas</td><td class="c"><input type="number" min="0" max="10" step="0.5" value="2" data-loss="A0"></td><td class="c"><input type="number" min="0" max="10" step="0.5" value="3" data-loss="A1"></td><td class="c" data-el="A"></td></tr>
+        </table>
+        <div class="slider"><label for="pFeria">Probabilidad de lluvia</label><input id="pFeria" type="range" min="0" max="1" step="0.01" value="0.40"><output id="pFeriaOut">0,40</output></div>
+        <p class="msg" id="feriaMsg"></p>
+        <p class="eq">Pérdida esperada = (1 − p)·pérdida si no llueve + p·pérdida si llueve</p>
+      </div>
+      <div>
+        <svg id="lossChart" class="chart" viewBox="0 0 440 260" role="img" aria-label="Pérdida esperada de cada alternativa según la probabilidad de lluvia"></svg>
+        <div class="legend"><span><i style="background:#b5522b"></i>P · Patio</span><span><i style="background:#1f5f8b"></i>G · Gimnasio</span><span><i style="background:#2d7a4f"></i>A · Ambas</span></div>
+      </div>
+    </div>
+    <div class="field"><label>¿Desde qué probabilidad de lluvia conviene cambiar de alternativa con sus valores? ¿Qué cambia si otro grupo valora distinto las consecuencias?</label>
+      <textarea data-k="feria.consecuencias" data-l="Probabilidad, consecuencias y decisión"></textarea></div>
+    <div class="actions">
+      <button data-publish="feria">Publicar en el muro</button>
+      <button class="ghost" data-copy="feria">Copiar</button>
+      <span class="msg" data-msg="feria"></span>
+    </div>
+    <textarea class="copybox" data-copybox="feria" readonly></textarea>
+  </div>
+
+  <details class="doc">
+    <summary>Notas para el docente · Momento 1</summary>
+    <p><b>Discusión colectiva (10 min).</b> Mostrar en el muro que el mismo pronóstico lleva a decisiones distintas: la probabilidad no determina por sí sola la acción. Hay que separar la <i>incertidumbre sobre el resultado</i> de las <i>consecuencias de cada decisión</i>.</p>
+    <p><b>Con los valores de ejemplo y p = 0,40:</b> P = 4, G = 4, A = 2,4. Conviene A. P solo es la mejor opción si p &lt; 2/9 ≈ 0,22, y G nunca lo es con esos valores (A siempre pierde menos que G). Si un grupo valora más la experiencia al aire libre (P si no llueve = 0, A si no llueve = 3), los umbrales cambian. Este es el puente hacia 3.º medio FG OA 2 (decidir en condiciones de incertidumbre).</p>
+    <p><b>¿La lluvia es aleatoria?</b> Se puede modelar probabilísticamente sin afirmar que la atmósfera sea intrínsecamente aleatoria. La aleatoriedad es una decisión de modelización frente a nuestra incertidumbre.</p>
+    <div class="inst"><b>Para institucionalizar:</b> no conocer con certeza un resultado no impide anticiparlo. La probabilidad representa cuantitativamente esa incertidumbre, pero para decidir necesitamos además considerar las consecuencias de cada alternativa.</div>
+  </details>
+</section>
+
+<!-- ============ MOMENTO 2 ============ -->
+<section class="view" id="v-intuiciones">
+  <div class="card">
+    <div class="kicker">Momento 2 · Analizar <span class="time">17:35–18:05</span></div>
+    <h2>¿Qué sabemos antes de aprender probabilidad?</h2>
+    <p class="lead">¿Necesitamos educación formal para reconocer la incertidumbre y anticipar lo más probable?</p>
+    <div class="grid3">
+      <div class="ev"><h4>Bebés de 12 meses</h4><p>Ven animaciones con 3 objetos de un tipo y 1 de otro que rebotan en un recipiente. Miran más tiempo cuando sale el objeto improbable.</p><div class="src">Téglás et al. (2007), PNAS</div></div>
+      <div class="ev"><h4>Bebés de 10 a 12 meses</h4><p>Ante dos frascos con distinta proporción de caramelos de su color preferido, tienden a buscar en el que da más probabilidad de obtenerlo.</p><div class="src">Denison y Xu (2014), Cognition</div></div>
+      <div class="ev"><h4>Niños de 20 meses</h4><p>Piden ayuda estratégicamente cuando no recuerdan dónde quedó un juguete: monitorean su propia incertidumbre.</p><div class="src">Goupil et al. (2016), PNAS</div></div>
+    </div>
+    <p style="margin-top:12px">La evidencia no es uniforme. Placì et al. (2020) no encontraron que bebés de 12 meses ni niños de 3 y 4 años se guiaran por proporciones en sus tareas. Placì et al. (2026) mostraron que la mayoría de los niños de 5 años elige consistentemente la urna con mayor proporción, mientras que muchos más pequeños usan atajos, como fijarse solo en la cantidad de bolitas favorables. <b>Una elección correcta no demuestra por sí sola comprensión probabilística.</b></p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Actividad · Diagnosticar estrategias a partir de las elecciones</h3>
+    <p>Un niño debe elegir la urna desde la cual conviene sacar una bolita <b style="color:#b5522b">roja</b> sin mirar. Marquen las respuestas que, según ustedes, daría un niño de 4 años que solo considera las bolitas rojas. Luego prueben con otros perfiles de respuesta. La tabla indica qué estrategia es compatible con el patrón.</p>
+    <table class="urns" id="urnTable">
+      <tr><th>Ítem</th><th>Urna A</th><th>Urna B</th><th class="c">Respuesta del niño</th></tr>
+    </table>
+    <h3>Estrategias compatibles con ese patrón</h3>
+    <table id="stratTable">
+      <tr><th>Estrategia</th><th>Qué compara</th><th class="c">Coincidencias</th></tr>
+    </table>
+    <div class="field"><label>¿Qué ítems permiten distinguir una estrategia proporcional de una basada en cantidades absolutas? ¿Por qué el ítem 1 por sí solo no basta?</label>
+      <textarea data-k="intuiciones.items" data-l="Ítems que discriminan estrategias"></textarea></div>
+    <div class="field"><label>¿Qué diferencia hay entre anticipar correctamente un acontecimiento probable y comprender matemáticamente la probabilidad?</label>
+      <textarea data-k="intuiciones.diferencia" data-l="Anticipar vs. comprender"></textarea></div>
+    <div class="field"><label>¿Qué papel cumple entonces la enseñanza formal en el desarrollo del razonamiento probabilístico?</label>
+      <textarea data-k="intuiciones.ensenanza" data-l="Papel de la enseñanza formal"></textarea></div>
+    <div class="actions">
+      <button data-publish="intuiciones">Publicar en el muro</button>
+      <button class="ghost" data-copy="intuiciones">Copiar</button>
+      <span class="msg" data-msg="intuiciones"></span>
+    </div>
+    <textarea class="copybox" data-copybox="intuiciones" readonly></textarea>
+  </div>
+
+  <details class="doc">
+    <summary>Notas para el docente · Momento 2</summary>
+    <p><b>Patrones de cada estrategia</b> (A = urna A, B = urna B, = = da lo mismo):</p>
+    <ul>
+      <li>Proporción de rojas: A, =, A, A, B</li>
+      <li>Más rojas en total: B, A, B, A, B</li>
+      <li>Menos bolitas no rojas: A, B, A, B, A</li>
+    </ul>
+    <p>El ítem 1 lo resuelven bien tanto la estrategia proporcional como la de "menos no rojas": por eso un acierto aislado no es evidencia de razonamiento proporcional. El ítem 2 (misma proporción) separa las tres estrategias; los ítems 1 y 3 separan la proporcional de la absoluta; los ítems 4 y 5 separan la proporcional de la de "menos no rojas". Si los grupos marcan B, A, B, A, B, ese patrón corresponde a la estrategia absoluta.</p>
+    <p>Presentar los estudios como evidencia de <b>recursos cognitivos tempranos</b>, no de dominio de conceptos formales. La enseñanza permite explicitar, contrastar y reorganizar intuiciones que pueden ser productivas, pero también limitadas.</p>
+    <div class="inst"><b>Para institucionalizar:</b> para analizar el razonamiento probabilístico no basta con mirar qué opción elige el estudiante. Hay que preguntar qué información considera y cómo justifica su elección, y diseñar tareas que distingan estrategias.</div>
+  </details>
+</section>
+
+<!-- ============ MOMENTO 3 ============ -->
+<section class="view" id="v-interpretaciones">
+  <div class="card">
+    <div class="kicker">Momento 3 · Problematizar <span class="time">18:05–18:35</span></div>
+    <h2>¿Qué entienden los estudiantes por "40 % de probabilidad de lluvia"?</h2>
+    <p>Cinco estudiantes de enseñanza media comentan el pronóstico de la feria. Para cada respuesta, identifiquen el razonamiento que podría explicarla, qué comprende el estudiante y qué todavía no, y formulen una <b>pregunta docente</b> que lo haga avanzar. Ninguna respuesta es simplemente correcta o incorrecta.</p>
+    <div id="respuestas"></div>
+    <div class="actions">
+      <button data-publish="interpretaciones">Publicar en el muro</button>
+      <button class="ghost" data-copy="interpretaciones">Copiar</button>
+      <span class="msg" data-msg="interpretaciones"></span>
+    </div>
+    <textarea class="copybox" data-copybox="interpretaciones" readonly></textarea>
+  </div>
+
+  <details class="doc">
+    <summary>Notas para el docente · Momento 3</summary>
+    <ul>
+      <li><b>A</b>: interpreta la probabilidad como proporción del tiempo. Es una lectura frecuente: en el estudio de Gigerenzer et al. (2005) fue la interpretación preferida en las ciudades europeas. El problema de fondo es que el pronóstico no explicita la <i>clase de referencia</i>, el conjunto de eventos al que se refiere el 40 %.</li>
+      <li><b>B</b>: reconoce cuál evento es más probable, pero convierte esa comparación en una predicción categórica. Es el "enfoque en el resultado" descrito por Konold (1989).</li>
+      <li><b>C</b>: es la respuesta más elaborada. Reconoce la incertidumbre y la necesidad de explicitar qué significa el pronóstico y cómo se construyó.</li>
+      <li><b>D</b>: evalúa el modelo con un solo resultado. Un evento con probabilidad 0,40 puede ocurrir sin contradecir el pronóstico. Para evaluar el pronóstico hay que mirar muchos días comparables (calibración, Momento 5).</li>
+      <li><b>E</b>: falacia del jugador, porque supone que la lluvia "se compensa". Pero ojo: en meteorología los días consecutivos <i>no</i> son independientes (hay persistencia). Es una buena ocasión para discutir que la independencia es un supuesto del modelo, no una propiedad garantizada del fenómeno.</li>
+    </ul>
+    <div class="inst"><b>Pregunta de profundización:</b> ¿pueden existir regularidades en un fenómeno cuyos resultados particulares no podemos anticipar con certeza? Esta pregunta abre el Momento 4.</div>
+  </details>
+</section>
+
+<!-- ============ MOMENTO 4 ============ -->
+<section class="view" id="v-modelo">
+  <div class="card">
+    <div class="kicker">Momento 4 · Modelizar <span class="time">18:35–19:00</span></div>
+    <h2>Del fenómeno al modelo probabilístico</h2>
+    <h3>Paso 1 · ¿Qué evento estamos modelando exactamente?</h3>
+    <p>Antes de asignar una probabilidad, hay que definir el evento. Elijan una definición y observen cómo cambia lo que el modelo representa.</p>
+    <div class="grid3">
+      <div class="field"><label for="defUmbral">Cuánta lluvia cuenta</label>
+        <select id="defUmbral"><option value="0">Cualquier precipitación medible</option><option value="1">Al menos 1 mm</option><option value="2">Lluvia suficiente para mojar los stands</option></select></div>
+      <div class="field"><label for="defVentana">Cuándo</label>
+        <select id="defVentana"><option value="0">Entre 10:00 y 14:00</option><option value="1">En cualquier momento del viernes</option><option value="2">Solo entre 11:00 y 12:00</option></select></div>
+      <div class="field"><label for="defLugar">Dónde</label>
+        <select id="defLugar"><option value="0">En el establecimiento</option><option value="1">En algún punto de la comuna</option></select></div>
+    </div>
+    <div class="situacion" id="defTexto"></div>
+    <p class="msg" style="margin-top:8px">Con el mismo cielo, cada definición corresponde a un evento distinto y, por lo tanto, en general, a una probabilidad distinta.</p>
+
+    <h3>Paso 2 · La variable aleatoria</h3>
+    <div class="grid2">
+      <div>
+        <p class="eq">X = 1 si ocurre el evento definido; X = 0 si no ocurre</p>
+        <div class="slider"><label for="pBern">P(X = 1) = p</label><input id="pBern" type="range" min="0" max="1" step="0.01" value="0.40"><output id="pBernOut">0,40</output></div>
+        <div class="stats">
+          <div class="stat"><div class="v" id="bE">0,40</div><div class="l">E(X) = p</div></div>
+          <div class="stat"><div class="v" id="bV">0,24</div><div class="l">Var(X) = p(1 − p)</div></div>
+        </div>
+        <p class="msg">Observen para qué valor de p la varianza es máxima. ¿Qué significa eso en términos de incertidumbre?</p>
+      </div>
+      <svg id="bernChart" class="chart" viewBox="0 0 360 220" role="img" aria-label="Distribución de Bernoulli"></svg>
+    </div>
+
+    <div class="field"><label>¿Qué supuestos asume este modelo? ¿Qué información del fenómeno se pierde al reducirlo a dos resultados?</label>
+      <textarea data-k="modelo.supuestos" data-l="Supuestos y pérdida de información"></textarea></div>
+    <div class="field"><label>¿Qué significa que E(X) = 0,4 si X solo puede valer 0 o 1?</label>
+      <textarea data-k="modelo.esperanza" data-l="Interpretación de E(X)"></textarea></div>
+    <div class="field"><label>Pregunta para después del descanso: si observamos 20 jornadas con pronóstico de 40 %, ¿cuántas jornadas lluviosas esperamos? ¿Deberían ser exactamente 8? Anoten su predicción.</label>
+      <textarea data-k="modelo.prediccion20" data-l="Predicción para 20 jornadas"></textarea></div>
+    <div class="actions">
+      <button data-publish="modelo">Publicar en el muro</button>
+      <button class="ghost" data-copy="modelo">Copiar</button>
+      <span class="msg" data-msg="modelo"></span>
+    </div>
+    <textarea class="copybox" data-copybox="modelo" readonly></textarea>
+  </div>
+
+  <details class="doc">
+    <summary>Notas para el docente · Momento 4</summary>
+    <p>La definición del evento cambia la probabilidad. Un umbral más exigente define un evento más restrictivo, por lo tanto de menor o igual probabilidad. Una ventana más amplia o un lugar más extenso definen un evento más amplio, de mayor o igual probabilidad. Esta es la idea de que P es monótona respecto de la inclusión de eventos (si A ⊆ B, entonces P(A) ≤ P(B)).</p>
+    <p>El modelo Bernoulli no representa la cantidad de lluvia, su intensidad ni el momento en que empieza. <b>Modelizar exige seleccionar propiedades del fenómeno, establecer supuestos y reconocer las limitaciones de la representación.</b></p>
+    <p>E(X) = 0,4 no es un valor que X pueda tomar. Es el promedio a largo plazo de X en muchas jornadas comparables, es decir, la proporción esperada de jornadas con lluvia. La varianza p(1 − p) es máxima en p = 0,5: ahí la incertidumbre sobre el resultado individual es mayor.</p>
+    <p>Puente curricular: 2.º medio OA 10 (variables aleatorias finitas).</p>
+  </details>
+</section>
+
+<!-- ============ MOMENTO 5 ============ -->
+<section class="view" id="v-simulacion">
+  <div class="card">
+    <div class="kicker">Momento 5 · Explorar <span class="time">19:30–20:05</span></div>
+    <h2>Variabilidad, simulación y regularidades</h2>
+    <p>Supuesto simplificador: cada jornada tiene probabilidad p de lluvia y las jornadas son <b>independientes</b>. Sea Y el número de jornadas lluviosas entre n jornadas: <span class="eq">Y ~ Binomial(n; p)</span></p>
+    <p class="msg">Antes de simular, revisen su predicción del Momento 4: ¿qué valores de Y les parecían posibles?</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Parte 1 · ¿Cuántas jornadas lluviosas en 20?</h3>
+    <div class="grid2">
+      <div>
+        <div class="slider"><label for="nSim">n (jornadas)</label><input id="nSim" type="range" min="5" max="100" step="1" value="20"><output id="nSimOut">20</output></div>
+        <div class="slider"><label for="pSim">p (lluvia)</label><input id="pSim" type="range" min="0.05" max="0.95" step="0.01" value="0.40"><output id="pSimOut">0,40</output></div>
+        <div class="actions">
+          <button class="small" data-sim="1">Simular 1</button>
+          <button class="small" data-sim="10">Simular 10</button>
+          <button class="small" data-sim="100">Simular 100</button>
+          <button class="small" data-sim="1000">Simular 1000</button>
+          <button class="small ghost" id="simReset">Reiniciar</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="v" id="sK">0</div><div class="l">conjuntos de n jornadas simulados</div></div>
+          <div class="stat"><div class="v" id="sLast">—</div><div class="l">último resultado (Y)</div></div>
+          <div class="stat"><div class="v" id="sMean">—</div><div class="l">media observada de Y</div></div>
+          <div class="stat"><div class="v" id="sE">8,00</div><div class="l">E(Y) = np</div></div>
+          <div class="stat"><div class="v" id="sSD">—</div><div class="l">desv. estándar observada</div></div>
+          <div class="stat"><div class="v" id="sSDt">2,19</div><div class="l">√(np(1 − p)) teórica</div></div>
+        </div>
+        <p class="msg" id="simSeq"></p>
+      </div>
+      <div>
+        <svg id="simChart" class="chart" viewBox="0 0 460 280" role="img" aria-label="Histograma de jornadas lluviosas simuladas y distribución binomial teórica"></svg>
+        <div class="legend"><span><i style="background:#9cc0dc"></i>Frecuencia relativa simulada</span><span><i style="background:#b5522b"></i>Probabilidad binomial teórica</span></div>
+      </div>
+    </div>
+    <div class="field"><label>¿Por qué cambia el número de jornadas lluviosas entre repeticiones? ¿Qué significa que E(Y) = 8?</label>
+      <textarea data-k="simulacion.variabilidad" data-l="Variabilidad de Y y significado de E(Y)"></textarea></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Parte 2 · ¿Es compatible un resultado observado con el modelo?</h3>
+    <p>Supongamos que en 20 jornadas con pronóstico de 40 % llovió en <input id="yObs" type="number" min="0" max="100" value="9" style="width:64px"> jornadas. ¿Qué tan raro sería ese resultado si el modelo fuera correcto?</p>
+    <div class="stats">
+      <div class="stat"><div class="v" id="pEq">—</div><div class="l">P(Y = y)</div></div>
+      <div class="stat"><div class="v" id="pLe">—</div><div class="l">P(Y ≤ y)</div></div>
+      <div class="stat"><div class="v" id="pGe">—</div><div class="l">P(Y ≥ y)</div></div>
+    </div>
+    <p class="msg" id="obsMsg"></p>
+    <div class="field"><label>Prueben con y = 9, y = 14 e y = 2. ¿Qué resultados los harían dudar del pronóstico? ¿Por qué ninguno lo "refuta" con certeza?</label>
+      <textarea data-k="simulacion.compatible" data-l="Compatibilidad de resultados con el modelo"></textarea></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Parte 3 · ¿Qué ocurre con la proporción p̂ = Y/n cuando aumenta n?</h3>
+    <p>Para cada tamaño n se simulan 400 conjuntos de jornadas y se mide cuánto varía la proporción observada de jornadas lluviosas.</p>
+    <div class="actions"><button class="small" id="phatRun">Simular para n = 10, 20, 50, 100, 200 y 500</button></div>
+    <div class="grid2">
+      <svg id="phatChart" class="chart" viewBox="0 0 440 260" role="img" aria-label="Desviación estándar de la proporción observada según n"></svg>
+      <div>
+        <p class="eq">E(p̂) = p &nbsp;&nbsp; Var(p̂) = p(1 − p)/n</p>
+        <div class="legend"><span><i style="background:#1f5f8b"></i>Desviación estándar simulada de p̂</span><span><i style="background:#b5522b"></i>√(p(1 − p)/n) teórica</span></div>
+        <table id="phatTable" style="margin-top:8px"></table>
+      </div>
+    </div>
+    <div class="field"><label>¿Cómo cambia la variabilidad de la proporción cuando aumenta n? ¿Y la del número Y de jornadas lluviosas? ¿Qué dice esto sobre la idea de que "la lluvia se compensa"?</label>
+      <textarea data-k="simulacion.phat" data-l="Variabilidad de p̂ y de Y"></textarea></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Parte 4 · ¿Cómo evaluar un pronóstico? Calibración</h3>
+    <p>Un servicio anuncia "40 % de lluvia" en muchos días. Si el pronóstico está bien calibrado, debería llover aproximadamente en el 40 % de esos días. Fijen la frecuencia <i>real</i> de lluvia en esos días y simulen.</p>
+    <div class="slider"><label for="qCal">Frecuencia real de lluvia</label><input id="qCal" type="range" min="0.1" max="0.9" step="0.05" value="0.40"><output id="qCalOut">0,40</output></div>
+    <div class="slider"><label for="nCal">Días con pronóstico 40 %</label><input id="nCal" type="range" min="5" max="300" step="5" value="30"><output id="nCalOut">30</output></div>
+    <div class="actions"><button class="small" id="calRun">Simular esos días</button></div>
+    <p class="msg" id="calMsg"></p>
+    <div class="field"><label>¿Cuántos días hacen falta para distinguir un pronóstico calibrado de uno que subestima la lluvia (por ejemplo, frecuencia real 0,55)?</label>
+      <textarea data-k="simulacion.calibracion" data-l="Calibración del pronóstico"></textarea></div>
+    <div class="actions">
+      <button data-publish="simulacion">Publicar en el muro</button>
+      <button class="ghost" data-copy="simulacion">Copiar</button>
+      <span class="msg" data-msg="simulacion"></span>
+    </div>
+    <textarea class="copybox" data-copybox="simulacion" readonly></textarea>
+  </div>
+
+  <details class="doc">
+    <summary>Notas para el docente · Momento 5</summary>
+    <p><b>Binomial(20; 0,40):</b> E(Y) = 8, Var(Y) = 4,8, DE ≈ 2,19. P(Y = 8) ≈ 0,18: el valor esperado es el más probable, pero lo más probable es <i>no</i> obtenerlo.</p>
+    <p><b>Compatibilidad:</b> y = 9 es perfectamente compatible con el modelo. y = 14 tiene P(Y ≥ 14) ≈ 0,006, por lo que haría dudar del pronóstico o del supuesto de independencia. Aun así, ningún resultado refuta el modelo con certeza: solo lo vuelve más o menos creíble. Esta es la puerta de entrada a la inferencia informal y al valor-p de la próxima sesión.</p>
+    <p><b>p̂ y n:</b> la desviación estándar de p̂ disminuye como 1/√n. En cambio, la desviación estándar de Y crece como √n: la <i>diferencia absoluta</i> entre lo observado y lo esperado tiende a crecer, aunque la proporción se estabiliza. Esto desarma la idea de "compensación" que sostiene la falacia del jugador.</p>
+    <p><b>Calibración:</b> con pocos días, una frecuencia real de 0,55 no se distingue de 0,40 porque la variabilidad muestral lo oculta. Esto conecta con el estudiante D del Momento 3 y con el ticket de salida.</p>
+    <div class="inst"><b>Para institucionalizar:</b> la probabilidad modela regularidades del comportamiento agregado, pero no asegura resultados individuales ni frecuencias exactamente iguales a las probabilidades teóricas.</div>
+  </details>
+</section>
+
+<!-- ============ MOMENTO 6 ============ -->
+<section class="view" id="v-rediseno">
+  <div class="card">
+    <div class="kicker">Momento 6 · Rediseñar <span class="time">20:05–20:40</span></div>
+    <h2>Currículo chileno y rediseño de una tarea</h2>
+    <p>La misma idea probabilística aparece con distinta profundidad a lo largo de la escolaridad. Revisen la progresión y elijan un OA de enseñanza media para adaptar la situación de la feria.</p>
+    <table>
+      <tr><th>Nivel</th><th>OA</th><th>Foco</th></tr>
+      <tr><td>5.º básico</td><td>OA 24 y 25</td><td>Describir eventos como seguros, posibles, poco posibles o imposibles; comparar probabilidades sin calcularlas</td></tr>
+      <tr><td>6.º básico</td><td>OA 23</td><td>Conjeturar acerca de la tendencia de resultados en repeticiones de un mismo experimento</td></tr>
+      <tr><td>7.º básico</td><td>OA 18 y 19</td><td>Estimar probabilidades de manera intuitiva y mediante frecuencias relativas; comparar frecuencias relativas con la probabilidad teórica</td></tr>
+      <tr><td>8.º básico</td><td>OA 17</td><td>Principio combinatorio multiplicativo para eventos compuestos</td></tr>
+      <tr><td>1.º medio</td><td>OA 14 y 15</td><td>Reglas aditiva y multiplicativa; comprender el azar con tabla de Galton, paseos aleatorios y frecuencias relativas</td></tr>
+      <tr><td>2.º medio</td><td>OA 10, 11 y 12</td><td>Variables aleatorias finitas; combinatoria; rol de la probabilidad en la sociedad</td></tr>
+      <tr><td>3.º medio FG</td><td>OA 2</td><td>Tomar decisiones en situaciones de incertidumbre usando medidas de dispersión y probabilidades condicionales</td></tr>
+      <tr><td>4.º medio FG</td><td>OA 2</td><td>Fundamentar decisiones en situaciones de incertidumbre con los modelos binomial y normal</td></tr>
+      <tr><td>3.º y 4.º medio HC</td><td>PEDI OA 3 y 4</td><td>Modelar fenómenos con probabilidades y distribuciones binomial y normal; argumentar inferencias a partir de muestras aleatorias</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Matriz de rediseño</h3>
+    <p>Diseñen <b>una tarea que exija interpretar, argumentar o modelizar</b>, no solo reemplazar números en fórmulas.</p>
+    <div class="field"><label for="oaSel">OA seleccionado</label>
+      <select id="oaSel" data-k="rediseno.oa" data-l="OA seleccionado">
+        <option value="">— elegir —</option>
+        <option>1.º medio OA 15 · azar, frecuencias relativas</option>
+        <option>2.º medio OA 10 · variables aleatorias finitas</option>
+        <option>2.º medio OA 12 · probabilidad en la sociedad</option>
+        <option>3.º medio FG OA 2 · decisiones, dispersión y probabilidad condicional</option>
+        <option>4.º medio FG OA 2 · decisiones con modelos binomial y normal</option>
+        <option>3.º–4.º medio HC PEDI OA 3 · modelar con distribuciones</option>
+      </select></div>
+    <div class="field"><label>Enunciado de la tarea para estudiantes</label><textarea data-k="rediseno.enunciado" data-l="Enunciado de la tarea" style="min-height:110px"></textarea></div>
+    <div class="grid2">
+      <div class="field"><label>Propósito <span class="hint">¿Qué razonamiento probabilístico se quiere desarrollar?</span></label><textarea data-k="rediseno.proposito" data-l="Propósito"></textarea></div>
+      <div class="field"><label>Fenómeno <span class="hint">¿Qué incertidumbre deben comprender?</span></label><textarea data-k="rediseno.fenomeno" data-l="Fenómeno"></textarea></div>
+      <div class="field"><label>Modelo <span class="hint">¿Qué resultados, variables y supuestos se consideran?</span></label><textarea data-k="rediseno.modelo" data-l="Modelo"></textarea></div>
+      <div class="field"><label>Dificultades <span class="hint">¿Qué interpretaciones podrían presentar los estudiantes?</span></label><textarea data-k="rediseno.dificultades" data-l="Dificultades anticipadas"></textarea></div>
+      <div class="field"><label>Mediación <span class="hint">¿Qué preguntas y representaciones permitirían avanzar?</span></label><textarea data-k="rediseno.mediacion" data-l="Mediación docente"></textarea></div>
+      <div class="field"><label>Evidencia <span class="hint">¿Qué producción mostraría comprensión?</span></label><textarea data-k="rediseno.evidencia" data-l="Evidencia de comprensión"></textarea></div>
+    </div>
+    <div class="field"><label>¿Por qué su adaptación es matemática y didácticamente pertinente para ese nivel?</label><textarea data-k="rediseno.pertinencia" data-l="Pertinencia para el nivel"></textarea></div>
+    <div class="actions">
+      <button data-publish="rediseno">Publicar en el muro</button>
+      <button class="ghost" data-copy="rediseno">Copiar</button>
+      <span class="msg" data-msg="rediseno"></span>
+    </div>
+    <textarea class="copybox" data-copybox="rediseno" readonly></textarea>
+  </div>
+
+  <details class="doc">
+    <summary>Notas para el docente · Momento 6</summary>
+    <p>Diferencias esperables entre niveles: en 1.º medio, la relación entre frecuencia y predicción mediante simulación; en 2.º medio, definir una variable aleatoria e interpretar su distribución; en 3.º medio, cómo cambia una decisión con información adicional (probabilidad condicional, por ejemplo P(lluvia | nubes a las 8:00)); en 4.º medio, usar el modelo binomial para estudiar la variabilidad de los resultados.</p>
+    <p>Al retroalimentar, revisar si la tarea desarrolla el razonamiento previsto, si usa un modelo coherente con supuestos explícitos y si anticipa dificultades relevantes. La matriz sirve como borrador para E2.</p>
+  </details>
+</section>
+
+<!-- ============ MOMENTO 7 ============ -->
+<section class="view" id="v-ticket">
+  <div class="card">
+    <div class="kicker">Momento 7 · Socializar y sintetizar <span class="time">20:40–21:00</span></div>
+    <h2>Síntesis y ticket de salida</h2>
+    <p><b>Socialización (12 min):</b> el profesor proyecta el muro con dos o tres rediseños. Comentamos si la tarea desarrolla el razonamiento previsto, si su modelo es coherente y si anticipa dificultades relevantes.</p>
+    <table>
+      <tr><th>Momento</th><th>Idea</th></tr>
+      <tr><td>Intuiciones tempranas</td><td>Reconocer la incertidumbre y anticipar acontecimientos</td></tr>
+      <tr><td>Razonamiento probabilístico</td><td>Comparar posibilidades, justificar y contrastar predicciones</td></tr>
+      <tr><td>Modelización</td><td>Definir eventos, variables aleatorias, probabilidades y supuestos</td></tr>
+      <tr><td>Variabilidad y evidencia</td><td>Interpretar distribuciones, resultados y regularidades</td></tr>
+      <tr><td>Decisiones fundamentadas</td><td>Integrar modelos, incertidumbre, consecuencias e información contextual</td></tr>
+    </table>
+    <div class="inst" style="margin-top:12px"><b>Idea central:</b> la probabilidad no elimina la incertidumbre ni la variabilidad. Permite representarlas, comprender sus regularidades y fundamentar decisiones.</div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Ticket de salida · individual <span class="time">8 min</span></h3>
+    <div class="situacion"><p style="margin:0">Un estudiante afirma: <i>«Si el pronóstico indicaba 40 % de probabilidad de lluvia y finalmente llovió, el pronóstico estaba equivocado».</i></p></div>
+    <div class="field"><label for="tNombre">Tu nombre</label><input id="tNombre" type="text" data-k="ticket.nombre" data-l="Nombre" style="width:100%;padding:8px;border:1px solid #cfd4dc;border-radius:8px"></div>
+    <div class="field"><label>¿Qué concepción de probabilidad revela esta afirmación?</label><textarea data-k="ticket.concepcion" data-l="Concepción revelada"></textarea></div>
+    <div class="field"><label>Propón una intervención docente para que el estudiante distinga un resultado individual de la evaluación de un modelo probabilístico.</label><textarea data-k="ticket.intervencion" data-l="Intervención docente"></textarea></div>
+    <div class="actions">
+      <button data-publish="ticket">Enviar ticket</button>
+      <button class="ghost" data-copy="ticket">Copiar</button>
+      <span class="msg" data-msg="ticket"></span>
+    </div>
+    <textarea class="copybox" data-copybox="ticket" readonly></textarea>
+  </div>
+
+  <details class="doc">
+    <summary>Notas para el docente · Momento 7</summary>
+    <p><b>Respuesta esperada:</b> un evento con probabilidad 0,40 puede ocurrir sin contradecir el pronóstico. La afirmación revela un enfoque centrado en el resultado individual (Konold, 1989): el estudiante entiende que 40 % significa "no lloverá". Para evaluar el modelo hay que examinar su desempeño en muchos días comparables (calibración) y explicitar cómo se definió el evento.</p>
+    <p>Intervenciones posibles: usar la simulación de calibración del Momento 5; preguntar "¿en cuántos de 100 días con este pronóstico esperarías lluvia?"; comparar con una moneda: si sale cara, ¿la probabilidad 0,5 estaba equivocada?</p>
+  </details>
+
+  <div class="card">
+    <h3 style="margin-top:0">Referencias</h3>
+    <ol class="refs">
+      <li>Batanero, C., Álvarez-Arroyo, R., Hernández-Solís, L. A. y Gea, M. M. (2021). El inicio del razonamiento probabilístico en educación infantil. <i>PNA, 15</i>(4), 267–288. https://doi.org/10.30827/pna.v15i4.22349</li>
+      <li>Batanero, C. y Álvarez-Arroyo, R. (2024). Teaching and learning of probability. <i>ZDM – Mathematics Education, 56</i>, 5–17. https://doi.org/10.1007/s11858-023-01511-5</li>
+      <li>Denison, S. y Xu, F. (2014). The origins of probabilistic inference in human infants. <i>Cognition, 130</i>(3).</li>
+      <li>Gigerenzer, G., Hertwig, R., van den Broek, E., Fasolo, B. y Katsikopoulos, K. V. (2005). "A 30% chance of rain tomorrow": How does the public understand probabilistic weather forecasts? <i>Risk Analysis, 25</i>(3), 623–629. https://doi.org/10.1111/j.1539-6924.2005.00608.x</li>
+      <li>Goupil, L., Romand-Monnier, M. y Kouider, S. (2016). Infants ask for help when they know they don't know. <i>PNAS, 113</i>(13), 3492–3496. https://doi.org/10.1073/pnas.1515129113</li>
+      <li>Konold, C. (1989). Informal conceptions of probability. <i>Cognition and Instruction, 6</i>(1), 59–98.</li>
+      <li>Placì, S., Fischer, J. y Rakoczy, H. (2020). Do infants and preschoolers quantify probabilities based on proportions? <i>Royal Society Open Science, 7</i>, 191751. https://doi.org/10.1098/rsos.191751</li>
+      <li>Placì, S., Pighin, S., Mastropasqua, T. y Tentori, K. (2026). The development of probabilistic reasoning during early childhood. <i>Cognition, 266</i>, 106283.</li>
+      <li>Téglás, E., Girotto, V., Gonzalez, M. y Bonatti, L. L. (2007). Intuitions of probabilities shape expectations about the future at 12 months and beyond. <i>PNAS, 104</i>(48), 19156–19159. https://doi.org/10.1073/pnas.0700271104</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ MURO EN VIVO ============ -->
+<section class="view" id="v-muro">
+  <div class="card">
+    <div class="kicker">Plenario · Seguimiento en tiempo real</div>
+    <h2>Respuestas de los grupos en vivo</h2>
+    <p id="muroIntro" class="msg">Conectando a la sala compartida…</p>
+
+    <div class="stats" id="liveKpis">
+      <div class="stat"><div class="v" id="kpiGrupos">0</div><div class="l">grupos activos</div></div>
+      <div class="stat"><div class="v" id="kpiResp">0</div><div class="l">respuestas guardadas</div></div>
+      <div class="stat"><div class="v" id="kpiTickets">0</div><div class="l">tickets individuales</div></div>
+      <div class="stat"><div class="v" id="kpiHora">—</div><div class="l">última actividad</div></div>
+    </div>
+
+    <div class="wall-controls">
+      <div class="seg" role="tablist" aria-label="Modo de visualización">
+        <button type="button" class="active" data-muro-mode="preguntas">Por pregunta (en vivo)</button>
+        <button type="button" data-muro-mode="grupos">Por grupo</button>
+        <button type="button" data-muro-mode="muro">Publicaciones del muro</button>
+      </div>
+    </div>
+
+    <div class="wall-controls">
+      <label for="muroFiltro">Momento</label>
+      <select id="muroFiltro">
+        <option value="feria">1 · La feria</option>
+        <option value="intuiciones">2 · Intuiciones</option>
+        <option value="interpretaciones">3 · Interpretaciones</option>
+        <option value="modelo">4 · Modelo</option>
+        <option value="simulacion">5 · Simulación</option>
+        <option value="rediseno">6 · Rediseño</option>
+        <option value="ticket">7 · Tickets de salida</option>
+        <option value="">Todos los momentos</option>
+      </select>
+
+      <label for="muroPreguntaFiltro" id="lblPreguntaFiltro">Pregunta</label>
+      <select id="muroPreguntaFiltro"><option value="">Todas las preguntas del momento</option></select>
+
+      <label for="muroGrupoFiltro">Grupo</label>
+      <select id="muroGrupoFiltro"><option value="">Todos los grupos</option></select>
+    </div>
+
+    <div class="wall-controls">
+      <button class="small" id="muroExportCsv" type="button">Exportar CSV (Excel)</button>
+      <button class="small ghost" id="muroExportJson" type="button">Guardar respaldo JSON</button>
+      <label class="btn-file">Cargar JSON<input id="muroImportJson" type="file" accept=".json,application/json" style="display:none"></label>
+      <button class="small ghost" id="muroCopiar" type="button">Copiar lo que se muestra</button>
+      <button class="small ghost" id="muroRefresh" type="button">Refrescar</button>
+      <span class="msg" id="muroMsg" role="status" aria-live="polite"></span>
+    </div>
+    <textarea class="copybox" id="muroCopybox" readonly></textarea>
+  </div>
+  <div id="wallContainer"></div>
+</section>
+
+<p class="foot" style="text-align:center">Laboratorio preparado para MDMA 022 · Dr. Eugenio Chandía Muñoz · Las respuestas se guardan localmente y se sincronizan en tiempo real en la sala activa.</p>
+</main>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- utilidades ---------- */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const fmt = (x, d=2) => (isFinite(x) ? x.toFixed(d).replace(".", ",") : "—");
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent){ const e=document.createElementNS(NS, tag); for(const k in attrs) e.setAttribute(k, attrs[k]); if(parent) parent.appendChild(e); return e; }
+function clear(node){ while(node && node.firstChild) node.removeChild(node.firstChild); }
+function store(){ try { return window.localStorage; } catch(e){ return null; } }
+function lget(k){ const s=store(); if(!s) return null; try { return s.getItem(k); } catch(e){ return null; } }
+function lset(k,v){ const s=store(); if(!s) return; try { s.setItem(k,v); } catch(e){} }
+function utf8Len(str){ try { return new TextEncoder().encode(str).length; } catch(e){ return str.length * 2; } }
+function fmtTime(ts){
+  if(!ts) return "—";
+  const d = new Date(Number(ts));
+  return isNaN(d) ? "—" : d.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+}
+function fmtRel(ts){
+  if(!ts) return "";
+  const sec = Math.max(0, Math.round((Date.now() - Number(ts))/1000));
+  if(sec < 10) return "ahora";
+  if(sec < 60) return "hace " + sec + " s";
+  const min = Math.round(sec/60);
+  if(min < 60) return "hace " + min + " min";
+  return fmtTime(ts);
+}
+function sanitizeRoom(r){
+  const clean = String(r || "").trim().toUpperCase().replace(/[^A-Z0-9_-]/g, "").slice(0, 16);
+  return clean || "CLASE5";
+}
+
+const ACTS = {
+  feria:"1 · La feria",
+  intuiciones:"2 · Intuiciones",
+  interpretaciones:"3 · Interpretaciones",
+  modelo:"4 · Modelo",
+  simulacion:"5 · Simulación",
+  rediseno:"6 · Rediseño",
+  ticket:"7 · Ticket de salida"
+};
+
+const QUESTIONS = [
+  // Momento 1
+  { k:"feria.decisiones", act:"feria", label:"Decisiones individuales y sus justificaciones" },
+  { k:"feria.significado", act:"feria", label:"¿Qué significa que la probabilidad de lluvia sea 40 %? ¿Qué sabemos y qué sigue siendo incierto?" },
+  { k:"feria.depende", act:"feria", label:"¿La decisión depende solamente de la probabilidad? ¿Qué más interviene?" },
+  { k:"feria.aleatorio", act:"feria", label:"¿Podemos afirmar que la lluvia es un fenómeno aleatorio? ¿En qué sentido?" },
+  { k:"feria._matriz", act:"feria", label:"Matriz de pérdidas usada (P / G / A y probabilidad p)" },
+  { k:"feria.consecuencias", act:"feria", label:"¿Desde qué probabilidad conviene cambiar de alternativa? ¿Qué cambia si se valoran distinto las consecuencias?" },
+  // Momento 2
+  { k:"intuiciones._urnas", act:"intuiciones", label:"Patrón de elecciones marcado en las urnas (ítems 1–5)" },
+  { k:"intuiciones.items", act:"intuiciones", label:"¿Qué ítems distinguen estrategia proporcional de cantidades absolutas? ¿Por qué el ítem 1 no basta?" },
+  { k:"intuiciones.diferencia", act:"intuiciones", label:"¿Qué diferencia hay entre anticipar correctamente y comprender matemáticamente la probabilidad?" },
+  { k:"intuiciones.ensenanza", act:"intuiciones", label:"¿Qué papel cumple la enseñanza formal en el desarrollo del razonamiento probabilístico?" },
+  // Momento 3
+  { k:"interpretaciones.A.razon", act:"interpretaciones", label:"Estudiante A (40 % de las 4 h) · Razonamiento" },
+  { k:"interpretaciones.A.comprende", act:"interpretaciones", label:"Estudiante A (40 % de las 4 h) · Qué comprende y qué no" },
+  { k:"interpretaciones.A.pregunta", act:"interpretaciones", label:"Estudiante A (40 % de las 4 h) · Pregunta docente" },
+  { k:"interpretaciones.B.razon", act:"interpretaciones", label:"Estudiante B (no va a llover) · Razonamiento" },
+  { k:"interpretaciones.B.comprende", act:"interpretaciones", label:"Estudiante B (no va a llover) · Qué comprende y qué no" },
+  { k:"interpretaciones.B.pregunta", act:"interpretaciones", label:"Estudiante B (no va a llover) · Pregunta docente" },
+  { k:"interpretaciones.C.razon", act:"interpretaciones", label:"Estudiante C (cómo se construye el pronóstico) · Razonamiento" },
+  { k:"interpretaciones.C.comprende", act:"interpretaciones", label:"Estudiante C (cómo se construye el pronóstico) · Qué comprende y qué no" },
+  { k:"interpretaciones.C.pregunta", act:"interpretaciones", label:"Estudiante C (cómo se construye el pronóstico) · Pregunta docente" },
+  { k:"interpretaciones.D.razon", act:"interpretaciones", label:"Estudiante D (si llueve estaba equivocado) · Razonamiento" },
+  { k:"interpretaciones.D.comprende", act:"interpretaciones", label:"Estudiante D (si llueve estaba equivocado) · Qué comprende y qué no" },
+  { k:"interpretaciones.D.pregunta", act:"interpretaciones", label:"Estudiante D (si llueve estaba equivocado) · Pregunta docente" },
+  { k:"interpretaciones.E.razon", act:"interpretaciones", label:"Estudiante E (llovió 3 días, menos probable) · Razonamiento" },
+  { k:"interpretaciones.E.comprende", act:"interpretaciones", label:"Estudiante E (llovió 3 días, menos probable) · Qué comprende y qué no" },
+  { k:"interpretaciones.E.pregunta", act:"interpretaciones", label:"Estudiante E (llovió 3 días, menos probable) · Pregunta docente" },
+  { k:"interpretaciones.regularidades", act:"interpretaciones", label:"¿Pueden existir regularidades en un fenómeno cuyos resultados particulares no podemos anticipar?" },
+  // Momento 4
+  { k:"modelo._evento", act:"modelo", label:"Definición del evento seleccionada" },
+  { k:"modelo.supuestos", act:"modelo", label:"¿Qué supuestos asume este modelo? ¿Qué información se pierde al reducirlo a dos resultados?" },
+  { k:"modelo.esperanza", act:"modelo", label:"¿Qué significa que E(X) = 0,4 si X solo puede valer 0 o 1?" },
+  { k:"modelo.prediccion20", act:"modelo", label:"Predicción para 20 jornadas con pronóstico de 40 %" },
+  // Momento 5
+  { k:"simulacion.variabilidad", act:"simulacion", label:"¿Por qué cambia el número de jornadas lluviosas entre repeticiones? ¿Qué significa E(Y) = 8?" },
+  { k:"simulacion.compatible", act:"simulacion", label:"Compatibilidad con el modelo (y = 9, 14, 2): ¿qué haría dudar y por qué no refuta con certeza?" },
+  { k:"simulacion.phat", act:"simulacion", label:"Variabilidad de p̂ y de Y al aumentar n (idea de que «la lluvia se compensa»)" },
+  { k:"simulacion.calibracion", act:"simulacion", label:"Calibración: ¿cuántos días hacen falta para distinguir 0,40 de 0,55?" },
+  // Momento 6
+  { k:"rediseno.oa", act:"rediseno", label:"OA seleccionado" },
+  { k:"rediseno.enunciado", act:"rediseno", label:"Enunciado de la tarea para estudiantes" },
+  { k:"rediseno.proposito", act:"rediseno", label:"Propósito (razonamiento probabilístico)" },
+  { k:"rediseno.fenomeno", act:"rediseno", label:"Fenómeno (incertidumbre a comprender)" },
+  { k:"rediseno.modelo", act:"rediseno", label:"Modelo (resultados, variables y supuestos)" },
+  { k:"rediseno.dificultades", act:"rediseno", label:"Dificultades anticipadas" },
+  { k:"rediseno.mediacion", act:"rediseno", label:"Mediación docente" },
+  { k:"rediseno.evidencia", act:"rediseno", label:"Evidencia de comprensión" },
+  { k:"rediseno.pertinencia", act:"rediseno", label:"Pertinencia matemática y didáctica para el nivel" },
+  // Momento 7
+  { k:"ticket.nombre", act:"ticket", label:"Nombre (ticket individual)" },
+  { k:"ticket.concepcion", act:"ticket", label:"¿Qué concepción de probabilidad revela la afirmación?" },
+  { k:"ticket.intervencion", act:"ticket", label:"Intervención docente propuesta" }
+];
+const Q_MAP = Object.fromEntries(QUESTIONS.map(q => [q.k, q]));
+
+/* ---------- navegación ---------- */
+const VIEWS = ["inicio","feria","intuiciones","interpretaciones","modelo","simulacion","rediseno","ticket","muro"];
+function route(){
+  let h = (location.hash || "").replace("#","");
+  if(!VIEWS.includes(h)) h = "inicio";
+  $$("section.view").forEach(s => s.classList.toggle("active", s.id === "v-"+h));
+  $$("#tabs a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#"+h));
+  if(h === "muro") renderLiveView();
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", route);
+
+/* ---------- identidad y sala ---------- */
+const gSel = $("#grupo");
+for(let i=1;i<=10;i++){ const o=document.createElement("option"); o.value="Grupo "+i; o.textContent="Grupo "+i; gSel.appendChild(o); }
+gSel.insertAdjacentHTML("beforeend", '<option value="Individual">Trabajo individual</option><option value="Profesor">Profesor</option>');
+
+let uid = lget("mdma022-c5-uid");
+if(!uid){
+  try {
+    const a = new Uint8Array(6); crypto.getRandomValues(a);
+    uid = "u" + Array.from(a, b => b.toString(16).padStart(2,"0")).join("");
+  } catch(e){
+    uid = "u" + Math.random().toString(36).slice(2, 10);
+  }
+  lset("mdma022-c5-uid", uid);
+}
+
+const urlRoom = new URLSearchParams(location.search).get("sala");
+let ROOM = sanitizeRoom(urlRoom || lget("mdma022-c5-room") || "CLASE5");
+$("#salaInput").value = ROOM;
+
+const NTFY_PREFIX = "https://ntfy.sh/mdma022_ucsc_2026_c5_";
+const isLocalServer = (location.hostname === "localhost" || location.hostname === "127.0.0.1") && location.protocol.startsWith("http");
+
+function topicUrl(rm){ return NTFY_PREFIX + sanitizeRoom(rm).toLowerCase(); }
+function key(){ return "mdma022-c5-local:" + ROOM + ":" + (gSel.value || "sin-grupo"); }
+function stateKey(rm){ return "mdma022-c5-live-state:" + sanitizeRoom(rm); }
+
+/* ---------- estado colaborativo en memoria ---------- */
+// liveState = { groups: { [groupId]: { id, grupo, integrantes, fields:{k:val}, fieldTs:{k:ts}, published:{act:ts}, updatedAt } },
+//               tickets: { [ticketId]: { id, nombre, grupo, concepcion, intervencion, updatedAt } },
+//               posts: [ { id, grupo, integrantes, actividad, texto, ts } ] }
+let liveState = { groups:{}, tickets:{}, posts:[] };
+const seenMsgIds = new Set();
+let lastSentValues = {}; // por clave k -> último string enviado para evitar duplicados
+let lossTouched = false, urnTouched = false, defTouched = false;
+let sseNtfy = null, sseLocal = null, pollTimer = null, bc = null, relTimer = null;
+let muroMode = "preguntas";
+
+function loadPersistedLiveState(){
+  try {
+    const raw = JSON.parse(lget(stateKey(ROOM)) || "null");
+    if(raw && typeof raw === "object"){
+      liveState = {
+        groups: raw.groups && typeof raw.groups === "object" ? raw.groups : {},
+        tickets: raw.tickets && typeof raw.tickets === "object" ? raw.tickets : {},
+        posts: Array.isArray(raw.posts) ? raw.posts : []
+      };
+    } else {
+      liveState = { groups:{}, tickets:{}, posts:[] };
+    }
+  } catch(e){
+    liveState = { groups:{}, tickets:{}, posts:[] };
+  }
+}
+function persistLiveState(){
+  try { lset(stateKey(ROOM), JSON.stringify(liveState)); } catch(e){}
+}
+
+/* ---------- guardado local del formulario ---------- */
+function loadAnswers(){
+  let data = {};
+  try { data = JSON.parse(lget(key()) || "{}"); } catch(e){ data = {}; }
+  $$("[data-k]").forEach(f => { f.value = data[f.dataset.k] || ""; });
+  $("#integrantes").value = data.__integrantes || "";
+  lastSentValues = {};
+}
+let saveTimer = null;
+function saveAnswersLocal(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    const data = {};
+    $$("[data-k]").forEach(f => { if(f.value) data[f.dataset.k] = f.value; });
+    data.__integrantes = $("#integrantes").value;
+    lset(key(), JSON.stringify(data));
+  }, 250);
+}
+
+/* ---------- componer texto de una actividad ---------- */
+function lossSummary(){
+  const L = losses(); const p = +$("#pFeria").value;
+  const EL = a => (1-p)*L[a+"0"] + p*L[a+"1"];
+  const vals = {P:EL("P"), G:EL("G"), A:EL("A")};
+  const best = Math.min(vals.P, vals.G, vals.A);
+  const w = ["P","G","A"].filter(a => Math.abs(vals[a]-best)<1e-9).join("/");
+  return "P " + L.P0 + "/" + L.P1 + " (E=" + fmt(vals.P) + ") · G " + L.G0 + "/" + L.G1 + " (E=" + fmt(vals.G) + ") · A " + L.A0 + "/" + L.A1 + " (E=" + fmt(vals.A) + ") · p = " + fmt(p) + " → Menor pérdida: " + w;
+}
+function urnSummary(){
+  if(!childAns.some(Boolean)) return "";
+  const pat = childAns.map((v,i) => (i+1) + ":" + (v || "—")).join(", ");
+  const best = STRATS.map(s => {
+    const hits = ITEMS.map(s.f).reduce((acc,v,i) => acc + (v===childAns[i]?1:0), 0);
+    return { n:s.n, hits };
+  }).sort((a,b) => b.hits - a.hits)[0];
+  return "Elecciones [" + pat + "] · Mayor coincidencia: " + best.n + " (" + best.hits + "/5)";
+}
+function defSummary(){
+  const u=+$("#defUmbral").value, v=+$("#defVentana").value, l=+$("#defLugar").value;
+  return DEF.u[u] + " " + DEF.l[l] + " " + DEF.v[v];
+}
+
+function collectActFields(act){
+  const fields = {};
+  $$('[data-k^="'+act+'."]').forEach(f => {
+    const v = (f.value || "").trim();
+    if(v) fields[f.dataset.k] = v;
+  });
+  if(act === "feria" && (lossTouched || Object.keys(fields).length > 0)){
+    fields["feria._matriz"] = lossSummary();
+  }
+  if(act === "intuiciones" && urnTouched && childAns.some(Boolean)){
+    fields["intuiciones._urnas"] = urnSummary();
+  }
+  if(act === "modelo" && defTouched){
+    fields["modelo._evento"] = defSummary();
+  }
+  return fields;
+}
+
+function compose(act){
+  const parts = [];
+  $$('[data-k^="'+act+'."]').forEach(f => {
+    const v = (f.value || "").trim();
+    if(v) parts.push(f.dataset.l + ":\n" + v);
+  });
+  if(act === "feria"){
+    parts.push("Matriz de pérdidas usada (no llueve / llueve): " + lossSummary());
+  }
+  if(act === "intuiciones" && childAns.some(Boolean)){
+    parts.push("Urnas marcadas: " + urnSummary());
+  }
+  if(act === "modelo" && defTouched){
+    parts.push("Evento definido: " + defSummary());
+  }
+  return parts.join("\n\n");
+}
+function header(act){
+  const g = gSel.value || "Sin grupo";
+  const who = $("#integrantes").value.trim();
+  return "[" + ACTS[act] + "] " + g + (who ? " — " + who : "");
+}
+
+/* ---------- copiar ---------- */
+function copyText(text, box, msgEl){
+  const done = ok => { if(msgEl){ msgEl.textContent = ok ? "Copiado al portapapeles." : "Selecciona el texto y cópialo manualmente."; msgEl.className = "msg " + (ok?"ok":"err"); } };
+  try {
+    navigator.clipboard.writeText(text).then(() => { done(true); if(box) box.style.display="none"; }, () => { if(box){ box.value=text; box.style.display="block"; box.select(); } done(false); });
+  } catch(e){ if(box){ box.value=text; box.style.display="block"; box.select(); } done(false); }
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]");
+  if(!b) return;
+  const act = b.dataset.copy;
+  const body = compose(act);
+  const msg = $('[data-msg="'+act+'"]');
+  if(!body){ msg.textContent = "Aún no hay respuestas escritas en este momento."; msg.className="msg err"; return; }
+  copyText(header(act) + "\n\n" + body, $('[data-copybox="'+act+'"]'), msg);
+});
+
+/* ---------- estado visual de conexión ---------- */
+const estado = $("#estado");
+const estadoTxt = $("#estadoTxt");
+function setEstado(mode, text){
+  estado.classList.remove("on","warn");
+  if(mode === "on") estado.classList.add("on");
+  else if(mode === "warn") estado.classList.add("warn");
+  estadoTxt.textContent = text;
+}
+
+/* ---------- motor de sincronización en vivo (ntfy.sh + server.js + BroadcastChannel) ---------- */
+function currentGroupIdentity(){
+  const g = gSel.value;
+  if(!g) return null;
+  const who = $("#integrantes").value.trim().slice(0, 200);
+  if(g === "Individual"){
+    const slug = (who || uid.slice(-4)).toLowerCase().replace(/[^a-z0-9]+/g, "_").slice(0, 20) || uid.slice(-4);
+    return { id: "ind_" + slug + "_" + uid.slice(-4), grupo: who ? "Individual · " + who : "Individual (" + uid.slice(-4) + ")", integrantes: who };
+  }
+  return { id: g.toLowerCase().replace(/[^a-z0-9]+/g, "_"), grupo: g, integrantes: who };
+}
+
+function mergePacket(pkt, skipPersist){
+  if(!pkt || typeof pkt !== "object") return false;
+  if(pkt.r && sanitizeRoom(pkt.r) !== ROOM) return false;
+  const ts = Number(pkt.t) || Date.now();
+  let changed = false;
+
+  if(pkt.k === "ticket"){
+    const tid = String(pkt.tid || pkt.u || ("t_" + ts));
+    const prev = liveState.tickets[tid] || { id: tid, nombre:"", grupo:"", concepcion:"", intervencion:"", updatedAt:0 };
+    if(ts >= (prev.updatedAt || 0)){
+      liveState.tickets[tid] = {
+        id: tid,
+        nombre: String(pkt.n || prev.nombre || "Sin nombre").slice(0, 120),
+        grupo: String(pkt.g || prev.grupo || "").slice(0, 80),
+        concepcion: pkt.c !== undefined ? String(pkt.c) : prev.concepcion,
+        intervencion: pkt.i !== undefined ? String(pkt.i) : prev.intervencion,
+        updatedAt: ts
+      };
+      changed = true;
+    }
+    if(pkt.pub && (pkt.c || pkt.i)){
+      const pid = "pub_ticket_" + tid + "_" + ts;
+      if(!liveState.posts.some(p => p.id === pid)){
+        const texto = (pkt.c ? "Concepción revelada:\n" + pkt.c : "") + (pkt.c && pkt.i ? "\n\n" : "") + (pkt.i ? "Intervención docente:\n" + pkt.i : "");
+        liveState.posts.unshift({ id: pid, grupo: String(pkt.n || pkt.g || "Estudiante"), integrantes: pkt.g || "", actividad: "ticket", texto, ts });
+        liveState.posts.sort((a,b) => (b.ts||0) - (a.ts||0));
+        if(liveState.posts.length > 300) liveState.posts.length = 300;
+        changed = true;
+      }
+    }
+  } else if(pkt.k === "live" || pkt.k === "pub"){
+    const gid = String(pkt.id || (pkt.g ? pkt.g.toLowerCase().replace(/[^a-z0-9]+/g,"_") : "") || pkt.u || "");
+    if(!gid) return false;
+    const prev = liveState.groups[gid] || { id: gid, grupo: String(pkt.g || gid), integrantes: "", fields: {}, fieldTs: {}, published: {}, updatedAt: 0 };
+    if(pkt.g) prev.grupo = String(pkt.g).slice(0, 100);
+    if(pkt.w && ts >= (prev.updatedAt || 0) - 60000) prev.integrantes = String(pkt.w).slice(0, 200);
+    if(pkt.f && typeof pkt.f === "object"){
+      for(const [fk, fv] of Object.entries(pkt.f)){
+        const val = String(fv ?? "");
+        const prevTs = prev.fieldTs[fk] || 0;
+        if(ts >= prevTs){
+          if(val.trim() !== ""){
+            prev.fields[fk] = val;
+            prev.fieldTs[fk] = ts;
+            changed = true;
+          } else if(pkt.exact && prev.fields[fk]){
+            delete prev.fields[fk];
+            prev.fieldTs[fk] = ts;
+            changed = true;
+          }
+        }
+      }
+    }
+    if(pkt.pub && pkt.a){
+      prev.published[pkt.a] = Math.max(prev.published[pkt.a] || 0, ts);
+      const pid = "pub_" + gid + "_" + pkt.a + "_" + ts;
+      const bodyParts = [];
+      QUESTIONS.filter(q => q.act === pkt.a).forEach(q => {
+        if(prev.fields[q.k]) bodyParts.push(q.label + ":\n" + prev.fields[q.k]);
+      });
+      const texto = pkt.txt ? String(pkt.txt) : bodyParts.join("\n\n");
+      if(texto && !liveState.posts.some(p => p.id === pid)){
+        liveState.posts.unshift({ id: pid, grupo: prev.grupo, integrantes: prev.integrantes, actividad: pkt.a, texto, ts });
+        liveState.posts.sort((a,b) => (b.ts||0) - (a.ts||0));
+        if(liveState.posts.length > 300) liveState.posts.length = 300;
+        changed = true;
+      }
+    }
+    if(ts > (prev.updatedAt || 0)) prev.updatedAt = ts;
+    liveState.groups[gid] = prev;
+  }
+
+  if(changed && !skipPersist){
+    persistLiveState();
+    updateLiveBadges();
+    if(location.hash === "#muro") renderLiveView();
+  }
+  return changed;
+}
+
+function mergeFullSnapshot(snap){
+  if(!snap || typeof snap !== "object") return;
+  let any = false;
+  if(snap.groups && typeof snap.groups === "object"){
+    for(const [gid, g] of Object.entries(snap.groups)){
+      if(!g || typeof g !== "object") continue;
+      const pkt = { k:"live", r:ROOM, id:gid, g:g.grupo, w:g.integrantes, f:g.fields||{}, t:g.updatedAt||Date.now() };
+      if(mergePacket(pkt, true)) any = true;
+      if(g.published && liveState.groups[gid]){
+        Object.assign(liveState.groups[gid].published, g.published);
+      }
+    }
+  }
+  if(snap.tickets && typeof snap.tickets === "object"){
+    for(const [tid, tk] of Object.entries(snap.tickets)){
+      if(!tk || typeof tk !== "object") continue;
+      if(mergePacket({ k:"ticket", r:ROOM, tid, n:tk.nombre, g:tk.grupo, c:tk.concepcion, i:tk.intervencion, t:tk.updatedAt||Date.now() }, true)) any = true;
+    }
+  }
+  if(Array.isArray(snap.posts)){
+    snap.posts.forEach(p => {
+      if(p && p.id && !liveState.posts.some(x => x.id === p.id)){
+        liveState.posts.push(p);
+        any = true;
+      }
+    });
+    liveState.posts.sort((a,b) => (b.ts||0) - (a.ts||0));
+  }
+  if(any){
+    persistLiveState();
+    updateLiveBadges();
+    if(location.hash === "#muro") renderLiveView();
+  }
+}
+
+function chunkFields(baseObj, fields){
+  const entries = Object.entries(fields);
+  if(!entries.length) return [Object.assign({}, baseObj, { f: {} })];
+  const packets = [];
+  let cur = {};
+  for(const [k, rawVal] of entries){
+    // Limitar cada campo individual a ~2400 bytes UTF-8 para respetar límite de 4 KB de ntfy.sh
+    let v = String(rawVal || "");
+    while(utf8Len(v) > 2400) v = v.slice(0, Math.floor(v.length * 0.85)) + "…";
+    const testObj = Object.assign({}, baseObj, { f: Object.assign({}, cur, { [k]: v }) });
+    if(utf8Len(JSON.stringify(testObj)) > 3100 && Object.keys(cur).length > 0){
+      packets.push(Object.assign({}, baseObj, { f: cur }));
+      cur = { [k]: v };
+    } else {
+      cur[k] = v;
+    }
+  }
+  if(Object.keys(cur).length > 0){
+    packets.push(Object.assign({}, baseObj, { f: cur }));
+  }
+  return packets;
+}
+
+async function transmitPackets(packets){
+  let okCloud = false;
+  for(const pkt of packets){
+    // 1. Aplicar localmente al instante
+    mergePacket(pkt, false);
+    // 2. Notificar otras pestañas del mismo navegador
+    if(bc){ try { bc.postMessage(pkt); } catch(e){} }
+    // 3. Enviar a ntfy.sh
+    try {
+      const res = await fetch(topicUrl(ROOM), { method: "POST", body: JSON.stringify(pkt) });
+      if(res.ok) okCloud = true;
+    } catch(e){}
+    // 4. Si hay servidor local server.js, respaldar en disco también
+    if(isLocalServer){
+      try {
+        const resL = await fetch("/api/sync", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(pkt)
+        });
+        if(resL.ok) okCloud = true;
+      } catch(e){}
+    }
+  }
+  return okCloud;
+}
+
+async function syncActivity(act, isPublish){
+  if(act === "ticket"){
+    const nombre = ($('[data-k="ticket.nombre"]').value || "").trim();
+    const concepcion = ($('[data-k="ticket.concepcion"]').value || "").trim();
+    const intervencion = ($('[data-k="ticket.intervencion"]').value || "").trim();
+    if(!nombre && !concepcion && !intervencion) return false;
+    const pkt = {
+      v: 1, k: "ticket", r: ROOM, u: uid,
+      tid: uid,
+      n: nombre || ($("#integrantes").value.trim()) || gSel.value || "Estudiante",
+      g: gSel.value || "Individual",
+      c: concepcion.slice(0, 1400),
+      i: intervencion.slice(0, 1400),
+      pub: Boolean(isPublish),
+      t: Date.now()
+    };
+    return transmitPackets([pkt]);
+  }
+
+  const ident = currentGroupIdentity();
+  if(!ident) return false;
+  if(gSel.value === "Profesor" && !isPublish) return false;
+
+  const allFields = collectActFields(act);
+  let fieldsToSend = {};
+  if(isPublish){
+    fieldsToSend = allFields;
+  } else {
+    for(const [k, v] of Object.entries(allFields)){
+      if(lastSentValues[k] !== v) fieldsToSend[k] = v;
+    }
+    // También detectar cambio en integrantes
+    const whoChanged = lastSentValues.__w !== ident.integrantes;
+    if(!Object.keys(fieldsToSend).length && !whoChanged) return true;
+  }
+
+  const ts = Date.now();
+  const base = { v:1, k:"live", r:ROOM, u:uid, id:ident.id, g:ident.grupo, w:ident.integrantes, a:act, pub:false, t:ts };
+  const packets = chunkFields(base, fieldsToSend);
+  if(isPublish && packets.length){
+    packets[packets.length - 1].pub = true;
+  }
+  const ok = await transmitPackets(packets);
+  if(ok){
+    for(const [k, v] of Object.entries(fieldsToSend)) lastSentValues[k] = v;
+    lastSentValues.__w = ident.integrantes;
+  }
+  return ok;
+}
+
+/* ---------- auto-sincronización al escribir ---------- */
+const dirtyActs = new Set();
+let autoSyncTimer = null;
+function scheduleAutoSync(act, delayMs){
+  if(act !== "ticket" && !gSel.value){
+    const msg = $('[data-msg="'+act+'"]');
+    if(msg){ msg.textContent = "Guardado en este navegador. Elige tu grupo arriba para sincronizar en vivo."; msg.className = "msg err"; }
+    return;
+  }
+  if(act !== "ticket" && gSel.value === "Profesor") return;
+  dirtyActs.add(act);
+  clearTimeout(autoSyncTimer);
+  autoSyncTimer = setTimeout(flushAutoSync, delayMs);
+}
+async function flushAutoSync(){
+  if(!dirtyActs.size) return;
+  const acts = Array.from(dirtyActs);
+  dirtyActs.clear();
+  for(const act of acts){
+    const ok = await syncActivity(act, false);
+    const msg = $('[data-msg="'+act+'"]');
+    if(msg && ok){
+      msg.textContent = "Guardado y sincronizado en vivo (" + fmtTime(Date.now()) + ").";
+      msg.className = "msg ok";
+    }
+  }
+}
+
+gSel.addEventListener("change", () => {
+  lset("mdma022-c5-grupo", gSel.value);
+  loadAnswers();
+  if(gSel.value && gSel.value !== "Profesor"){
+    // Sincronizar campos ya escritos en este navegador para este grupo
+    Object.keys(ACTS).forEach(act => {
+      const f = collectActFields(act);
+      if(Object.keys(f).length) scheduleAutoSync(act, 800);
+    });
+  }
+});
+
+document.addEventListener("input", e => {
+  if(e.target.matches("[data-k]")){
+    saveAnswersLocal();
+    const act = (e.target.dataset.k || "").split(".")[0];
+    if(act) scheduleAutoSync(act, 2000);
+  } else if(e.target.id === "integrantes"){
+    saveAnswersLocal();
+    if(gSel.value && gSel.value !== "Profesor"){
+      const curHash = (location.hash || "").replace("#","");
+      scheduleAutoSync(ACTS[curHash] ? curHash : "feria", 2000);
+    }
+  }
+});
+document.addEventListener("change", e => {
+  if(e.target.matches("select[data-k]")){
+    saveAnswersLocal();
+    const act = (e.target.dataset.k || "").split(".")[0];
+    if(act) scheduleAutoSync(act, 600);
+  }
+});
+document.addEventListener("focusout", e => {
+  if(e.target.matches("[data-k], #integrantes")){
+    if(dirtyActs.size) { clearTimeout(autoSyncTimer); autoSyncTimer = setTimeout(flushAutoSync, 400); }
+  }
+});
+
+/* ---------- botón Publicar en el muro / Enviar ticket ---------- */
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-publish]");
+  if(!b) return;
+  const act = b.dataset.publish;
+  const msg = $('[data-msg="'+act+'"]');
+  const body = compose(act);
+  if(act !== "ticket" && !gSel.value){
+    msg.textContent = "Primero elige tu grupo en la parte superior.";
+    msg.className = "msg err";
+    gSel.focus();
+    return;
+  }
+  if(!body){
+    msg.textContent = "Aún no hay respuestas escritas en este momento.";
+    msg.className = "msg err";
+    return;
+  }
+  b.disabled = true;
+  msg.textContent = "Publicando en vivo…";
+  msg.className = "msg";
+  const ok = await syncActivity(act, true);
+  b.disabled = false;
+  if(ok){
+    msg.textContent = (act === "ticket" ? "Ticket enviado y guardado (" : "Publicado en el muro en vivo (") + fmtTime(Date.now()) + ").";
+    msg.className = "msg ok";
+  } else {
+    msg.textContent = "Guardado en este navegador. Sin conexión a la nube: se copió el texto para compartir.";
+    msg.className = "msg err";
+    copyText(header(act) + "\n\n" + body, $('[data-copybox="'+act+'"]'), null);
+  }
+});
+
+/* ---------- recepción en tiempo real (SSE + polling) ---------- */
+function handleNtfyLine(raw){
+  if(!raw) return;
+  try {
+    const outer = JSON.parse(raw);
+    if(!outer || outer.event !== "message" || !outer.message) return;
+    if(outer.id && seenMsgIds.has(outer.id)) return;
+    if(outer.id) seenMsgIds.add(outer.id);
+    const pkt = JSON.parse(outer.message);
+    mergePacket(pkt, false);
+  } catch(e){}
+}
+
+async function pollRelay(){
+  let ok = false;
+  try {
+    const r = await fetch(topicUrl(ROOM) + "/json?poll=1&since=12h");
+    if(r.ok){
+      ok = true;
+      const text = await r.text();
+      text.split("\n").filter(Boolean).forEach(handleNtfyLine);
+    }
+  } catch(e){}
+  if(isLocalServer){
+    try {
+      const rl = await fetch("/api/state?room=" + encodeURIComponent(ROOM));
+      if(rl.ok){
+        ok = true;
+        const snap = await rl.json();
+        mergeFullSnapshot(snap);
+      }
+    } catch(e){}
+  }
+  if(ok){
+    setEstado("on", "En vivo · Sala " + ROOM);
+  }
+  updateLiveBadges();
+  if(location.hash === "#muro") renderLiveView();
+  return ok;
+}
+
+function stopConnections(){
+  if(sseNtfy){ try { sseNtfy.close(); } catch(e){} sseNtfy = null; }
+  if(sseLocal){ try { sseLocal.close(); } catch(e){} sseLocal = null; }
+  if(pollTimer){ clearInterval(pollTimer); pollTimer = null; }
+  if(bc){ try { bc.close(); } catch(e){} bc = null; }
+}
+
+function connectRoom(newRoom){
+  ROOM = sanitizeRoom(newRoom);
+  $("#salaInput").value = ROOM;
+  lset("mdma022-c5-room", ROOM);
+  stopConnections();
+  seenMsgIds.clear();
+  loadPersistedLiveState();
+  loadAnswers();
+  updateLiveBadges();
+  setEstado("", "Conectando a " + ROOM + "…");
+
+  if(window.BroadcastChannel){
+    try {
+      bc = new BroadcastChannel("mdma022_c5_" + ROOM);
+      bc.onmessage = ev => mergePacket(ev.data, false);
+    } catch(e){}
+  }
+
+  if(window.EventSource){
+    try {
+      sseNtfy = new EventSource(topicUrl(ROOM) + "/sse?since=12h");
+      sseNtfy.onopen = () => setEstado("on", "En vivo · Sala " + ROOM);
+      sseNtfy.onmessage = ev => handleNtfyLine(ev.data);
+      sseNtfy.onerror = () => {
+        if(!isLocalServer) setEstado("warn", "Reconectando · " + ROOM);
+      };
+    } catch(e){}
+
+    if(isLocalServer){
+      try {
+        sseLocal = new EventSource("/api/stream?room=" + encodeURIComponent(ROOM));
+        sseLocal.onopen = () => setEstado("on", "En vivo (local + nube) · " + ROOM);
+        sseLocal.onmessage = ev => {
+          try { mergePacket(JSON.parse(ev.data), false); } catch(e){}
+        };
+      } catch(e){}
+    }
+  }
+
+  pollRelay();
+  pollTimer = setInterval(pollRelay, 12000);
+  if(location.hash === "#muro") renderLiveView();
+}
+
+$("#btnSalaApply").addEventListener("click", () => connectRoom($("#salaInput").value));
+$("#salaInput").addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); connectRoom($("#salaInput").value); } });
+$("#btnCopyLink").addEventListener("click", () => {
+  const u = new URL(location.href);
+  u.searchParams.set("sala", ROOM);
+  u.hash = "#inicio";
+  copyText(u.toString(), null, $("#muroMsg"));
+  const old = $("#btnCopyLink").textContent;
+  $("#btnCopyLink").textContent = "¡Enlace copiado!";
+  setTimeout(() => { $("#btnCopyLink").textContent = old; }, 1800);
+});
+
+/* ---------- renderizado del Muro en vivo ---------- */
+function sortedGroups(){
+  return Object.values(liveState.groups).sort((a,b) => {
+    const na = parseInt((a.grupo.match(/\d+/)||[])[0], 10);
+    const nb = parseInt((b.grupo.match(/\d+/)||[])[0], 10);
+    if(isFinite(na) && isFinite(nb) && na !== nb) return na - nb;
+    return String(a.grupo||"").localeCompare(String(b.grupo||""), "es");
+  });
+}
+function sortedTickets(){
+  return Object.values(liveState.tickets).sort((a,b) => (b.updatedAt||0) - (a.updatedAt||0));
+}
+function updateLiveBadges(){
+  const groups = sortedGroups();
+  const tickets = sortedTickets();
+  const totalAns = groups.reduce((acc, g) => acc + Object.keys(g.fields||{}).length, 0);
+  const latest = Math.max(0, ...groups.map(g => g.updatedAt||0), ...tickets.map(t => t.updatedAt||0));
+  $("#kpiGrupos").textContent = groups.length;
+  $("#kpiResp").textContent = totalAns;
+  $("#kpiTickets").textContent = tickets.length;
+  $("#kpiHora").textContent = latest ? fmtTime(latest) : "—";
+  $("#muroTabSub").textContent = groups.length + (groups.length === 1 ? " grupo" : " grupos") + (tickets.length ? " · " + tickets.length + " tk" : "");
+  $("#muroIntro").textContent = "Sala " + ROOM + " conectada en tiempo real. Las respuestas aparecen automáticamente a medida que cada grupo escribe o pulsa «Publicar en el muro».";
+  // Actualizar selector de grupos preservando selección actual
+  const gFilter = $("#muroGrupoFiltro");
+  const curVal = gFilter.value;
+  clear(gFilter);
+  const optAll = document.createElement("option"); optAll.value = ""; optAll.textContent = "Todos los grupos (" + groups.length + ")"; gFilter.appendChild(optAll);
+  groups.forEach(g => {
+    const o = document.createElement("option");
+    o.value = g.id;
+    o.textContent = g.grupo + (g.integrantes ? " (" + g.integrantes.slice(0,26) + ")" : "");
+    gFilter.appendChild(o);
+  });
+  if(groups.some(g => g.id === curVal)) gFilter.value = curVal;
+}
+
+function updateQuestionFilterOptions(){
+  const act = $("#muroFiltro").value;
+  const qSel = $("#muroPreguntaFiltro");
+  const cur = qSel.value;
+  clear(qSel);
+  const allOpt = document.createElement("option");
+  allOpt.value = "";
+  allOpt.textContent = act ? "Todas las preguntas de " + ACTS[act] : "Todas las preguntas";
+  qSel.appendChild(allOpt);
+  const qs = QUESTIONS.filter(q => (!act || q.act === act) && q.act !== "ticket");
+  qs.forEach(q => {
+    const o = document.createElement("option");
+    o.value = q.k;
+    o.textContent = (act ? "" : "[" + ACTS[q.act] + "] ") + q.label;
+    qSel.appendChild(o);
+  });
+  if(qs.some(q => q.k === cur)) qSel.value = cur;
+  const hideQ = (muroMode !== "preguntas" || act === "ticket");
+  qSel.style.display = hideQ ? "none" : "";
+  $("#lblPreguntaFiltro").style.display = hideQ ? "none" : "";
+}
+
+function renderTicketsView(container, filterGroup){
+  const tickets = sortedTickets().filter(t => !filterGroup || (liveState.groups[filterGroup] && t.grupo === liveState.groups[filterGroup].grupo));
+  if(!tickets.length){
+    const p = document.createElement("p"); p.className = "empty";
+    p.textContent = "Todavía no se han recibido tickets de salida individuales en la sala " + ROOM + ".";
+    container.appendChild(p);
+    return;
+  }
+  const block = document.createElement("div"); block.className = "q-block";
+  const head = document.createElement("div"); head.className = "q-head";
+  const h3 = document.createElement("h3"); h3.textContent = "7 · Tickets de salida individuales (" + tickets.length + ")";
+  head.appendChild(h3);
+  block.appendChild(head);
+  const grid = document.createElement("div"); grid.className = "q-grid";
+  tickets.forEach(t => {
+    const card = document.createElement("div");
+    const isFresh = (Date.now() - (t.updatedAt||0)) < 60000;
+    card.className = "ans-card" + (isFresh ? " fresh-card" : "");
+    const ah = document.createElement("div"); ah.className = "ah";
+    const nameEl = document.createElement("span"); nameEl.className = "ag"; nameEl.textContent = t.nombre || "Estudiante";
+    ah.appendChild(nameEl);
+    const meta = document.createElement("span");
+    meta.textContent = (t.grupo ? t.grupo + " · " : "") + fmtRel(t.updatedAt);
+    ah.appendChild(meta);
+    card.appendChild(ah);
+
+    if(t.concepcion){
+      const r1 = document.createElement("div"); r1.className = "qa-row";
+      const l1 = document.createElement("div"); l1.className = "ql"; l1.textContent = "Concepción revelada";
+      const v1 = document.createElement("div"); v1.className = "qv"; v1.textContent = t.concepcion;
+      r1.appendChild(l1); r1.appendChild(v1); card.appendChild(r1);
+    }
+    if(t.intervencion){
+      const r2 = document.createElement("div"); r2.className = "qa-row";
+      const l2 = document.createElement("div"); l2.className = "ql"; l2.textContent = "Intervención docente";
+      const v2 = document.createElement("div"); v2.className = "qv"; v2.textContent = t.intervencion;
+      r2.appendChild(l2); r2.appendChild(v2); card.appendChild(r2);
+    }
+    grid.appendChild(card);
+  });
+  block.appendChild(grid);
+  container.appendChild(block);
+}
+
+function renderByQuestion(container, actFilter, qFilter, gFilter){
+  if(actFilter === "ticket"){
+    renderTicketsView(container, gFilter);
+    return;
+  }
+  const allGroups = sortedGroups();
+  const groups = gFilter ? allGroups.filter(g => g.id === gFilter) : allGroups;
+  const qs = QUESTIONS.filter(q => q.act !== "ticket" && (!actFilter || q.act === actFilter) && (!qFilter || q.k === qFilter));
+
+  if(!groups.length){
+    const p = document.createElement("p"); p.className = "empty";
+    p.textContent = "Todavía no se reciben respuestas de grupos en la sala " + ROOM + ". Apenas un grupo seleccione su número y escriba, sus respuestas aparecerán aquí automáticamente.";
+    container.appendChild(p);
+    if(!actFilter && sortedTickets().length) renderTicketsView(container, gFilter);
+    return;
+  }
+
+  let renderedAny = false;
+  qs.forEach(q => {
+    const answered = groups.filter(g => g.fields && g.fields[q.k] && String(g.fields[q.k]).trim() !== "");
+    // Si estamos viendo "Todos los momentos" sin filtro específico, mostrar preguntas que tengan al menos 1 respuesta para evitar pantalla vacía larga
+    if(!actFilter && !qFilter && !answered.length) return;
+    renderedAny = true;
+
+    const block = document.createElement("div"); block.className = "q-block";
+    const head = document.createElement("div"); head.className = "q-head";
+    const titleWrap = document.createElement("div");
+    const kicker = document.createElement("div"); kicker.className = "kicker"; kicker.textContent = ACTS[q.act];
+    const h3 = document.createElement("h3"); h3.textContent = q.label;
+    titleWrap.appendChild(kicker); titleWrap.appendChild(h3);
+    head.appendChild(titleWrap);
+
+    const badge = document.createElement("span");
+    badge.className = "tag " + (answered.length ? "live" : "");
+    badge.textContent = answered.length + " de " + groups.length + (groups.length === 1 ? " grupo" : " grupos");
+    head.appendChild(badge);
+    block.appendChild(head);
+
+    if(!answered.length){
+      const emp = document.createElement("p"); emp.className = "empty"; emp.style.margin = "4px 0 0";
+      emp.textContent = "Ningún grupo ha respondido esta pregunta todavía.";
+      block.appendChild(emp);
+    } else {
+      const grid = document.createElement("div"); grid.className = "q-grid";
+      answered.forEach(g => {
+        const fts = (g.fieldTs && g.fieldTs[q.k]) || g.updatedAt || 0;
+        const isFresh = (Date.now() - fts) < 60000;
+        const isPub = Boolean(g.published && g.published[q.act]);
+        const card = document.createElement("div");
+        card.className = "ans-card" + (isFresh ? " fresh-card" : "");
+
+        const ah = document.createElement("div"); ah.className = "ah";
+        const left = document.createElement("div");
+        const gSpan = document.createElement("span"); gSpan.className = "ag"; gSpan.textContent = g.grupo;
+        left.appendChild(gSpan);
+        const stTag = document.createElement("span");
+        stTag.className = "tag " + (isPub ? "pub" : (isFresh ? "fresh" : "live"));
+        stTag.textContent = isPub ? "Publicado" : (isFresh ? "● En vivo" : "Guardado");
+        left.appendChild(stTag);
+        if(g.integrantes){
+          const who = document.createElement("div"); who.className = "awho"; who.textContent = g.integrantes;
+          left.appendChild(who);
+        }
+        ah.appendChild(left);
+
+        const right = document.createElement("span");
+        right.textContent = fmtRel(fts);
+        right.title = fmtTime(fts);
+        ah.appendChild(right);
+        card.appendChild(ah);
+
+        const body = document.createElement("div"); body.className = "abody";
+        body.textContent = g.fields[q.k];
+        card.appendChild(body);
+        grid.appendChild(card);
+      });
+      block.appendChild(grid);
+
+      const missing = groups.filter(g => !(g.fields && g.fields[q.k] && String(g.fields[q.k]).trim() !== ""));
+      if(missing.length){
+        const mb = document.createElement("div"); mb.className = "missing-bar";
+        mb.textContent = "Aún sin respuesta en esta pregunta: " + missing.map(m => m.grupo).join(", ") + ".";
+        block.appendChild(mb);
+      }
+    }
+    container.appendChild(block);
+  });
+
+  if(!actFilter && sortedTickets().length) renderTicketsView(container, gFilter);
+  if(!renderedAny && !sortedTickets().length){
+    const p = document.createElement("p"); p.className = "empty";
+    p.textContent = "Aún no hay respuestas escritas para el filtro seleccionado.";
+    container.appendChild(p);
+  }
+}
+
+function renderByGroup(container, actFilter, gFilter){
+  if(actFilter === "ticket"){
+    renderTicketsView(container, gFilter);
+    return;
+  }
+  const groups = sortedGroups().filter(g => !gFilter || g.id === gFilter);
+  if(!groups.length){
+    const p = document.createElement("p"); p.className = "empty";
+    p.textContent = "Todavía no hay grupos conectados con respuestas en la sala " + ROOM + ".";
+    container.appendChild(p);
+    return;
+  }
+  groups.forEach(g => {
+    const card = document.createElement("div"); card.className = "group-card";
+    const gh = document.createElement("div"); gh.className = "gh";
+    const left = document.createElement("div");
+    const title = document.createElement("div"); title.className = "gtitle"; title.textContent = g.grupo;
+    left.appendChild(title);
+    if(g.integrantes){
+      const sub = document.createElement("div"); sub.className = "msg"; sub.textContent = "Integrantes: " + g.integrantes;
+      left.appendChild(sub);
+    }
+    gh.appendChild(left);
+
+    const ansCount = Object.keys(g.fields || {}).length;
+    const right = document.createElement("div"); right.className = "msg";
+    right.innerHTML = "";
+    const b1 = document.createElement("span"); b1.className = "tag live"; b1.textContent = ansCount + " respuestas";
+    const b2 = document.createElement("span"); b2.style.marginLeft = "8px"; b2.textContent = "Actualizado " + fmtRel(g.updatedAt);
+    right.appendChild(b1); right.appendChild(b2);
+    gh.appendChild(right);
+    card.appendChild(gh);
+
+    const actsToShow = actFilter ? [actFilter] : Object.keys(ACTS).filter(a => a !== "ticket");
+    let anyAct = false;
+    actsToShow.forEach(act => {
+      const qs = QUESTIONS.filter(q => q.act === act && g.fields && g.fields[q.k]);
+      if(!qs.length) return;
+      anyAct = true;
+      const det = document.createElement("details");
+      det.open = true;
+      const sum = document.createElement("summary");
+      const pubMark = (g.published && g.published[act]) ? " · ✓ Publicado" : " · ● En vivo";
+      sum.textContent = ACTS[act] + " (" + qs.length + ")" + pubMark;
+      det.appendChild(sum);
+      qs.forEach(q => {
+        const row = document.createElement("div"); row.className = "qa-row";
+        const ql = document.createElement("div"); ql.className = "ql"; ql.textContent = q.label;
+        const qv = document.createElement("div"); qv.className = "qv"; qv.textContent = g.fields[q.k];
+        row.appendChild(ql); row.appendChild(qv);
+        det.appendChild(row);
+      });
+      card.appendChild(det);
+    });
+    if(!anyAct){
+      const emp = document.createElement("p"); emp.className = "empty"; emp.textContent = "Sin respuestas aún en este momento.";
+      card.appendChild(emp);
+    }
+    container.appendChild(card);
+  });
+}
+
+function renderWallPosts(container, actFilter, gFilter){
+  const targetGrupoName = gFilter && liveState.groups[gFilter] ? liveState.groups[gFilter].grupo : "";
+  const shown = liveState.posts.filter(p => (!actFilter || p.actividad === actFilter) && (!targetGrupoName || p.grupo === targetGrupoName));
+  if(!shown.length){
+    const p = document.createElement("p"); p.className = "empty";
+    p.textContent = "Todavía no hay publicaciones formales en el muro para este filtro. (Usa la vista «Por pregunta (en vivo)» para ver lo que los grupos están escribiendo en tiempo real).";
+    container.appendChild(p);
+    return;
+  }
+  const wall = document.createElement("div"); wall.className = "wall";
+  shown.forEach(p => {
+    const c = document.createElement("div"); c.className = "post";
+    const h = document.createElement("div"); h.className = "h";
+    const left = document.createElement("span");
+    const g = document.createElement("span"); g.className="g"; g.textContent = String(p.grupo || "Grupo");
+    left.appendChild(g);
+    const tag = document.createElement("span"); tag.className="tag"; tag.textContent = ACTS[p.actividad] || String(p.actividad||"");
+    left.appendChild(tag);
+    if(p.integrantes){ const w=document.createElement("div"); w.style.marginTop="2px"; w.textContent = String(p.integrantes); left.appendChild(w); }
+    h.appendChild(left);
+    const right = document.createElement("span");
+    right.textContent = fmtTime(p.ts);
+    h.appendChild(right);
+    c.appendChild(h);
+    const body = document.createElement("div"); body.textContent = String(p.texto || "");
+    c.appendChild(body);
+    wall.appendChild(c);
+  });
+  container.appendChild(wall);
+}
+
+function renderLiveView(){
+  updateLiveBadges();
+  updateQuestionFilterOptions();
+  const container = $("#wallContainer");
+  clear(container);
+  const actFilter = $("#muroFiltro").value;
+  const qFilter = $("#muroPreguntaFiltro").value;
+  const gFilter = $("#muroGrupoFiltro").value;
+  if(muroMode === "preguntas") renderByQuestion(container, actFilter, qFilter, gFilter);
+  else if(muroMode === "grupos") renderByGroup(container, actFilter, gFilter);
+  else renderWallPosts(container, actFilter, gFilter);
+}
+
+$$("[data-muro-mode]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    muroMode = btn.dataset.muroMode;
+    $$("[data-muro-mode]").forEach(b => b.classList.toggle("active", b === btn));
+    renderLiveView();
+  });
+});
+$("#muroFiltro").addEventListener("change", () => { $("#muroPreguntaFiltro").value = ""; renderLiveView(); });
+$("#muroPreguntaFiltro").addEventListener("change", renderLiveView);
+$("#muroGrupoFiltro").addEventListener("change", renderLiveView);
+$("#muroRefresh").addEventListener("click", async () => {
+  $("#muroMsg").textContent = "Actualizando…";
+  const ok = await pollRelay();
+  $("#muroMsg").textContent = ok ? "Actualizado (" + fmtTime(Date.now()) + ")." : "Sin respuesta del servidor; mostrando datos guardados localmente.";
+  $("#muroMsg").className = "msg " + (ok ? "ok" : "err");
+});
+
+/* ---------- copiar / exportar CSV y JSON / importar JSON ---------- */
+$("#muroCopiar").addEventListener("click", () => {
+  const act = $("#muroFiltro").value;
+  const qf = $("#muroPreguntaFiltro").value;
+  const gf = $("#muroGrupoFiltro").value;
+  const lines = [];
+  if(act === "ticket"){
+    sortedTickets().forEach(t => {
+      lines.push("[Ticket] " + t.nombre + (t.grupo ? " (" + t.grupo + ")" : "") + "\nConcepción: " + t.concepcion + "\nIntervención: " + t.intervencion);
+    });
+  } else {
+    const groups = sortedGroups().filter(g => !gf || g.id === gf);
+    const qs = QUESTIONS.filter(q => q.act !== "ticket" && (!act || q.act === act) && (!qf || q.k === qf));
+    qs.forEach(q => {
+      const ans = groups.filter(g => g.fields && g.fields[q.k]);
+      if(!ans.length) return;
+      lines.push("=== " + ACTS[q.act] + " · " + q.label + " ===");
+      ans.forEach(g => lines.push("[" + g.grupo + (g.integrantes ? " — " + g.integrantes : "") + "]\n" + g.fields[q.k]));
+    });
+  }
+  const txt = lines.join("\n\n");
+  if(!txt){ $("#muroMsg").textContent = "No hay respuestas para copiar con el filtro actual."; $("#muroMsg").className="msg err"; return; }
+  copyText(txt, $("#muroCopybox"), $("#muroMsg"));
+});
+
+function downloadBlob(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+$("#muroExportCsv").addEventListener("click", () => {
+  const qCols = QUESTIONS.filter(q => q.act !== "ticket");
+  const esc = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';
+  const headerRow = ["Sala","Grupo","Integrantes","Última actualización", ...qCols.map(q => "[" + ACTS[q.act] + "] " + q.label)];
+  const rows = [headerRow.map(esc).join(";")];
+  sortedGroups().forEach(g => {
+    const vals = [ROOM, g.grupo, g.integrantes || "", g.updatedAt ? new Date(g.updatedAt).toISOString() : "", ...qCols.map(q => (g.fields && g.fields[q.k]) || "")];
+    rows.push(vals.map(esc).join(";"));
+  });
+  const tickets = sortedTickets();
+  if(tickets.length){
+    rows.push("");
+    rows.push(["TICKETS INDIVIDUALES","Nombre","Grupo","Fecha","Concepción revelada","Intervención docente"].map(esc).join(";"));
+    tickets.forEach(t => {
+      rows.push(["Ticket", t.nombre, t.grupo, t.updatedAt ? new Date(t.updatedAt).toISOString() : "", t.concepcion, t.intervencion].map(esc).join(";"));
+    });
+  }
+  downloadBlob(new Blob(["\ufeff" + rows.join("\r\n")], { type: "text/csv;charset=utf-8" }), "MDMA022_Clase5_" + ROOM + "_respuestas.csv");
+  $("#muroMsg").textContent = "CSV descargado con todas las respuestas guardadas.";
+  $("#muroMsg").className = "msg ok";
+});
+
+$("#muroExportJson").addEventListener("click", () => {
+  const payload = { room: ROOM, exportedAt: new Date().toISOString(), ...liveState };
+  downloadBlob(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" }), "MDMA022_Clase5_" + ROOM + "_respaldo.json");
+  $("#muroMsg").textContent = "Respaldo JSON descargado.";
+  $("#muroMsg").className = "msg ok";
+});
+
+$("#muroImportJson").addEventListener("change", async e => {
+  const file = e.target.files && e.target.files[0];
+  if(!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    mergeFullSnapshot(data);
+    renderLiveView();
+    $("#muroMsg").textContent = "Respaldo JSON cargado y combinado correctamente.";
+    $("#muroMsg").className = "msg ok";
+  } catch(err){
+    $("#muroMsg").textContent = "No se pudo leer el archivo JSON.";
+    $("#muroMsg").className = "msg err";
+  }
+  e.target.value = "";
+});
+
+/* ---------- Momento 1: pérdidas ---------- */
+function losses(){ const L={}; $$("[data-loss]").forEach(i => { let v=parseFloat(i.value); if(!isFinite(v)) v=0; L[i.dataset.loss]=Math.max(0,Math.min(10,v)); }); return L; }
+const COL = {P:"#b5522b", G:"#1f5f8b", A:"#2d7a4f"};
+function drawLoss(){
+  const L = losses(); const p = +$("#pFeria").value;
+  $("#pFeriaOut").textContent = fmt(p);
+  const EL = a => (1-p)*L[a+"0"] + p*L[a+"1"];
+  const vals = {P:EL("P"), G:EL("G"), A:EL("A")};
+  const best = Math.min(vals.P, vals.G, vals.A);
+  ["P","G","A"].forEach(a => { $('[data-el="'+a+'"]').textContent = fmt(vals[a]); $('tr[data-alt="'+a+'"]').classList.toggle("best", Math.abs(vals[a]-best)<1e-9); });
+  const winners = ["P","G","A"].filter(a => Math.abs(vals[a]-best)<1e-9);
+  const names = {P:"mantener el patio", G:"trasladar al gimnasio", A:"preparar ambas opciones"};
+  $("#feriaMsg").textContent = "Con estos valores y p = " + fmt(p) + ", la menor pérdida esperada corresponde a " + winners.map(w=>names[w]).join(" o ") + ".";
+  const svg = $("#lossChart"); clear(svg);
+  const W=440,H=260,m={l:40,r:14,t:14,b:36}, iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const x = v => m.l + v*iw, y = v => m.t + ih - (v/10)*ih;
+  for(let k=0;k<=10;k+=2){ el("line",{x1:m.l,x2:W-m.r,y1:y(k),y2:y(k),stroke:"#eeece6"},svg); el("text",{x:m.l-8,y:y(k)+4,"text-anchor":"end"},svg).textContent=k; }
+  for(let k=0;k<=10;k+=2){ el("text",{x:x(k/10),y:H-m.b+16,"text-anchor":"middle"},svg).textContent=fmt(k/10,1); }
+  el("text",{x:m.l+iw/2,y:H-4,"text-anchor":"middle"},svg).textContent="Probabilidad de lluvia (p)";
+  const t = el("text",{x:12,y:m.t+ih/2,"text-anchor":"middle",transform:"rotate(-90 12 "+(m.t+ih/2)+")"},svg); t.textContent="Pérdida esperada";
+  ["P","G","A"].forEach(a => { el("line",{x1:x(0),y1:y(L[a+"0"]),x2:x(1),y2:y(L[a+"1"]),stroke:COL[a],"stroke-width":2.5},svg); });
+  el("line",{x1:x(p),x2:x(p),y1:m.t,y2:m.t+ih,stroke:"#1d2433","stroke-dasharray":"4 4"},svg);
+  ["P","G","A"].forEach(a => { el("circle",{cx:x(p),cy:y(vals[a]),r:4.5,fill:COL[a],stroke:"#fff","stroke-width":1.5},svg); });
+}
+$$("[data-loss]").forEach(i => i.addEventListener("input", () => { lossTouched = true; drawLoss(); scheduleAutoSync("feria", 2200); }));
+$("#pFeria").addEventListener("input", () => { lossTouched = true; drawLoss(); scheduleAutoSync("feria", 2200); });
+
+/* ---------- Momento 2: urnas ---------- */
+const ITEMS = [ {a:[3,2], b:[8,12]}, {a:[6,2], b:[3,1]}, {a:[2,1], b:[4,4]}, {a:[5,5], b:[2,3]}, {a:[1,4], b:[3,9]} ];
+const STRATS = [
+  {n:"Proporcional", d:"rojas respecto del total", f:it => cmp(it.a[0]/(it.a[0]+it.a[1]), it.b[0]/(it.b[0]+it.b[1]))},
+  {n:"Cantidad absoluta favorable", d:"cuántas rojas hay", f:it => cmp(it.a[0], it.b[0])},
+  {n:"Menos desfavorables", d:"cuántas no rojas hay (menos es mejor)", f:it => cmp(it.b[1], it.a[1])}
+];
+function cmp(u,v){ return Math.abs(u-v)<1e-9 ? "=" : (u>v ? "A" : "B"); }
+let childAns = [null,null,null,null,null];
+function dots(r,a){ return '<span style="color:#b5522b">' + "●".repeat(r) + '</span><span style="color:#1f5f8b">' + "●".repeat(a) + '</span> <span class="badge">' + r + (r===1?" roja, ":" rojas, ") + a + (a===1?" azul":" azules") + "</span>"; }
+function buildUrns(){
+  const t = $("#urnTable");
+  ITEMS.forEach((it,i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + (i+1) + "</td><td>" + dots(it.a[0],it.a[1]) + "</td><td>" + dots(it.b[0],it.b[1]) + "</td>";
+    const td = document.createElement("td"); td.className="c";
+    const ch = document.createElement("span"); ch.className="choice";
+    ["A","=","B"].forEach(o => { const b=document.createElement("button"); b.type="button"; b.textContent = o==="="?"Igual":o; b.dataset.i=i; b.dataset.o=o; ch.appendChild(b); });
+    td.appendChild(ch); tr.appendChild(td); t.appendChild(tr);
+  });
+  t.addEventListener("click", e => {
+    const b=e.target.closest("button[data-o]"); if(!b) return;
+    childAns[+b.dataset.i]=b.dataset.o;
+    urnTouched = true;
+    renderUrns();
+    scheduleAutoSync("intuiciones", 1500);
+  });
+  renderUrns();
+}
+function renderUrns(){
+  $$("#urnTable button[data-o]").forEach(b => b.classList.toggle("sel", childAns[+b.dataset.i]===b.dataset.o));
+  const t = $("#stratTable");
+  $$("tr", t).slice(1).forEach(r => r.remove());
+  STRATS.forEach(s => {
+    const pat = ITEMS.map(s.f);
+    const hits = pat.reduce((acc,v,i) => acc + (v===childAns[i]?1:0), 0);
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td><b>" + s.n + "</b></td><td>" + s.d + "</td><td class=\"c " + (hits===5?"match":"nomatch") + "\">" + hits + " de 5" + (hits===5?" ✓":"") + "</td>";
+    t.appendChild(tr);
+  });
+}
+
+/* ---------- Momento 3: respuestas ---------- */
+const RESP = [
+  ["A","«El 40 % quiere decir que lloverá durante el 40 % de las cuatro horas»."],
+  ["B","«Como hay más probabilidad de que no llueva, entonces no va a llover»."],
+  ["C","«Podría llover o no. Si conocemos cómo se construye el pronóstico, podremos interpretar mejor ese 40 %»."],
+  ["D","«Si finalmente llueve, significa que el pronóstico estaba equivocado»."],
+  ["E","«Llovió los tres días anteriores con el mismo pronóstico de 40 %, así que el viernes es menos probable que llueva»."]
+];
+function buildResp(){
+  const box = $("#respuestas");
+  RESP.forEach(([w,q]) => {
+    const d = document.createElement("div"); d.className="respuesta";
+    d.innerHTML = '<div class="q"><span class="who">' + w + '</span>' + q + '</div>' +
+      '<div class="grid3">' +
+      '<div class="field"><label>Razonamiento que la explicaría</label><textarea data-k="interpretaciones.' + w + '.razon" data-l="Estudiante ' + w + ' · razonamiento"></textarea></div>' +
+      '<div class="field"><label>Qué comprende y qué no</label><textarea data-k="interpretaciones.' + w + '.comprende" data-l="Estudiante ' + w + ' · comprende / no comprende"></textarea></div>' +
+      '<div class="field"><label>Pregunta docente</label><textarea data-k="interpretaciones.' + w + '.pregunta" data-l="Estudiante ' + w + ' · pregunta docente"></textarea></div>' +
+      '</div>';
+    box.appendChild(d);
+  });
+  const extra = document.createElement("div"); extra.className="field";
+  extra.innerHTML = '<label>¿Pueden existir regularidades en un fenómeno cuyos resultados particulares no podemos anticipar con certeza?</label><textarea data-k="interpretaciones.regularidades" data-l="Regularidades e incertidumbre"></textarea>';
+  box.appendChild(extra);
+}
+
+/* ---------- Momento 4: evento y Bernoulli ---------- */
+const DEF = {
+  u:["se registra cualquier precipitación medible","caen al menos 1 mm de lluvia","llueve lo suficiente para mojar los stands"],
+  v:["entre las 10:00 y las 14:00 del viernes","en algún momento del viernes","entre las 11:00 y las 12:00 del viernes"],
+  l:["en el establecimiento","en algún punto de la comuna"]
+};
+function drawDef(){
+  const u=+$("#defUmbral").value, v=+$("#defVentana").value, l=+$("#defLugar").value;
+  const notes = [];
+  if(u>0) notes.push("un umbral más exigente define un evento más restringido: su probabilidad no puede ser mayor");
+  if(v===1) notes.push("una ventana de tiempo más amplia define un evento más amplio: su probabilidad no puede ser menor");
+  if(v===2) notes.push("una ventana más corta define un evento más restringido");
+  if(l===1) notes.push("un lugar más extenso amplía el evento, pero ya no describe lo que ocurre en la feria");
+  $("#defTexto").innerHTML = "<b>Evento:</b> " + DEF.u[u] + " " + DEF.l[l] + " " + DEF.v[v] + "." + (notes.length ? "<br><span class=\"msg\">Respecto de la definición original: " + notes.join("; ") + ".</span>" : "<br><span class=\"msg\">Es la definición usada en la situación inicial.</span>");
+}
+["#defUmbral","#defVentana","#defLugar"].forEach(s => $(s).addEventListener("change", () => { defTouched = true; drawDef(); scheduleAutoSync("modelo", 1500); }));
+function drawBern(){
+  const p = +$("#pBern").value;
+  $("#pBernOut").textContent = fmt(p); $("#bE").textContent = fmt(p); $("#bV").textContent = fmt(p*(1-p),3);
+  const svg = $("#bernChart"); clear(svg);
+  const W=360,H=220,m={l:40,r:16,t:14,b:34}, ih=H-m.t-m.b;
+  const y = v => m.t + ih - v*ih;
+  for(let k=0;k<=1.0001;k+=0.25){ el("line",{x1:m.l,x2:W-m.r,y1:y(k),y2:y(k),stroke:"#eeece6"},svg); el("text",{x:m.l-8,y:y(k)+4,"text-anchor":"end"},svg).textContent=fmt(k); }
+  [[0,1-p,"X = 0 · no ocurre"],[1,p,"X = 1 · ocurre"]].forEach(([i,v,lab]) => {
+    const cx = m.l + 60 + i*150;
+    el("rect",{x:cx-35,y:y(v),width:70,height:Math.max(0,m.t+ih-y(v)),fill: i? "#1f5f8b":"#9cc0dc",rx:4},svg);
+    el("text",{x:cx,y:y(v)-6,"text-anchor":"middle"},svg).textContent = fmt(v);
+    el("text",{x:cx,y:H-12,"text-anchor":"middle"},svg).textContent = lab;
+  });
+}
+$("#pBern").addEventListener("input", drawBern);
+
+/* ---------- Binomial ---------- */
+const lf = (() => { const c=[0]; for(let i=1;i<=1000;i++) c[i]=c[i-1]+Math.log(i); return c; })();
+function pmf(n,p,k){ if(k<0||k>n) return 0; return Math.exp(lf[n]-lf[k]-lf[n-k] + k*Math.log(p) + (n-k)*Math.log(1-p)); }
+function cdf(n,p,k){ let s=0; for(let i=0;i<=Math.min(k,n);i++) s+=pmf(n,p,i); return Math.min(1,s); }
+function binSample(n,p){ let y=0; for(let i=0;i<n;i++) if(Math.random()<p) y++; return y; }
+
+/* ---------- Momento 5: simulación ---------- */
+let sim = {counts:[], K:0, sum:0, sumsq:0, last:null, seq:[]};
+function simParams(){ return {n:+$("#nSim").value, p:+$("#pSim").value}; }
+function resetSim(){ const {n}=simParams(); sim={counts:new Array(n+1).fill(0),K:0,sum:0,sumsq:0,last:null,seq:[]}; drawSim(); }
+function runSim(k){
+  const {n,p}=simParams();
+  for(let i=0;i<k;i++){ const y=binSample(n,p); sim.counts[y]++; sim.K++; sim.sum+=y; sim.sumsq+=y*y; sim.last=y; sim.seq.push(y); }
+  if(sim.seq.length>20) sim.seq = sim.seq.slice(-20);
+  drawSim();
+}
+function drawSim(){
+  const {n,p}=simParams();
+  $("#nSimOut").textContent=n; $("#pSimOut").textContent=fmt(p);
+  $("#sK").textContent=sim.K; $("#sLast").textContent = sim.last===null?"—":sim.last;
+  const mean = sim.K? sim.sum/sim.K : NaN;
+  const sd = sim.K>1 ? Math.sqrt(Math.max(0,(sim.sumsq - sim.K*mean*mean)/(sim.K-1))) : NaN;
+  $("#sMean").textContent = sim.K? fmt(mean) : "—"; $("#sSD").textContent = sim.K>1? fmt(sd) : "—";
+  $("#sE").textContent = fmt(n*p); $("#sSDt").textContent = fmt(Math.sqrt(n*p*(1-p)));
+  $("#simSeq").textContent = sim.seq.length ? "Últimos resultados: " + sim.seq.join(", ") : "Aún no hay simulaciones.";
+  const svg=$("#simChart"); clear(svg);
+  const W=460,H=280,m={l:44,r:12,t:12,b:40}, iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const theo = []; for(let k=0;k<=n;k++) theo.push(pmf(n,p,k));
+  const rel = sim.counts.map(c => sim.K? c/sim.K : 0);
+  let lo=0, hi=n; while(lo<n && theo[lo]<0.0005 && rel[lo]===0) lo++; while(hi>0 && theo[hi]<0.0005 && rel[hi]===0) hi--;
+  if(hi-lo<6){ lo=Math.max(0,lo-3); hi=Math.min(n,hi+3); }
+  const ymax = Math.max(0.05, ...theo.slice(lo,hi+1), ...rel.slice(lo,hi+1))*1.12;
+  const cnt = hi-lo+1, bw = iw/cnt;
+  const y = v => m.t + ih - (v/ymax)*ih;
+  const step = ymax>0.3?0.1:(ymax>0.12?0.05:0.02);
+  for(let v=0; v<=ymax; v+=step){ el("line",{x1:m.l,x2:W-m.r,y1:y(v),y2:y(v),stroke:"#eeece6"},svg); el("text",{x:m.l-6,y:y(v)+4,"text-anchor":"end"},svg).textContent=fmt(v); }
+  const lstep = Math.ceil(cnt/16);
+  for(let k=lo;k<=hi;k++){
+    const x0 = m.l + (k-lo)*bw;
+    if(rel[k]>0) el("rect",{x:x0+bw*0.12,y:y(rel[k]),width:bw*0.76,height:m.t+ih-y(rel[k]),fill:"#9cc0dc",rx:2},svg);
+    el("circle",{cx:x0+bw/2,cy:y(theo[k]),r:Math.min(4,bw/3),fill:"#b5522b"},svg);
+    if((k-lo)%lstep===0) el("text",{x:x0+bw/2,y:H-m.b+15,"text-anchor":"middle"},svg).textContent=k;
+  }
+  el("text",{x:m.l+iw/2,y:H-6,"text-anchor":"middle"},svg).textContent="Y = número de jornadas lluviosas en " + n;
+  updateObs();
+}
+$$("[data-sim]").forEach(b => b.addEventListener("click", () => runSim(+b.dataset.sim)));
+$("#simReset").addEventListener("click", resetSim);
+["#nSim","#pSim"].forEach(s => $(s).addEventListener("input", resetSim));
+
+function updateObs(){
+  const {n,p}=simParams();
+  let yv = parseInt($("#yObs").value,10); if(!isFinite(yv)) yv=0; yv=Math.max(0,Math.min(n,yv));
+  const eq=pmf(n,p,yv), le=cdf(n,p,yv), ge=1-cdf(n,p,yv-1);
+  $("#pEq").textContent=fmt(eq,3); $("#pLe").textContent=fmt(le,3); $("#pGe").textContent=fmt(ge,3);
+  const tail = Math.min(le,ge);
+  let txt = "Con n = " + n + " y p = " + fmt(p) + ": ";
+  if(tail>=0.10) txt += "un resultado como " + yv + " es habitual bajo este modelo.";
+  else if(tail>=0.025) txt += "un resultado como " + yv + " es poco frecuente, pero ocurre con cierta regularidad bajo este modelo.";
+  else if(tail>=0.005) txt += "un resultado tan extremo como " + yv + " es raro bajo este modelo: invita a revisar el pronóstico o sus supuestos.";
+  else txt += "un resultado tan extremo como " + yv + " es muy raro bajo este modelo: es evidencia fuerte en su contra, aunque no una refutación con certeza.";
+  $("#obsMsg").textContent = txt;
+}
+$("#yObs").addEventListener("input", updateObs);
+
+function runPhat(){
+  const p = +$("#pSim").value, NS_=[10,20,50,100,200,500], R=400, rows=[];
+  NS_.forEach(n => {
+    let s=0, s2=0, sy=0, sy2=0;
+    for(let r=0;r<R;r++){ const y=binSample(n,p); const ph=y/n; s+=ph; s2+=ph*ph; sy+=y; sy2+=y*y; }
+    const m=s/R, sd=Math.sqrt(Math.max(0,(s2-R*m*m)/(R-1)));
+    const my=sy/R, sdy=Math.sqrt(Math.max(0,(sy2-R*my*my)/(R-1)));
+    rows.push({n, sd, th:Math.sqrt(p*(1-p)/n), sdy, thy:Math.sqrt(n*p*(1-p))});
+  });
+  const svg=$("#phatChart"); clear(svg);
+  const W=440,H=260,m={l:48,r:14,t:14,b:40}, iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const ymax = Math.max(...rows.map(r=>Math.max(r.sd,r.th)))*1.15;
+  const xs = n => m.l + (Math.log(n)-Math.log(10))/(Math.log(500)-Math.log(10))*iw;
+  const y = v => m.t + ih - (v/ymax)*ih;
+  for(let v=0; v<=ymax; v+=0.04){ el("line",{x1:m.l,x2:W-m.r,y1:y(v),y2:y(v),stroke:"#eeece6"},svg); el("text",{x:m.l-6,y:y(v)+4,"text-anchor":"end"},svg).textContent=fmt(v); }
+  let dT="", dS="";
+  for(let n=10;n<=500;n+=2){ dT += (dT?"L":"M") + xs(n).toFixed(1) + " " + y(Math.sqrt(p*(1-p)/n)).toFixed(1); }
+  el("path",{d:dT,fill:"none",stroke:"#b5522b","stroke-width":2},svg);
+  rows.forEach((r,i) => { dS += (i?"L":"M") + xs(r.n).toFixed(1) + " " + y(r.sd).toFixed(1); });
+  el("path",{d:dS,fill:"none",stroke:"#1f5f8b","stroke-width":2,"stroke-dasharray":"5 4"},svg);
+  rows.forEach(r => { el("circle",{cx:xs(r.n),cy:y(r.sd),r:4,fill:"#1f5f8b"},svg); el("text",{x:xs(r.n),y:H-m.b+15,"text-anchor":"middle"},svg).textContent=r.n; });
+  el("text",{x:m.l+iw/2,y:H-6,"text-anchor":"middle"},svg).textContent="n (escala logarítmica)";
+  const t=$("#phatTable");
+  t.innerHTML = "<tr><th>n</th><th class=\"c\">DE de p̂ simulada</th><th class=\"c\">DE de p̂ teórica</th><th class=\"c\">DE de Y teórica</th></tr>" +
+    rows.map(r => "<tr><td>"+r.n+"</td><td class=\"c\">"+fmt(r.sd,3)+"</td><td class=\"c\">"+fmt(r.th,3)+"</td><td class=\"c\">"+fmt(r.thy,1)+"</td></tr>").join("");
+}
+$("#phatRun").addEventListener("click", runPhat);
+
+function calOut(){ $("#qCalOut").textContent=fmt(+$("#qCal").value); $("#nCalOut").textContent=$("#nCal").value; }
+$("#qCal").addEventListener("input", calOut); $("#nCal").addEventListener("input", calOut);
+$("#calRun").addEventListener("click", () => {
+  const q=+$("#qCal").value, N=+$("#nCal").value;
+  const y = binSample(N,q), f=y/N, band = 2*Math.sqrt(0.4*0.6/N);
+  const inside = Math.abs(f-0.4) <= band;
+  $("#calMsg").textContent = "Llovió en " + y + " de " + N + " días (" + fmt(100*f,0) + " %). Si el pronóstico estuviera calibrado, lo habitual sería una frecuencia entre " + fmt(100*Math.max(0,0.4-band),0) + " % y " + fmt(100*Math.min(1,0.4+band),0) + " %. " + (inside ? "Este resultado no permite distinguirlo de un pronóstico calibrado." : "Este resultado sugiere que el pronóstico no está calibrado.");
+});
+
+/* ---------- inicio ---------- */
+buildUrns(); buildResp(); drawDef();
+const savedG = lget("mdma022-c5-grupo"); if(savedG) gSel.value = savedG;
+drawLoss(); drawBern(); resetSim(); calOut();
+connectRoom(ROOM);
+route();
+// Actualizar etiquetas de tiempo relativo ("hace 20 s") si el docente está mirando el Muro
+relTimer = setInterval(() => { if(location.hash === "#muro") renderLiveView(); }, 30000);
+})();
+</script>
+</body>
+</html>
