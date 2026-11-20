@@ -75,9 +75,6 @@ td.c,th.c{text-align:center}
 .respuesta{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:12px 0;background:#fff}
 .respuesta .q{font-family:"Source Serif 4",serif;font-size:1.05rem;margin-bottom:6px}
 .respuesta .who{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:1px 8px;font-weight:600;margin-right:6px}
-details.doc{margin-top:14px;border:1px dashed #c9b88a;background:#fbf8ef;border-radius:10px;padding:8px 14px}
-details.doc summary{cursor:pointer;color:var(--gold);font-weight:600}
-details.doc[open]{padding-bottom:12px}
 .slider{display:flex;align-items:center;gap:10px;margin:6px 0}
 .slider input[type=range]{flex:1}
 .slider output{min-width:54px;font-variant-numeric:tabular-nums;font-weight:600}
@@ -221,16 +218,6 @@ ol.refs li{margin:.35em 0}
       <tr><td><b>Riesgo</b></td><td>Combina la probabilidad de un evento con las consecuencias de lo que hacemos si ocurre o no ocurre.</td></tr>
     </table>
   </div>
-
-  <details class="doc">
-    <summary>Notas para el docente: organización de la sesión en línea</summary>
-    <ul>
-      <li>Grupos de 3 o 4 personas en salas separadas. Antes de abrir las salas, compartir el enlace y pedir que elijan su grupo en el selector.</li>
-      <li>Al volver de cada sala, proyectar el <b>Muro en vivo</b> filtrado por el momento correspondiente (vista <i>Por pregunta</i> o <i>Por grupo</i>). Comparar dos o tres aportes contrastantes, no todos.</li>
-      <li>Todas las respuestas se sincronizan automáticamente mientras los grupos escriben y se guardan en el navegador, en <code>datos_clase5.json</code> / <code>respuestas_clase5.csv</code> (si usas <code>node server.js</code>) y pueden descargarse en cualquier momento como CSV o JSON.</li>
-      <li>Antes del Momento 1: anunciar la decisión sobre el plazo de E2.</li>
-    </ul>
-  </details>
 </section>
 
 <!-- ============ MOMENTO 1 ============ -->
@@ -291,14 +278,6 @@ ol.refs li{margin:.35em 0}
     </div>
     <textarea class="copybox" data-copybox="feria" readonly></textarea>
   </div>
-
-  <details class="doc">
-    <summary>Notas para el docente · Momento 1</summary>
-    <p><b>Discusión colectiva (10 min).</b> Mostrar en el muro que el mismo pronóstico lleva a decisiones distintas: la probabilidad no determina por sí sola la acción. Hay que separar la <i>incertidumbre sobre el resultado</i> de las <i>consecuencias de cada decisión</i>.</p>
-    <p><b>Con los valores de ejemplo y p = 0,40:</b> P = 4, G = 4, A = 2,4. Conviene A. P solo es la mejor opción si p &lt; 2/9 ≈ 0,22, y G nunca lo es con esos valores (A siempre pierde menos que G). Si un grupo valora más la experiencia al aire libre (P si no llueve = 0, A si no llueve = 3), los umbrales cambian. Este es el puente hacia 3.º medio FG OA 2 (decidir en condiciones de incertidumbre).</p>
-    <p><b>¿La lluvia es aleatoria?</b> Se puede modelar probabilísticamente sin afirmar que la atmósfera sea intrínsecamente aleatoria. La aleatoriedad es una decisión de modelización frente a nuestra incertidumbre.</p>
-    <div class="inst"><b>Para institucionalizar:</b> no conocer con certeza un resultado no impide anticiparlo. La probabilidad representa cuantitativamente esa incertidumbre, pero para decidir necesitamos además considerar las consecuencias de cada alternativa.</div>
-  </details>
 </section>
 
 <!-- ============ MOMENTO 2 ============ -->
@@ -338,19 +317,6 @@ ol.refs li{margin:.35em 0}
     </div>
     <textarea class="copybox" data-copybox="intuiciones" readonly></textarea>
   </div>
-
-  <details class="doc">
-    <summary>Notas para el docente · Momento 2</summary>
-    <p><b>Patrones de cada estrategia</b> (A = urna A, B = urna B, = = da lo mismo):</p>
-    <ul>
-      <li>Proporción de rojas: A, =, A, A, B</li>
-      <li>Más rojas en total: B, A, B, A, B</li>
-      <li>Menos bolitas no rojas: A, B, A, B, A</li>
-    </ul>
-    <p>El ítem 1 lo resuelven bien tanto la estrategia proporcional como la de "menos no rojas": por eso un acierto aislado no es evidencia de razonamiento proporcional. El ítem 2 (misma proporción) separa las tres estrategias; los ítems 1 y 3 separan la proporcional de la absoluta; los ítems 4 y 5 separan la proporcional de la de "menos no rojas". Si los grupos marcan B, A, B, A, B, ese patrón corresponde a la estrategia absoluta.</p>
-    <p>Presentar los estudios como evidencia de <b>recursos cognitivos tempranos</b>, no de dominio de conceptos formales. La enseñanza permite explicitar, contrastar y reorganizar intuiciones que pueden ser productivas, pero también limitadas.</p>
-    <div class="inst"><b>Para institucionalizar:</b> para analizar el razonamiento probabilístico no basta con mirar qué opción elige el estudiante. Hay que preguntar qué información considera y cómo justifica su elección, y diseñar tareas que distingan estrategias.</div>
-  </details>
 </section>
 
 <!-- ============ MOMENTO 3 ============ -->
@@ -367,18 +333,6 @@ ol.refs li{margin:.35em 0}
     </div>
     <textarea class="copybox" data-copybox="interpretaciones" readonly></textarea>
   </div>
-
-  <details class="doc">
-    <summary>Notas para el docente · Momento 3</summary>
-    <ul>
-      <li><b>A</b>: interpreta la probabilidad como proporción del tiempo. Es una lectura frecuente: en el estudio de Gigerenzer et al. (2005) fue la interpretación preferida en las ciudades europeas. El problema de fondo es que el pronóstico no explicita la <i>clase de referencia</i>, el conjunto de eventos al que se refiere el 40 %.</li>
-      <li><b>B</b>: reconoce cuál evento es más probable, pero convierte esa comparación en una predicción categórica. Es el "enfoque en el resultado" descrito por Konold (1989).</li>
-      <li><b>C</b>: es la respuesta más elaborada. Reconoce la incertidumbre y la necesidad de explicitar qué significa el pronóstico y cómo se construyó.</li>
-      <li><b>D</b>: evalúa el modelo con un solo resultado. Un evento con probabilidad 0,40 puede ocurrir sin contradecir el pronóstico. Para evaluar el pronóstico hay que mirar muchos días comparables (calibración, Momento 5).</li>
-      <li><b>E</b>: falacia del jugador, porque supone que la lluvia "se compensa". Pero ojo: en meteorología los días consecutivos <i>no</i> son independientes (hay persistencia). Es una buena ocasión para discutir que la independencia es un supuesto del modelo, no una propiedad garantizada del fenómeno.</li>
-    </ul>
-    <div class="inst"><b>Pregunta de profundización:</b> ¿pueden existir regularidades en un fenómeno cuyos resultados particulares no podemos anticipar con certeza? Esta pregunta abre el Momento 4.</div>
-  </details>
 </section>
 
 <!-- ============ MOMENTO 4 ============ -->
@@ -426,14 +380,6 @@ ol.refs li{margin:.35em 0}
     </div>
     <textarea class="copybox" data-copybox="modelo" readonly></textarea>
   </div>
-
-  <details class="doc">
-    <summary>Notas para el docente · Momento 4</summary>
-    <p>La definición del evento cambia la probabilidad. Un umbral más exigente define un evento más restrictivo, por lo tanto de menor o igual probabilidad. Una ventana más amplia o un lugar más extenso definen un evento más amplio, de mayor o igual probabilidad. Esta es la idea de que P es monótona respecto de la inclusión de eventos (si A ⊆ B, entonces P(A) ≤ P(B)).</p>
-    <p>El modelo Bernoulli no representa la cantidad de lluvia, su intensidad ni el momento en que empieza. <b>Modelizar exige seleccionar propiedades del fenómeno, establecer supuestos y reconocer las limitaciones de la representación.</b></p>
-    <p>E(X) = 0,4 no es un valor que X pueda tomar. Es el promedio a largo plazo de X en muchas jornadas comparables, es decir, la proporción esperada de jornadas con lluvia. La varianza p(1 − p) es máxima en p = 0,5: ahí la incertidumbre sobre el resultado individual es mayor.</p>
-    <p>Puente curricular: 2.º medio OA 10 (variables aleatorias finitas).</p>
-  </details>
 </section>
 
 <!-- ============ MOMENTO 5 ============ -->
@@ -522,15 +468,6 @@ ol.refs li{margin:.35em 0}
     </div>
     <textarea class="copybox" data-copybox="simulacion" readonly></textarea>
   </div>
-
-  <details class="doc">
-    <summary>Notas para el docente · Momento 5</summary>
-    <p><b>Binomial(20; 0,40):</b> E(Y) = 8, Var(Y) = 4,8, DE ≈ 2,19. P(Y = 8) ≈ 0,18: el valor esperado es el más probable, pero lo más probable es <i>no</i> obtenerlo.</p>
-    <p><b>Compatibilidad:</b> y = 9 es perfectamente compatible con el modelo. y = 14 tiene P(Y ≥ 14) ≈ 0,006, por lo que haría dudar del pronóstico o del supuesto de independencia. Aun así, ningún resultado refuta el modelo con certeza: solo lo vuelve más o menos creíble. Esta es la puerta de entrada a la inferencia informal y al valor-p de la próxima sesión.</p>
-    <p><b>p̂ y n:</b> la desviación estándar de p̂ disminuye como 1/√n. En cambio, la desviación estándar de Y crece como √n: la <i>diferencia absoluta</i> entre lo observado y lo esperado tiende a crecer, aunque la proporción se estabiliza. Esto desarma la idea de "compensación" que sostiene la falacia del jugador.</p>
-    <p><b>Calibración:</b> con pocos días, una frecuencia real de 0,55 no se distingue de 0,40 porque la variabilidad muestral lo oculta. Esto conecta con el estudiante D del Momento 3 y con el ticket de salida.</p>
-    <div class="inst"><b>Para institucionalizar:</b> la probabilidad modela regularidades del comportamiento agregado, pero no asegura resultados individuales ni frecuencias exactamente iguales a las probabilidades teóricas.</div>
-  </details>
 </section>
 
 <!-- ============ MOMENTO 6 ============ -->
@@ -583,12 +520,6 @@ ol.refs li{margin:.35em 0}
     </div>
     <textarea class="copybox" data-copybox="rediseno" readonly></textarea>
   </div>
-
-  <details class="doc">
-    <summary>Notas para el docente · Momento 6</summary>
-    <p>Diferencias esperables entre niveles: en 1.º medio, la relación entre frecuencia y predicción mediante simulación; en 2.º medio, definir una variable aleatoria e interpretar su distribución; en 3.º medio, cómo cambia una decisión con información adicional (probabilidad condicional, por ejemplo P(lluvia | nubes a las 8:00)); en 4.º medio, usar el modelo binomial para estudiar la variabilidad de los resultados.</p>
-    <p>Al retroalimentar, revisar si la tarea desarrolla el razonamiento previsto, si usa un modelo coherente con supuestos explícitos y si anticipa dificultades relevantes. La matriz sirve como borrador para E2.</p>
-  </details>
 </section>
 
 <!-- ============ MOMENTO 7 ============ -->
@@ -621,14 +552,7 @@ ol.refs li{margin:.35em 0}
     </div>
     <textarea class="copybox" data-copybox="ticket" readonly></textarea>
   </div>
-
-  <details class="doc">
-    <summary>Notas para el docente · Momento 7</summary>
-    <p><b>Respuesta esperada:</b> un evento con probabilidad 0,40 puede ocurrir sin contradecir el pronóstico. La afirmación revela un enfoque centrado en el resultado individual (Konold, 1989): el estudiante entiende que 40 % significa "no lloverá". Para evaluar el modelo hay que examinar su desempeño en muchos días comparables (calibración) y explicitar cómo se definió el evento.</p>
-    <p>Intervenciones posibles: usar la simulación de calibración del Momento 5; preguntar "¿en cuántos de 100 días con este pronóstico esperarías lluvia?"; comparar con una moneda: si sale cara, ¿la probabilidad 0,5 estaba equivocada?</p>
-  </details>
-
-  <div class="card">
+<div class="card">
     <h3 style="margin-top:0">Referencias</h3>
     <ol class="refs">
       <li>Batanero, C., Álvarez-Arroyo, R., Hernández-Solís, L. A. y Gea, M. M. (2021). El inicio del razonamiento probabilístico en educación infantil. <i>PNA, 15</i>(4), 267–288. https://doi.org/10.30827/pna.v15i4.22349</li>
